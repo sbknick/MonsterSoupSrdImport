@@ -5,6 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
+    public class ReplaceExtractor
+    {
+        public Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
+        {
+            return new Dictionary<string, string>();
+        }
+    }
+
     public static class TraitMDParser
     {
         public static Trait[] ConvertTraits(Monster monster)
