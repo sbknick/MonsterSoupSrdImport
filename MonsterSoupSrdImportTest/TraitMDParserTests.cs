@@ -23,6 +23,11 @@ namespace MonsterSoupSrdImportTest
             var replaces = extractor.GetReplacesFromTemplate(template, monsterTraitString);
 
             Assert.AreEqual(expectedResults.Count, replaces.Count);
+            
+            foreach (var traitName in expectedResults.Keys)
+            {
+                Assert.AreEqual(expectedResults[traitName], replaces[traitName]);
+            }
         }
     }
 }

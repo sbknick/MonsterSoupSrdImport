@@ -7,9 +7,28 @@ namespace MonsterSoupSrdImport
 {
     public class ReplaceExtractor
     {
+        private static readonly Regex ReplacesRegex = new Regex(@"{(.*?)(:.*)*}");
+        private static readonly Regex SimpleReplacesRegex = new Regex(@"{(.*?)}");
+
         public Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
         {
-            return new Dictionary<string, string>();
+            var replaceList = new Dictionary<string, string>();
+
+            var matches = ReplacesRegex.Matches(template);
+
+            var captureString = SimpleReplacesRegex.Replace(template, "(.*?)");
+            var captures = new Regex(captureString).Match(monsterTraitString);
+
+            for (int i = 0; i < matches.Count; i++)
+            {
+                var replaceKey = matches[i].Groups[1].Value;
+                if (replaceList.ContainsKey(replaceKey)) continue;
+
+                var replaceValue = captures.Groups[i + 1].Value;
+                replaceList[replaceKey] = replaceValue;
+            }
+
+            return replaceList;
         }
     }
 
