@@ -1,28 +1,32 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using System.Collections.Generic;
+using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
 {
+    using ExtractedArgs = Dictionary<string, string>;
+    using TransformedArgs = Dictionary<string, Arg>;
+
     [TestClass]
     public class TraitMDParserTests
     {
-        [DataTestMethod, DynamicData(nameof(TemplateReplaces_TestCases), DynamicDataSourceType.Method)]
-        public void Should_ExtractReplacesFromTemplates(string template, string monsterTraitString, Dictionary<string, string> expectedResults)
+        [DataTestMethod, DynamicData(nameof(TemplateArgs_TestCases), DynamicDataSourceType.Method)]
+        public void Should_ExtractArgsFromTemplates(string template, string monsterTraitString, Dictionary<string, string> expectedResults)
         {
-            var extractor = new ReplaceExtractor();
+            var extractor = new ArgExtractor();
 
-            var replaces = extractor.GetReplacesFromTemplate(template, monsterTraitString);
+            var args = extractor.GetArgsFromTemplate(template, monsterTraitString);
 
-            Assert.AreEqual(expectedResults.Count, replaces.Count);
+            Assert.AreEqual(expectedResults.Count, args.Count);
             
             foreach (var traitName in expectedResults.Keys)
             {
-                Assert.AreEqual(expectedResults[traitName], replaces[traitName]);
+                Assert.AreEqual(expectedResults[traitName], args[traitName]);
             }
         }
 
-        public static IEnumerable<object[]> TemplateReplaces_TestCases()
+        public static IEnumerable<object[]> TemplateArgs_TestCases()
         {
             // Lol, Smurfs.
             yield return new object[]
@@ -40,7 +44,7 @@ namespace MonsterSoupSrdImportTest
             {
                 "While underwater, {shortName} is surrounded by transformative mucus. " +
                 "A creature that touches {shortName} or that hits it with a melee attack while " +
-                "within 5 feet of it must make a {savingThrow}. On a failure, " +
+                "within 5 feet of it must make a {savingThrow:SavingThrow}. On a failure, " +
                 "the creature is diseased for {diceRoll} hours. The diseased creature can breathe only " +
                 "underwater.",
                 "While underwater, the aboleth is surrounded by transformative mucus. " +
@@ -52,7 +56,7 @@ namespace MonsterSoupSrdImportTest
                 {
                     { "shortName", "the aboleth" },
                     { "diceRoll", "1d4" },
-                    { "savingThrow", "DC 14 Constitution saving throw" },
+                    { "savingThrow:SavingThrow", "DC 14 Constitution saving throw" },
                 },
             };
 
@@ -155,6 +159,69 @@ namespace MonsterSoupSrdImportTest
                     { "ShortName", "The deva" },
                     { "shortName", "the deva" },
                     { "damage:typed:noAverage", "4d8 radiant damage" },
+                },
+            };
+        }
+
+        [DataTestMethod, DynamicData(nameof(ComplexArgs_TestCases), DynamicDataSourceType.Method)]
+        public void Should_TransformComplexArgs(
+            ExtractedArgs argsFromTemplate,
+            TransformedArgs expectedTransformedArgs)
+        {
+            var extractor = new ArgExtractor();
+
+            var transformedArgs = extractor.TransformComplexMonsterTraits(argsFromTemplate);
+
+            Assert.AreEqual(expectedTransformedArgs.Count, transformedArgs.Count);
+
+            foreach (var xform in expectedTransformedArgs)
+            {
+                var transformedArg = transformedArgs[xform.Key];
+
+                Assert.AreEqual(xform.Value.key, transformedArg.key);
+                Assert.AreEqual(xform.Value.argType, transformedArg.argType);
+                Assert.AreEqual(xform.Value.flags, transformedArg.flags);
+                Assert.AreEqual(xform.Value.value, transformedArg.value);
+            }
+        }
+
+        public static IEnumerable<object[]> ComplexArgs_TestCases()
+        {
+            yield return new object[]
+            {
+                new ExtractedArgs
+                {
+                    { "shortName", "the bugbear" },
+                    { "damage:Damage", "7 (2d6) damage" },
+                },
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the bugbear" } },
+                    { "damage:Damage", new Arg
+                    {
+                        key = "damage",
+                        argType = "Damage",
+                        value = new DamageArgs { diceCount = 2, dieSize = 6 },
+                    } },
+                },
+            };
+
+            yield return new object[]
+            {
+                new ExtractedArgs
+                {
+                    { "shortName", "the remorhaz" },
+                    { "damage:Damage:Typed", "10 (3d6) fire damage" },
+                },
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the remorhaz" } },
+                    { "damage:Damage:Typed", new Arg
+                    {
+                        key = "damage",
+                        argType = "Damage",
+                        flags = new[] { "Typed" },
+                    } },
                 },
             };
         }

@@ -5,31 +5,86 @@ using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
-    public class ReplaceExtractor
+    public class ArgExtractor
     {
-        private static readonly Regex SimpleReplacesRegex = new Regex(@"{([\s\S]+?)}");
+        private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
 
-        public Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
+        public Dictionary<string, string> GetArgsFromTemplate(string template, string monsterTraitString)
         {
-            var replaceList = new Dictionary<string, string>();
+            var argLookup = new Dictionary<string, string>();
 
-            var matches = SimpleReplacesRegex.Matches(template);
+            var matches = SimpleArgsRegex.Matches(template);
 
             var escapedTemplate = Escape(template, '.', '(', ')', '*');
-            var captureString = SimpleReplacesRegex.Replace(escapedTemplate, @"([\s\S]+?)");
+            var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
 
             var captures = new Regex(captureString).Match(monsterTraitString);
 
             for (int i = 0; i < matches.Count; i++)
             {
-                var replaceKey = matches[i].Groups[1].Value;
-                if (replaceList.ContainsKey(replaceKey)) continue;
+                var argKey = matches[i].Groups[1].Value;
+                if (argLookup.ContainsKey(argKey)) continue;
 
-                var replaceValue = captures.Groups[i + 1].Value;
-                replaceList[replaceKey] = replaceValue;
+                var argValue = captures.Groups[i + 1].Value;
+                argLookup[argKey] = argValue;
             }
 
-            return replaceList;
+            return argLookup;
+        }
+
+        public Dictionary<string, Arg> TransformComplexMonsterTraits(Dictionary<string, string> argsLookup)
+        {
+            var typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
+            {
+                { "Damage", ArgParser.ParseDamageArgValues }
+            };
+
+            return argsLookup.ToDictionary(kvp => kvp.Key,
+                kvp =>
+                {
+                    var argKeyTokens = kvp.Key.Split(':');
+                    return argKeyTokens.Length == 1 ? InherentArg(argKeyTokens[0], kvp.Value) : TypedArg(argKeyTokens, kvp.Value);
+                });
+            
+            // translators
+
+            Arg InherentArg(string argKey, string argValue)
+            {
+                return new Arg
+                {
+                    key = argKey,
+                    argType = "Inherent",
+                    value = argValue,
+                };
+            }
+
+            Arg TypedArg(string[] argKeyTokens, string argValue)
+            {
+                var arg = new Arg { key = argKeyTokens[0], argType = argKeyTokens[1] };
+
+                if (argKeyTokens.Length > 2)
+                    arg.flags = argKeyTokens.Skip(2).ToArray();
+
+                arg.value = typedArgParserLookup[arg.argType](argValue, arg.flags);
+
+                return arg;
+            }
+        }
+
+        private static class ArgParser
+        {
+            private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\)");
+
+            public static object ParseDamageArgValues(string values, string[] flags)
+            {
+                var matches = DamageStringRegex.Match(values);
+
+                return new DamageArgs
+                {
+                    diceCount = matches.Groups[1].Value.ToInt(),
+                    dieSize = matches.Groups[2].Value.ToInt(),
+                };
+            }
         }
 
         private string Escape(string template, params char[] toEscape)
@@ -38,6 +93,22 @@ namespace MonsterSoupSrdImport
                 template = template.Replace(c, Regex.Escape(c));
 
             return template;
+        }
+        
+        public class Arg
+        {
+            public string key;
+            public string argType;
+            public string[] flags;
+            public object value;
+        }
+
+        public struct DamageArgs
+        {
+            public int diceCount;
+            public int dieSize;
+            public int bonus;
+            public bool? usePrimaryStatBonus;
         }
     }
 
