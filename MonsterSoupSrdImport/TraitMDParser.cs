@@ -7,16 +7,17 @@ namespace MonsterSoupSrdImport
 {
     public class ReplaceExtractor
     {
-        private static readonly Regex ReplacesRegex = new Regex(@"{(.*?)(:.*)*}");
-        private static readonly Regex SimpleReplacesRegex = new Regex(@"{(.*?)}");
+        private static readonly Regex SimpleReplacesRegex = new Regex(@"{([\s\S]+?)}");
 
         public Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
         {
             var replaceList = new Dictionary<string, string>();
 
-            var matches = ReplacesRegex.Matches(template);
+            var matches = SimpleReplacesRegex.Matches(template);
 
-            var captureString = SimpleReplacesRegex.Replace(template, "(.*?)");
+            var escapedTemplate = Escape(template, '.', '(', ')', '*');
+            var captureString = SimpleReplacesRegex.Replace(escapedTemplate, @"([\s\S]+?)");
+
             var captures = new Regex(captureString).Match(monsterTraitString);
 
             for (int i = 0; i < matches.Count; i++)
@@ -29,6 +30,14 @@ namespace MonsterSoupSrdImport
             }
 
             return replaceList;
+        }
+
+        private string Escape(string template, params char[] toEscape)
+        {
+            foreach (var c in toEscape.Select(c => Convert.ToString(c)))
+                template = template.Replace(c, Regex.Escape(c));
+
+            return template;
         }
     }
 

@@ -24,16 +24,18 @@ namespace MonsterSoupSrdImportTest
 
         public static IEnumerable<object[]> TemplateReplaces_TestCases()
         {
+            // Lol, Smurfs.
             yield return new object[]
             {
                 "Hi, {shortName}!",
                 "Hi, smurf!",
                 new Dictionary<string, string>
                 {
-                    { "shortName", "smurf" }
+                    { "shortName", "smurf" },
                 },
             };
             
+            // Aboleth, Mucous Cloud
             yield return new object[]
             {
                 "While underwater, {shortName} is surrounded by transformative mucus. " +
@@ -51,6 +53,108 @@ namespace MonsterSoupSrdImportTest
                     { "shortName", "the aboleth" },
                     { "diceRoll", "1d4" },
                     { "savingThrow", "DC 14 Constitution saving throw" },
+                },
+            };
+
+            // Heated Body, but for remorhaz, salamander, and azer
+            var template =
+                "A creature that touches {shortName} or hits it with a melee attack while " +
+                "within 5 feet of it takes {damage:typed}.";
+
+            yield return new object[]
+            {
+                template,
+                "A creature that touches the remorhaz or hits it with a melee attack while " +
+                "within 5 feet of it takes 10 (3d6) fire damage.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the remorhaz" },
+                    { "damage:typed", "10 (3d6) fire damage" },
+                },
+            };
+            yield return new object[]
+            {
+                template,
+                "A creature that touches the salamander or hits it with a melee attack while " +
+                "within 5 feet of it takes 7 (2d6) fire damage.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the salamander" },
+                    { "damage:typed", "7 (2d6) fire damage" },
+                },
+            };
+            yield return new object[]
+            {
+                template,
+                "A creature that touches the azer or hits it with a melee attack while " +
+                "within 5 feet of it takes 5 (1d10) fire damage.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the azer" },
+                    { "damage:typed", "5 (1d10) fire damage" },
+                },
+            };
+
+            template =
+                "If {shortName} surprises a creature and hits it with an attack during the first " +
+                "round of combat, the target takes an extra {damage} from the attack.";
+
+            // Surprise Attack, Bugbear and Doppelganger
+            yield return new object[]
+            {
+                template,
+                "If the bugbear surprises a creature and hits it with an attack during the first " +
+                "round of combat, the target takes an extra 7 (2d6) damage from the attack.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the bugbear" },
+                    { "damage", "7 (2d6) damage" },
+                },
+            };
+            yield return new object[]
+            {
+                template,
+                "If the doppelganger surprises a creature and hits it with an attack during the first " +
+                "round of combat, the target takes an extra 10 (3d6) damage from the attack.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the doppelganger" },
+                    { "damage", "10 (3d6) damage" },
+                },
+            };
+
+            // Sunlight Sensitivity, drow, kobold, specter, etc.
+            template =
+                "While in sunlight, {shortName} has disadvantage on attack rolls, as well as on " +
+                "{skillChecks} that rely on sight.";
+
+            yield return new object[]
+            {
+                template,
+                "While in sunlight, the drow has disadvantage on attack rolls, as well as on " +
+                "Wisdom (Perception) checks that rely on sight.",
+                new Dictionary<string, string>
+                {
+                    { "shortName", "the drow" },
+                    { "skillChecks", "Wisdom (Perception) checks" },
+                },
+            };
+
+            // Angelic Weapons ... deva, etc ... also test includes ()s
+            template =
+                "{ShortName}’s weapon attacks are magical. When {shortName} hits with any weapon, " +
+                "the weapon deals an extra {damage:typed:noAverage} (included in the attack).";
+
+            yield return new object[]
+            {
+                template,
+                "The deva’s weapon attacks are magical. When the deva hits with any weapon, " +
+                "the weapon deals an extra 4d8 radiant damage (included in the attack).",
+                new Dictionary<string, string>
+                {
+                    { "ShortName", "The deva" },
+                    { "shortName", "the deva" },
+                    { "damage:typed:noAverage", "4d8 radiant damage" },
                 },
             };
         }
