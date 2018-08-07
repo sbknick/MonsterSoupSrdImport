@@ -38,6 +38,7 @@ namespace MonsterSoupSrdImport
             {
                 { "Damage", ArgParser.ParseDamageArgValues },
                 { "DiceRoll", ArgParser.ParseDiceRollArgValues },
+                { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
             };
 
             return argsLookup.ToDictionary(kvp => kvp.Key,
@@ -119,6 +120,23 @@ namespace MonsterSoupSrdImport
             }
 
             #endregion
+
+            #region SavingThrow
+
+            private static readonly Regex SavingThrowRegex = new Regex(@"DC (\d+) (\S+) saving throw");
+
+            public static object ParseSavingThrowArgValues(string values, string[] flags)
+            {
+                var matches = SavingThrowRegex.Match(values);
+
+                return new SavingThrowArgs
+                {
+                    DC = matches.Groups[1].Value.ToInt(),
+                    Attribute = matches.Groups[2].Value,
+                };
+            }
+
+            #endregion
         }
 
         private string Escape(string template, params char[] toEscape)
@@ -152,6 +170,12 @@ namespace MonsterSoupSrdImport
         public class TypedDamageArgs : DamageArgs
         {
             public string damageType;
+        }
+
+        public class SavingThrowArgs
+        {
+            public int DC;
+            public string Attribute;
         }
     }
 
@@ -258,7 +282,7 @@ namespace MonsterSoupSrdImport
                     Template =
                     "While underwater, {shortName} is surrounded by transformative mucus. " +
                     "A creature that touches {shortName} or that hits it with a melee attack while " +
-                    "within 5 feet of it must make a {savingThrow}. On a failure, " +
+                    "within 5 feet of it must make a {savingThrow:SavingThrow}. On a failure, " +
                     "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
                     "underwater."
                 }

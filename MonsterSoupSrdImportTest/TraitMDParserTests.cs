@@ -264,6 +264,24 @@ namespace MonsterSoupSrdImportTest
                         } },
                 },
             };
+
+            // SavingThrow Args test case
+            yield return new object[]
+            {
+                new ExtractedArgs
+                {
+                    { "save:SavingThrow", "DC 10 Wisdom saving throw" },
+                },
+                new TransformedArgs
+                {
+                    { "save:SavingThrow", new Arg
+                        {
+                            key = "save",
+                            argType = "SavingThrow",
+                            value = new SavingThrowArgs { DC = 10, Attribute = "Wisdom" },
+                        } },
+                },
+            };
         }
     }
 }
