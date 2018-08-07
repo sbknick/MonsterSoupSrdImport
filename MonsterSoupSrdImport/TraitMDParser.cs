@@ -73,11 +73,21 @@ namespace MonsterSoupSrdImport
 
         private static class ArgParser
         {
-            private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\)");
+            private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\) ?(\S*)? damage");
 
             public static object ParseDamageArgValues(string values, string[] flags)
             {
+                flags = flags ?? new string[0];
+
                 var matches = DamageStringRegex.Match(values);
+
+                if (flags.Contains("Typed"))
+                    return new TypedDamageArgs
+                    {
+                        diceCount = matches.Groups[1].Value.ToInt(),
+                        dieSize = matches.Groups[2].Value.ToInt(),
+                        damageType = matches.Groups[3].Value,
+                    };
 
                 return new DamageArgs
                 {
@@ -103,12 +113,17 @@ namespace MonsterSoupSrdImport
             public object value;
         }
 
-        public struct DamageArgs
+        public class DamageArgs
         {
             public int diceCount;
             public int dieSize;
             public int bonus;
             public bool? usePrimaryStatBonus;
+        }
+
+        public class TypedDamageArgs : DamageArgs
+        {
+            public string damageType;
         }
     }
 

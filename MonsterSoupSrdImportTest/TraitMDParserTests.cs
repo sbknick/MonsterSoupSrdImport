@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
@@ -180,13 +182,14 @@ namespace MonsterSoupSrdImportTest
 
                 Assert.AreEqual(xform.Value.key, transformedArg.key);
                 Assert.AreEqual(xform.Value.argType, transformedArg.argType);
-                Assert.AreEqual(xform.Value.flags, transformedArg.flags);
-                Assert.AreEqual(xform.Value.value, transformedArg.value);
+                Assert.That.ElementsAreEqual(xform.Value.flags, transformedArg.flags);
+                Assert.That.FieldsAreEqual(xform.Value.value, transformedArg.value);
             }
         }
 
         public static IEnumerable<object[]> ComplexArgs_TestCases()
         {
+            // Damage Args test cases...
             yield return new object[]
             {
                 new ExtractedArgs
@@ -205,7 +208,6 @@ namespace MonsterSoupSrdImportTest
                     } },
                 },
             };
-
             yield return new object[]
             {
                 new ExtractedArgs
@@ -221,6 +223,7 @@ namespace MonsterSoupSrdImportTest
                         key = "damage",
                         argType = "Damage",
                         flags = new[] { "Typed" },
+                        value = new TypedDamageArgs { diceCount = 3, dieSize = 6, damageType = "fire" },
                     } },
                 },
             };
