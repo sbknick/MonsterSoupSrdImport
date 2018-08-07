@@ -45,13 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgExtractor.cs" />
-    <Compile Include="Models.cs" />
-    <Compile Include="MonsterMDParser.cs" />
-    <Compile Include="PopTokenExtension.cs" />
+    <Compile Include="src\ArgExtractor.cs" />
+    <Compile Include="src\Models.cs" />
+    <Compile Include="src\MonsterMDParser.cs" />
+    <Compile Include="src\PopTokenExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TraitMDParser.cs" />
+    <Compile Include="src\TraitMDParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
