@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgExtractor.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="MonsterMDParser.cs" />
     <Compile Include="PopTokenExtension.cs" />

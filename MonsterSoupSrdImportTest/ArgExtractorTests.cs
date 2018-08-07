@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
@@ -11,7 +9,7 @@ namespace MonsterSoupSrdImportTest
     using TransformedArgs = Dictionary<string, Arg>;
 
     [TestClass]
-    public class TraitMDParserTests
+    public class ArgExtractorTests
     {
         [DataTestMethod, DynamicData(nameof(TemplateArgs_TestCases), DynamicDataSourceType.Method)]
         public void Should_ExtractArgsFromTemplates(string template, string monsterTraitString, Dictionary<string, string> expectedResults)
