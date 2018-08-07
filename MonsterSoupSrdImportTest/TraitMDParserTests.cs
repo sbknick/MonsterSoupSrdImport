@@ -201,11 +201,11 @@ namespace MonsterSoupSrdImportTest
                 {
                     { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the bugbear" } },
                     { "damage:Damage", new Arg
-                    {
-                        key = "damage",
-                        argType = "Damage",
-                        value = new DamageArgs { diceCount = 2, dieSize = 6 },
-                    } },
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            value = new DamageArgs { diceCount = 2, dieSize = 6 },
+                        } },
                 },
             };
             yield return new object[]
@@ -219,12 +219,31 @@ namespace MonsterSoupSrdImportTest
                 {
                     { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the remorhaz" } },
                     { "damage:Damage:Typed", new Arg
-                    {
-                        key = "damage",
-                        argType = "Damage",
-                        flags = new[] { "Typed" },
-                        value = new TypedDamageArgs { diceCount = 3, dieSize = 6, damageType = "fire" },
-                    } },
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs { diceCount = 3, dieSize = 6, damageType = "fire" },
+                        } },
+                },
+            };
+            yield return new object[]
+            {
+                new ExtractedArgs
+                {
+                    { "ShortName", "The deva" },
+                    { "extraDamage:Damage:Typed:NoAverage", "4d8 radiant damage" },
+                },
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The deva" } },
+                    { "extraDamage:Damage:Typed:NoAverage", new Arg
+                        {
+                            key = "extraDamage",
+                            argType = "Damage",
+                            flags = new[] { "Typed", "NoAverage" },
+                            value = new TypedDamageArgs { diceCount = 4, dieSize = 8, damageType = "radiant" },
+                        } },
                 },
             };
         }

@@ -73,15 +73,19 @@ namespace MonsterSoupSrdImport
 
         private static class ArgParser
         {
-            private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\) ?(\S*)? damage");
+            private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\) ?(\S*?)? damage");
+            private static readonly Regex DamageStringNoAverageRegex = new Regex(@"(\d+)d(\d+) ?(\S*?)? damage");
 
             public static object ParseDamageArgValues(string values, string[] flags)
             {
                 flags = flags ?? new string[0];
 
-                var matches = DamageStringRegex.Match(values);
+                var isTyped = flags.Contains("Typed");
+                var hasNoAverage = flags.Contains("NoAverage");
 
-                if (flags.Contains("Typed"))
+                var matches = (hasNoAverage ? DamageStringNoAverageRegex : DamageStringRegex).Match(values);
+                
+                if (isTyped)
                     return new TypedDamageArgs
                     {
                         diceCount = matches.Groups[1].Value.ToInt(),
