@@ -36,7 +36,8 @@ namespace MonsterSoupSrdImport
         {
             var typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
             {
-                { "Damage", ArgParser.ParseDamageArgValues }
+                { "Damage", ArgParser.ParseDamageArgValues },
+                { "DiceRoll", ArgParser.ParseDiceRollArgValues },
             };
 
             return argsLookup.ToDictionary(kvp => kvp.Key,
@@ -65,7 +66,7 @@ namespace MonsterSoupSrdImport
                 if (argKeyTokens.Length > 2)
                     arg.flags = argKeyTokens.Skip(2).ToArray();
 
-                arg.value = typedArgParserLookup[arg.argType](argValue, arg.flags);
+                arg.value = typedArgParserLookup[arg.argType](argValue, arg.flags ?? new string[0]);
 
                 return arg;
             }
@@ -73,13 +74,13 @@ namespace MonsterSoupSrdImport
 
         private static class ArgParser
         {
+            #region Damage
+
             private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\) ?(\S*?)? damage");
             private static readonly Regex DamageStringNoAverageRegex = new Regex(@"(\d+)d(\d+) ?(\S*?)? damage");
 
             public static object ParseDamageArgValues(string values, string[] flags)
             {
-                flags = flags ?? new string[0];
-
                 var isTyped = flags.Contains("Typed");
                 var hasNoAverage = flags.Contains("NoAverage");
 
@@ -99,6 +100,25 @@ namespace MonsterSoupSrdImport
                     dieSize = matches.Groups[2].Value.ToInt(),
                 };
             }
+
+            #endregion
+
+            #region DiceRoll
+
+            private static readonly Regex DiceRollRegex = new Regex(@"(\d+)d(\d+)");
+
+            public static object ParseDiceRollArgValues(string values, string[] flags)
+            {
+                var matches = DiceRollRegex.Match(values);
+
+                return new DiceRollArgs
+                {
+                    diceCount = matches.Groups[1].Value.ToInt(),
+                    dieSize = matches.Groups[2].Value.ToInt(),
+                };
+            }
+
+            #endregion
         }
 
         private string Escape(string template, params char[] toEscape)
@@ -117,10 +137,14 @@ namespace MonsterSoupSrdImport
             public object value;
         }
 
-        public class DamageArgs
+        public class DiceRollArgs
         {
             public int diceCount;
             public int dieSize;
+        }
+
+        public class DamageArgs : DiceRollArgs
+        {
             public int bonus;
             public bool? usePrimaryStatBonus;
         }
@@ -235,7 +259,7 @@ namespace MonsterSoupSrdImport
                     "While underwater, {shortName} is surrounded by transformative mucus. " +
                     "A creature that touches {shortName} or that hits it with a melee attack while " +
                     "within 5 feet of it must make a {savingThrow}. On a failure, " +
-                    "the creature is diseased for {diceRoll} hours. The diseased creature can breathe only " +
+                    "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
                     "underwater."
                 }
             },

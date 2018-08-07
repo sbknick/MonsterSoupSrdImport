@@ -246,6 +246,24 @@ namespace MonsterSoupSrdImportTest
                         } },
                 },
             };
+
+            // DiceRoll Args test case
+            yield return new object[]
+            {
+                new ExtractedArgs
+                {
+                    { "diceRoll:DiceRoll", "1d4" },
+                },
+                new TransformedArgs
+                {
+                    { "diceRoll:DiceRoll", new Arg
+                        {
+                            key = "diceRoll",
+                            argType = "DiceRoll",
+                            value = new DiceRollArgs { diceCount = 1, dieSize = 4 },
+                        } },
+                },
+            };
         }
     }
 }
