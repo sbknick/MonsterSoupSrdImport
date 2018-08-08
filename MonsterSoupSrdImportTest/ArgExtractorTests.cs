@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using System.Collections.Generic;
+using System.Linq;
 using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
@@ -12,14 +13,17 @@ namespace MonsterSoupSrdImportTest
     public class ArgExtractorTests
     {
         [DataTestMethod, DynamicData(nameof(TemplateArgs_TestCases), DynamicDataSourceType.Method)]
-        public void Should_ExtractArgsFromTemplates(string template, string monsterTraitString, Dictionary<string, string> expectedResults)
+        public void Should_ExtractArgsFromTemplates(
+            string template,
+            string monsterTraitString,
+            Dictionary<string, string> expectedResults)
         {
             var extractor = new ArgExtractor();
 
             var args = extractor.GetArgsFromTemplate(template, monsterTraitString);
 
             Assert.AreEqual(expectedResults.Count, args.Count);
-            
+
             foreach (var traitName in expectedResults.Keys)
             {
                 Assert.AreEqual(expectedResults[traitName], args[traitName]);
@@ -38,14 +42,14 @@ namespace MonsterSoupSrdImportTest
                     { "shortName", "smurf" },
                 },
             };
-            
+
             // Aboleth, Mucous Cloud
             yield return new object[]
             {
                 "While underwater, {shortName} is surrounded by transformative mucus. " +
                 "A creature that touches {shortName} or that hits it with a melee attack while " +
-                "within 5 feet of it must make a {savingThrow:SavingThrow}. On a failure, " +
-                "the creature is diseased for {diceRoll} hours. The diseased creature can breathe only " +
+                "within 5 feet of it must make a {save:SavingThrow}. On a failure, " +
+                "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
                 "underwater.",
                 "While underwater, the aboleth is surrounded by transformative mucus. " +
                 "A creature that touches the aboleth or that hits it with a melee attack while " +
@@ -55,15 +59,15 @@ namespace MonsterSoupSrdImportTest
                 new Dictionary<string, string>
                 {
                     { "shortName", "the aboleth" },
-                    { "diceRoll", "1d4" },
-                    { "savingThrow:SavingThrow", "DC 14 Constitution saving throw" },
+                    { "diceRoll:DiceRoll", "1d4" },
+                    { "save:SavingThrow", "DC 14 Constitution saving throw" },
                 },
             };
 
             // Heated Body, but for remorhaz, salamander, and azer
             var template =
                 "A creature that touches {shortName} or hits it with a melee attack while " +
-                "within 5 feet of it takes {damage:typed}.";
+                "within 5 feet of it takes {damage:Damage:Typed}.";
 
             yield return new object[]
             {
@@ -73,7 +77,7 @@ namespace MonsterSoupSrdImportTest
                 new Dictionary<string, string>
                 {
                     { "shortName", "the remorhaz" },
-                    { "damage:typed", "10 (3d6) fire damage" },
+                    { "damage:Damage:Typed", "10 (3d6) fire damage" },
                 },
             };
             yield return new object[]
@@ -84,7 +88,7 @@ namespace MonsterSoupSrdImportTest
                 new Dictionary<string, string>
                 {
                     { "shortName", "the salamander" },
-                    { "damage:typed", "7 (2d6) fire damage" },
+                    { "damage:Damage:Typed", "7 (2d6) fire damage" },
                 },
             };
             yield return new object[]
@@ -95,7 +99,7 @@ namespace MonsterSoupSrdImportTest
                 new Dictionary<string, string>
                 {
                     { "shortName", "the azer" },
-                    { "damage:typed", "5 (1d10) fire damage" },
+                    { "damage:Damage:Typed", "5 (1d10) fire damage" },
                 },
             };
 
@@ -147,7 +151,7 @@ namespace MonsterSoupSrdImportTest
             // Angelic Weapons ... deva, etc ... also test includes ()s
             template =
                 "{ShortName}’s weapon attacks are magical. When {shortName} hits with any weapon, " +
-                "the weapon deals an extra {damage:typed:noAverage} (included in the attack).";
+                "the weapon deals an extra {damage:Damage:Typed:NoAverage} (included in the attack).";
 
             yield return new object[]
             {
@@ -158,7 +162,7 @@ namespace MonsterSoupSrdImportTest
                 {
                     { "ShortName", "The deva" },
                     { "shortName", "the deva" },
-                    { "damage:typed:noAverage", "4d8 radiant damage" },
+                    { "damage:Damage:Typed:NoAverage", "4d8 radiant damage" },
                 },
             };
         }
@@ -280,6 +284,64 @@ namespace MonsterSoupSrdImportTest
                         } },
                 },
             };
+        }
+
+        [DataTestMethod, DynamicData(nameof(ComplexArgs_FromTemplates_TestCases), DynamicDataSourceType.Method)]
+        public void Should_ProduceComplexArgsFromTemplates(
+            string template,
+            string monsterTraitString,
+            TransformedArgs expectedTransformedArgs)
+        {
+            var extractor = new ArgExtractor();
+
+            var transformedArgs = extractor.ExtractArgs(template, monsterTraitString);
+
+            Assert.AreEqual(expectedTransformedArgs.Count, transformedArgs.Count());
+
+            foreach (var xform in expectedTransformedArgs)
+            {
+                var transformedArg = transformedArgs[xform.Key];
+
+                Assert.AreEqual(xform.Value.key, transformedArg.key);
+                Assert.AreEqual(xform.Value.argType, transformedArg.argType);
+                Assert.That.ElementsAreEqual(xform.Value.flags, transformedArg.flags);
+                Assert.That.FieldsAreEqual(xform.Value.value, transformedArg.value);
+            }
+        }
+
+        public static IEnumerable<object[]> ComplexArgs_FromTemplates_TestCases()
+        {
+            // Aboleth, Mucous Cloud
+            yield return new object[]
+            {
+                "While underwater, {shortName} is surrounded by transformative mucus. " +
+                "A creature that touches {shortName} or that hits it with a melee attack while " +
+                "within 5 feet of it must make a {save:SavingThrow}. On a failure, " +
+                "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
+                "underwater.",
+                "While underwater, the aboleth is surrounded by transformative mucus. " +
+                "A creature that touches the aboleth or that hits it with a melee attack while " +
+                "within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, " +
+                "the creature is diseased for 1d4 hours. The diseased creature can breathe only " +
+                "underwater.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the aboleth" } },
+                    { "diceRoll:DiceRoll", new Arg
+                        {
+                            key = "diceRoll",
+                            argType = "DiceRoll",
+                            value = new DiceRollArgs { diceCount = 1, dieSize = 4 },
+                        } },
+                    { "save:SavingThrow", new Arg
+                        {
+                            key = "save",
+                            argType = "SavingThrow",
+                            value = new SavingThrowArgs { DC = 14, Attribute = "Constitution" },
+                        } },
+                },
+            };
+
         }
     }
 }

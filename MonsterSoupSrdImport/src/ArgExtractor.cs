@@ -7,6 +7,15 @@ namespace MonsterSoupSrdImport
 {
     public class ArgExtractor
     {
+        public Dictionary<string, Arg> ExtractArgs(string template, string monsterTraitString)
+        {
+            var argsFromTemplate = GetArgsFromTemplate(template, monsterTraitString);
+
+            var transformedArgs = TransformComplexMonsterTraits(argsFromTemplate);
+
+            return transformedArgs;
+        }
+
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
 
         public Dictionary<string, string> GetArgsFromTemplate(string template, string monsterTraitString)
@@ -32,15 +41,15 @@ namespace MonsterSoupSrdImport
             return argLookup;
         }
 
+        private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
+        {
+            { "Damage", ArgParser.ParseDamageArgValues },
+            { "DiceRoll", ArgParser.ParseDiceRollArgValues },
+            { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
+        };
+
         public Dictionary<string, Arg> TransformComplexMonsterTraits(Dictionary<string, string> argsLookup)
         {
-            var typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
-            {
-                { "Damage", ArgParser.ParseDamageArgValues },
-                { "DiceRoll", ArgParser.ParseDiceRollArgValues },
-                { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
-            };
-
             return argsLookup.ToDictionary(kvp => kvp.Key,
                 kvp =>
                 {
@@ -67,7 +76,7 @@ namespace MonsterSoupSrdImport
                 if (argKeyTokens.Length > 2)
                     arg.flags = argKeyTokens.Skip(2).ToArray();
 
-                arg.value = typedArgParserLookup[arg.argType](argValue, arg.flags ?? new string[0]);
+                arg.value = _typedArgParserLookup[arg.argType](argValue, arg.flags ?? new string[0]);
 
                 return arg;
             }
