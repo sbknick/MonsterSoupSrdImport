@@ -14,6 +14,9 @@ namespace MonsterSoupSrdImport
 {
     class Program
     {
+        private static readonly IArgExtractor argExtractor = new ArgExtractor();
+        private static readonly TraitMDParser traitParser = new TraitMDParser(argExtractor);
+
         static void Main(string[] args)
         {
             // Read in Monsters //
@@ -34,7 +37,7 @@ namespace MonsterSoupSrdImport
                 var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
                 monster.Attributes = monsterInput.Attributes;
 
-                monster.Traits = TraitMDParser.ConvertTraits(monster);
+                monster.Traits = traitParser.ConvertTraits(monster);
 
                 monsterSet.Add(monster);
             }

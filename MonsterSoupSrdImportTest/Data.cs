@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
-using MonsterSoupSrdImport;
-using static MonsterSoupSrdImport.ArgExtractor;
+﻿using MonsterSoupSrdImport;
+using System.Collections.Generic;
 
 namespace MonsterSoupSrdImportTest
 {
+    /// <summary>
+    /// Test Monsters
+    /// </summary>
+
     public sealed class Aboleth : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -16,8 +19,6 @@ namespace MonsterSoupSrdImportTest
 
     public abstract class MonsterTestData
     {
-        //public abstract string Template { get; }
-
         public abstract Dictionary<string, TraitTestData> Traits { get; }
     }
 
@@ -34,7 +35,7 @@ namespace MonsterSoupSrdImportTest
     }
 
     /// <summary>
-    /// 
+    /// Concrete Test Monster Trait Data ///
     /// </summary>
 
     #region Aboleth

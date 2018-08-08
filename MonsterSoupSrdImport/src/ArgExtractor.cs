@@ -5,11 +5,16 @@ using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
-    public class ArgExtractor
+    public interface IArgExtractor
     {
-        public Dictionary<string, Arg> ExtractArgs(string template, string monsterTraitString)
+        Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString);
+    }
+
+    public class ArgExtractor : IArgExtractor
+    {
+        public Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString)
         {
-            var argsFromTemplate = GetArgsFromTemplate(template, monsterTraitString);
+            var argsFromTemplate = GetArgsFromTemplate(traitTemplate, monsterTraitString);
 
             var transformedArgs = TransformComplexMonsterTraits(argsFromTemplate);
 
@@ -18,13 +23,13 @@ namespace MonsterSoupSrdImport
 
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
 
-        public Dictionary<string, string> GetArgsFromTemplate(string template, string monsterTraitString)
+        public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
         {
             var argLookup = new Dictionary<string, string>();
 
-            var matches = SimpleArgsRegex.Matches(template);
+            var matches = SimpleArgsRegex.Matches(traitTemplate);
 
-            var escapedTemplate = Escape(template, '.', '(', ')', '*');
+            var escapedTemplate = Escape(traitTemplate, '.', '(', ')', '*');
             var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
 
             var captures = new Regex(captureString).Match(monsterTraitString);
@@ -155,37 +160,5 @@ namespace MonsterSoupSrdImport
 
             return template;
         }
-
-        public class Arg
-        {
-            public string key;
-            public string argType;
-            public string[] flags;
-            public object value;
-        }
-
-        public class DiceRollArgs
-        {
-            public int diceCount;
-            public int dieSize;
-        }
-
-        public class DamageArgs : DiceRollArgs
-        {
-            public int bonus;
-            public bool? usePrimaryStatBonus;
-        }
-
-        public class TypedDamageArgs : DamageArgs
-        {
-            public string damageType;
-        }
-
-        public class SavingThrowArgs
-        {
-            public int DC;
-            public string Attribute;
-        }
     }
-
 }

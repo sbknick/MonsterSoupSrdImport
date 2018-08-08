@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImport
 {
@@ -114,5 +113,36 @@ namespace MonsterSoupSrdImport
     {
         public string Name { get; set; }
         public Dictionary<string, Arg> Replaces { get; set; }
+    }
+
+    public class Arg
+    {
+        public string key;
+        public string argType;
+        public string[] flags;
+        public object value;
+    }
+
+    public class DiceRollArgs
+    {
+        public int diceCount;
+        public int dieSize;
+    }
+
+    public class DamageArgs : DiceRollArgs
+    {
+        public int bonus;
+        public bool? usePrimaryStatBonus;
+    }
+
+    public class TypedDamageArgs : DamageArgs
+    {
+        public string damageType;
+    }
+
+    public class SavingThrowArgs
+    {
+        public int DC;
+        public string Attribute;
     }
 }

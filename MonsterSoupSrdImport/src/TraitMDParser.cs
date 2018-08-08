@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImport
 {
-    public static class TraitMDParser
+    public class TraitMDParser
     {
-        public static MonsterTrait[] ConvertTraits(Monster monster)
+        private readonly IArgExtractor argExtractor;
+
+        public TraitMDParser(IArgExtractor argExtractor)
+        {
+            this.argExtractor = argExtractor;
+        }
+        
+        public MonsterTrait[] ConvertTraits(Monster monster)
         {
             // for dev bookkeeping only
             HashSet<string> processedTraits = new HashSet<string>();
@@ -29,12 +37,15 @@ namespace MonsterSoupSrdImport
                         var traitTemplate = StandardTraits[traitName];
                         var monsterTrait = new MonsterTrait { Name = traitName };
 
-                        var replaces = GetReplacesFromTemplate(traitTemplate.Template, monsterTraitString);
+                        monsterTrait.Replaces = argExtractor.ExtractArgs(traitTemplate.Template, monsterTraitString);
+
+                        //var replaces = GetReplacesFromTemplate(traitTemplate.Template, monsterTraitString);
 
                         //monsterTrait.Replaces = TransformComplexTraitReplaces(replaces);
 
                         monsterTraits.Add(monsterTrait);
                     }
+
 
                     // Dev Bookkeeping //
 
@@ -54,46 +65,46 @@ namespace MonsterSoupSrdImport
         }
 
         private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=\*|$)");
-        private static readonly Regex ReplacesRegex = new Regex(@"{(.*?)(:.*)*}");
+        //private static readonly Regex ReplacesRegex = new Regex(@"{(.*?)(:.*)*}");
         private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*)");
 
-        private static Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
-        {
-            var replaceList = new Dictionary<string, string>();
+        //private static Dictionary<string, string> GetReplacesFromTemplate(string template, string monsterTraitString)
+        //{
+        //    var replaceList = new Dictionary<string, string>();
 
-            var matches = ReplacesRegex.Matches(template);
+        //    var matches = ReplacesRegex.Matches(template);
 
-            var captureString = new Regex("{(.*?)}").Replace(template, "(.*?)");
-            var captures = new Regex(captureString).Match(monsterTraitString);
+        //    var captureString = new Regex("{(.*?)}").Replace(template, "(.*?)");
+        //    var captures = new Regex(captureString).Match(monsterTraitString);
             
-            for (int i = 0; i < matches.Count; i++)
-            {
-                var replaceKey = matches[i].Groups[1].Value;
-                if (replaceList.ContainsKey(replaceKey)) continue;
+        //    for (int i = 0; i < matches.Count; i++)
+        //    {
+        //        var replaceKey = matches[i].Groups[1].Value;
+        //        if (replaceList.ContainsKey(replaceKey)) continue;
 
-                var replaceValue = captures.Groups[i + 1].Value;
-                replaceList[replaceKey] = replaceValue;
-            }
+        //        var replaceValue = captures.Groups[i + 1].Value;
+        //        replaceList[replaceKey] = replaceValue;
+        //    }
             
-            return replaceList;
-        }
+        //    return replaceList;
+        //}
 
-        private static Dictionary<string, object> TransformComplexTraitReplaces(Dictionary<string, string> replaceDict)
-        {
-            return replaceDict.ToDictionary(repl => repl.Key,
-                repl =>
-                {
-                    switch (repl.Key)
-                    {
-                        case "savingThrow":
-                            var matches = new Regex(@"DC (\d+) (\S+) saving throw").Match(repl.Value);
-                            return new { DC = matches.Groups[1].Value, Save = matches.Groups[2].Value };
+        //private static Dictionary<string, Arg> TransformComplexTraitReplaces(Dictionary<string, string> replaceDict)
+        //{
+        //    return replaceDict.ToDictionary(repl => repl.Key,
+        //        repl =>
+        //        {
+        //            switch (repl.Key)
+        //            {
+        //                case "savingThrow":
+        //                    var matches = new Regex(@"DC (\d+) (\S+) saving throw").Match(repl.Value);
+        //                    return new { DC = matches.Groups[1].Value, Save = matches.Groups[2].Value };
 
-                        default:
-                            return (object)repl.Value;
-                    }
-                });
-        }
+        //                default:
+        //                    return (object)repl.Value;
+        //            }
+        //        });
+        //}
 
         public static readonly Dictionary<string, Trait> StandardTraits = new Dictionary<string, Trait>
         {

@@ -2,7 +2,6 @@
 using MonsterSoupSrdImport;
 using System.Collections.Generic;
 using System.Linq;
-using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
 {
