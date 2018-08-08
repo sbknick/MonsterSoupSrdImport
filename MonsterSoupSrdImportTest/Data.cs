@@ -6,6 +6,11 @@ namespace MonsterSoupSrdImportTest
     /// <summary>
     /// Test Monsters
     /// </summary>
+    public abstract class MonsterTestData
+    {
+        public abstract Dictionary<string, TraitTestData> Traits { get; }
+    }
+
 
     public sealed class Aboleth : MonsterTestData
     {
@@ -17,9 +22,13 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    public abstract class MonsterTestData
+    public sealed class Bugbear : MonsterTestData
     {
-        public abstract Dictionary<string, TraitTestData> Traits { get; }
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Brute", new Bugbear_Brute() },
+            { "Surprise Attack", new Bugbear_SurpriseAttack() },
+        };
     }
 
 
@@ -100,4 +109,45 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Aboleth
+
+    #region Bugbear
+    
+    public sealed class Bugbear_Brute : TraitTestData
+    {
+        public override string TraitTemplate => 
+            TraitMDParser.StandardTraits["Brute"].Template;
+
+        public override string MonsterTraitString =>
+            "A melee weapon deals one extra die of its damage when the bugbear hits " +
+            "with it (included in the attack).";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the bugbear" } },
+        };
+    }
+
+    public sealed class Bugbear_SurpriseAttack : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Surprise Attack"].Template;
+
+        public override string MonsterTraitString =>
+            "If the bugbear surprises a creature and hits it with an attack during the first round " +
+            "of combat, the target takes an extra 7 (2d6) damage from the attack.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the bugbear" } },
+            { "damage:Damage", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    value = new DamageArgs { diceCount = 2, dieSize = 6 },
+                } },
+        };
+    }
+
+    #endregion Bugbear
+
 }

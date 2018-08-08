@@ -105,6 +105,33 @@ namespace MonsterSoupSrdImportTest
                     },
                 },
             };
+
+            // Bugbear
+            var bugbear = new Bugbear();
+            yield return new object[]
+            {
+                bugbear,
+                new Monster
+                {
+                    Name = "Bugbear",
+                    WhatsLeft = @"
+                        ***Brute.*** A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack).
+                        ***Surprise Attack.*** If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack.",
+                },
+                new MonsterTrait[]
+                {
+                    new MonsterTrait
+                    {
+                        Name = "Brute",
+                        Replaces = bugbear.Traits["Brute"].ExpectedArgsOutput,
+                    },
+                    new MonsterTrait
+                    {
+                        Name = "Surprise Attack",
+                        Replaces = bugbear.Traits["Surprise Attack"].ExpectedArgsOutput,
+                    },
+                }
+            };
         }
     }
 }

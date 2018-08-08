@@ -321,6 +321,12 @@ namespace MonsterSoupSrdImportTest
 
             // Aboleth, Mucous Cloud
             yield return new object[] { mucousCloud.TraitTemplate, mucousCloud.MonsterTraitString, mucousCloud.ExpectedArgsOutput };
+
+            var bugbear = new Bugbear();
+            var surpriseAttack = bugbear.Traits["Surprise Attack"];
+
+            // Bugbear, Surprise Attack
+            yield return new object[] { surpriseAttack.TraitTemplate, surpriseAttack.MonsterTraitString, surpriseAttack.ExpectedArgsOutput };
         }
     }
 }

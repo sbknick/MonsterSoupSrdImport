@@ -67,6 +67,7 @@ namespace MonsterSoupSrdImport
 
         public static readonly Dictionary<string, Trait> StandardTraits = new Dictionary<string, Trait>
         {
+            // from Aboleth
             {
                 "Amphibious",
                 new Trait
@@ -97,7 +98,29 @@ namespace MonsterSoupSrdImport
                     "If a creature communicates telepathically with {shortName}, {shortName} learns " +
                     "the creature’s greatest desires if {shortName} can see the creature."
                 }
-            }
+            },
+
+            // from Bugbear
+            {
+                "Brute",
+                new Trait
+                {
+                    Name = "Brute",
+                    Template =
+                    "A melee weapon deals one extra die of its damage when {shortName} hits with it " +
+                    "(included in the attack)."
+                }
+            },
+            {
+                "Surprise Attack",
+                new Trait
+                {
+                    Name = "Surprise Attack",
+                    Template =
+                    "If {shortName} surprises a creature and hits it with an attack during the " +
+                    "first round of combat, the target takes an extra {damage:Damage} from the attack."
+                }
+                }
         };
     }
 }
