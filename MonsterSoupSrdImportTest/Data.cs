@@ -10,6 +10,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "Amphibious", new Aboleth_Amphibious() },
             { "Mucous Cloud", new Aboleth_MucousCloud() },
+            { "Probing Telepathy", new Aboleth_ProbingTelepathy() },
         };
     }
 

@@ -51,7 +51,7 @@ namespace MonsterSoupSrdImportTest
                     new MonsterTrait
                     {
                         Name = "Probing Telepathy",
-                        Replaces = aboleth.Traits["Mucous Cloud"].ExpectedArgsOutput,
+                        Replaces = aboleth.Traits["Probing Telepathy"].ExpectedArgsOutput,
                     },
                 },
             };
