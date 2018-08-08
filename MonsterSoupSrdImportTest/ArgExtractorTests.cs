@@ -12,6 +12,12 @@ namespace MonsterSoupSrdImportTest
     [TestClass]
     public class ArgExtractorTests
     {
+        /// TODO: Remove tests for 
+        /// extractor.GetArgsFromTemplate
+        /// and
+        /// extractor.TransformComplexMonsterTraits
+        /// and turn those Private. We shouldn't be unit-testing the internals of the class.
+
         [DataTestMethod, DynamicData(nameof(TemplateArgs_TestCases), DynamicDataSourceType.Method)]
         public void Should_ExtractArgsFromTemplates(
             string template,

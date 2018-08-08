@@ -16,18 +16,41 @@ namespace MonsterSoupSrdImport
     {
         static void Main(string[] args)
         {
+            // Read in Monsters //
+
             var text = File.ReadAllText("./SRD_Monsters.json");
+            
 
+            // Process Monsters //
 
+            var monsterSet = new HashSet<Monster>();
             var monsterQueue = ExtractMonsterDicts(text);
-            var monsterSet = ConvertDictsToMonsters(monsterQueue);
+            //var monsterSet = ConvertDictsToMonsters(monsterQueue);
+            
+            foreach (var monsterDict in monsterQueue)
+            {
+                var monsterInput = ParseMonsterInput(monsterDict);
 
-            var traits = ConvertTraits(monsterSet);
+                var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
+                monster.Attributes = monsterInput.Attributes;
+
+                monster.Traits = TraitMDParser.ConvertTraits(monster);
+
+                monsterSet.Add(monster);
+            }
+
+
+            // Write output files //
 
             Write(monsterSet.OrderBy(m => m.Name).ToList(), "monster-list.json");
 
+
+            // Dev Bookkeeping... NOT TO BE KEPT IN PRODUCTION //
+
+            var traits = monsterSet.SelectMany(m => m.Traits.Select(t => t.Name)).Distinct().OrderBy(t => t);
+
             foreach (var trait in traits)
-                Console.WriteLine($"Processed trait: {trait.Name}");
+                Console.WriteLine($"Processed trait: {trait}");
 
             var whatsLeft = (
                 from m in monsterSet
@@ -96,30 +119,30 @@ namespace MonsterSoupSrdImport
             return monsterQueue;
         }
 
-        private static HashSet<Monster> ConvertDictsToMonsters(Queue<KeyValuePair<string, Dict>> monsterQueue)
-        {
-            HashSet<Monster> monsterSet = new HashSet<Monster>();
+        //private static HashSet<Monster> ConvertDictsToMonsters(Queue<KeyValuePair<string, Dict>> monsterQueue)
+        //{
+        //    HashSet<Monster> monsterSet = new HashSet<Monster>();
 
-            while (monsterQueue.Count > 0)
-            {
-                var monsterDict = monsterQueue.Dequeue();
+        //    while (monsterQueue.Count > 0)
+        //    {
+        //        var monsterDict = monsterQueue.Dequeue();
 
-                var monsterInput = ParseMonsterInput(monsterDict);
+        //        var monsterInput = ParseMonsterInput(monsterDict);
 
-                var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
-                monster.Attributes = monsterInput.Attributes;
+        //        var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
+        //        monster.Attributes = monsterInput.Attributes;
 
-                monsterSet.Add(monster);
-            }
+        //        monsterSet.Add(monster);
+        //    }
 
-            return monsterSet;
-        }
+        //    return monsterSet;
+        //}
 
-        private static Trait[] ConvertTraits(HashSet<Monster> monsterSet)
-        {
-            var traits = monsterSet.SelectMany(TraitMDParser.ConvertTraits);
-            return traits.OrderBy(t => t.Name).ToArray();
-        }
+        //private static Trait[] ConvertTraits(HashSet<Monster> monsterSet)
+        //{
+        //    var traits = monsterSet.SelectMany(TraitMDParser.ConvertTraits);
+        //    return traits.OrderBy(t => t.Name).ToArray();
+        //}
 
         private static MonsterInput ParseMonsterInput(KeyValuePair<string, Dict> monsterDict)
         {

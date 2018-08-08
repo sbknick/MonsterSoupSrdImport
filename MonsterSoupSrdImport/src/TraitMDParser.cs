@@ -7,9 +7,9 @@ namespace MonsterSoupSrdImport
 {
     public static class TraitMDParser
     {
-        public static Trait[] ConvertTraits(Monster monster)
+        public static MonsterTrait[] ConvertTraits(Monster monster)
         {
-            Dictionary<string, Trait> processedTraits = new Dictionary<string, Trait>();
+            //Dictionary<string, Trait> processedTraits = new Dictionary<string, Trait>();
 
             if (!string.IsNullOrWhiteSpace(monster.WhatsLeft))
             {
@@ -35,17 +35,21 @@ namespace MonsterSoupSrdImport
                         monsterTraits.Add(monsterTrait);
                     }
 
-                    if (!processedTraits.ContainsKey(traitName) && standardTraits.ContainsKey(traitName))
-                        processedTraits.Add(traitName, standardTraits[traitName]);
+                    //if (!processedTraits.ContainsKey(traitName) && standardTraits.ContainsKey(traitName))
+                    //    processedTraits.Add(traitName, standardTraits[traitName]);
 
-                    if (processedTraits.ContainsKey(traitName))
-                        monster.WhatsLeft = IndividualTraitRegex(traitName).Strip(monster.WhatsLeft);
+                    //if (processedTraits.ContainsKey(traitName))
+                    //    monster.WhatsLeft = IndividualTraitRegex(traitName).Strip(monster.WhatsLeft);
+
+                    return monsterTraits.OrderBy(t => t.Name).ToArray();
                 }
 
-                monster.Traits = monsterTraits.ToArray();
+                //monster.Traits = monsterTraits.ToArray();
             }
 
-            return processedTraits.Select(t => t.Value).OrderBy(t => t.Name).ToArray();
+            //return processedTraits.Select(t => t.Value).OrderBy(t => t.Name).ToArray();
+
+            return new MonsterTrait[0];
         }
 
         private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=\*|$)");
