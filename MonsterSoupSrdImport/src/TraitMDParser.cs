@@ -29,8 +29,8 @@ namespace MonsterSoupSrdImport
                         var monsterTrait = new MonsterTrait { Name = traitName };
 
                         var replaces = GetReplacesFromTemplate(traitTemplate.Template, monsterTraitString);
-                        
-                        monsterTrait.Replaces = TransformComplexTraitReplaces(replaces);
+
+                        //monsterTrait.Replaces = TransformComplexTraitReplaces(replaces);
 
                         monsterTraits.Add(monsterTrait);
                     }

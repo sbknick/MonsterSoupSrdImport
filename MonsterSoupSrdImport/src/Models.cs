@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImport
 {
@@ -112,6 +113,6 @@ namespace MonsterSoupSrdImport
     public class MonsterTrait
     {
         public string Name { get; set; }
-        public Dictionary<string, object> Replaces { get; set; }
+        public Dictionary<string, Arg> Replaces { get; set; }
     }
 }

@@ -317,37 +317,11 @@ namespace MonsterSoupSrdImportTest
 
         public static IEnumerable<object[]> ComplexArgs_FromTemplates_TestCases()
         {
-            // Aboleth, Mucous Cloud
-            yield return new object[]
-            {
-                "While underwater, {shortName} is surrounded by transformative mucus. " +
-                "A creature that touches {shortName} or that hits it with a melee attack while " +
-                "within 5 feet of it must make a {save:SavingThrow}. On a failure, " +
-                "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
-                "underwater.",
-                "While underwater, the aboleth is surrounded by transformative mucus. " +
-                "A creature that touches the aboleth or that hits it with a melee attack while " +
-                "within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, " +
-                "the creature is diseased for 1d4 hours. The diseased creature can breathe only " +
-                "underwater.",
-                new TransformedArgs
-                {
-                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the aboleth" } },
-                    { "diceRoll:DiceRoll", new Arg
-                        {
-                            key = "diceRoll",
-                            argType = "DiceRoll",
-                            value = new DiceRollArgs { diceCount = 1, dieSize = 4 },
-                        } },
-                    { "save:SavingThrow", new Arg
-                        {
-                            key = "save",
-                            argType = "SavingThrow",
-                            value = new SavingThrowArgs { DC = 14, Attribute = "Constitution" },
-                        } },
-                },
-            };
+            var aboleth = new Aboleth();
+            var mucousCloud = aboleth.Traits["Mucous Cloud"];
 
+            // Aboleth, Mucous Cloud
+            yield return new object[] { mucousCloud.TraitTemplate, mucousCloud.MonsterTraitString, mucousCloud.ExpectedArgsOutput };
         }
     }
 }

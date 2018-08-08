@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AssertExtensions.cs" />
     <Compile Include="ArgExtractorTests.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
