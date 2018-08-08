@@ -9,7 +9,8 @@ namespace MonsterSoupSrdImport
     {
         public static MonsterTrait[] ConvertTraits(Monster monster)
         {
-            //Dictionary<string, Trait> processedTraits = new Dictionary<string, Trait>();
+            // for dev bookkeeping only
+            HashSet<string> processedTraits = new HashSet<string>();
 
             if (!string.IsNullOrWhiteSpace(monster.WhatsLeft))
             {
@@ -21,11 +22,11 @@ namespace MonsterSoupSrdImport
                     string traitName = match.Groups[1].Value.Trim();
                     string monsterTraitString = match.Groups[2].Value.Trim();
 
-                    var allowedTraits = standardTraits.Select(t => t.Key).ToList();
+                    var allowedTraits = StandardTraits.Select(t => t.Key).ToList();
 
                     if (allowedTraits.Contains(traitName))
                     {
-                        var traitTemplate = standardTraits[traitName];
+                        var traitTemplate = StandardTraits[traitName];
                         var monsterTrait = new MonsterTrait { Name = traitName };
 
                         var replaces = GetReplacesFromTemplate(traitTemplate.Template, monsterTraitString);
@@ -35,20 +36,20 @@ namespace MonsterSoupSrdImport
                         monsterTraits.Add(monsterTrait);
                     }
 
-                    //if (!processedTraits.ContainsKey(traitName) && standardTraits.ContainsKey(traitName))
-                    //    processedTraits.Add(traitName, standardTraits[traitName]);
+                    // Dev Bookkeeping //
 
-                    //if (processedTraits.ContainsKey(traitName))
-                    //    monster.WhatsLeft = IndividualTraitRegex(traitName).Strip(monster.WhatsLeft);
+                    // only process traits we've already defined in data
+                    if (!processedTraits.Contains(traitName) && StandardTraits.ContainsKey(traitName))
+                        processedTraits.Add(traitName);
 
-                    return monsterTraits.OrderBy(t => t.Name).ToArray();
+                    // only remove from WhatsLeft the traits that we've processed.
+                    if (processedTraits.Contains(traitName))
+                        monster.WhatsLeft = IndividualTraitRegex(traitName).Strip(monster.WhatsLeft);
                 }
-
-                //monster.Traits = monsterTraits.ToArray();
+                
+                return monsterTraits.OrderBy(t => t.Name).ToArray();
             }
-
-            //return processedTraits.Select(t => t.Value).OrderBy(t => t.Name).ToArray();
-
+            
             return new MonsterTrait[0];
         }
 
@@ -94,7 +95,7 @@ namespace MonsterSoupSrdImport
                 });
         }
 
-        private static readonly Dictionary<string, Trait> standardTraits = new Dictionary<string, Trait>
+        public static readonly Dictionary<string, Trait> StandardTraits = new Dictionary<string, Trait>
         {
             {
                 "Amphibious",
@@ -112,7 +113,7 @@ namespace MonsterSoupSrdImport
                     Template =
                     "While underwater, {shortName} is surrounded by transformative mucus. " +
                     "A creature that touches {shortName} or that hits it with a melee attack while " +
-                    "within 5 feet of it must make a {savingThrow:SavingThrow}. On a failure, " +
+                    "within 5 feet of it must make a {save:SavingThrow}. On a failure, " +
                     "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
                     "underwater."
                 }

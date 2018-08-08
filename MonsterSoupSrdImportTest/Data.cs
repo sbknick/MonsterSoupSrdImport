@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MonsterSoupSrdImport;
 using static MonsterSoupSrdImport.ArgExtractor;
 
 namespace MonsterSoupSrdImportTest
@@ -7,7 +8,8 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Mucous Cloud", new AbolethMucousCloud() },
+            { "Amphibious", new Aboleth_Amphibious() },
+            { "Mucous Cloud", new Aboleth_MucousCloud() },
         };
     }
 
@@ -30,20 +32,31 @@ namespace MonsterSoupSrdImportTest
         public abstract Dictionary<string, Arg> ExpectedArgsOutput { get; }
     }
 
-    public abstract class MucousCloud : TraitTestData
+    /// <summary>
+    /// 
+    /// </summary>
+
+    #region Aboleth
+    
+    public sealed class Aboleth_Amphibious : TraitTestData
     {
         public override string TraitTemplate =>
-            "While underwater, {shortName} is surrounded by transformative mucus. " +
-            "A creature that touches {shortName} or that hits it with a melee attack while " +
-            "within 5 feet of it must make a {save:SavingThrow}. On a failure, " +
-            "the creature is diseased for {diceRoll:DiceRoll} hours. The diseased creature can breathe only " +
-            "underwater.";
+            TraitMDParser.StandardTraits["Amphibious"].Template;
 
+        public override string MonsterTraitString =>
+            "The aboleth can breathe air and water.";
 
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The aboleth" } },
+        };
     }
-
-    public sealed class AbolethMucousCloud : MucousCloud
+    
+    public sealed class Aboleth_MucousCloud : TraitTestData
     {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Mucous Cloud"].Template;
+
         public override string MonsterTraitString =>
             "While underwater, the aboleth is surrounded by transformative mucus. " +
             "A creature that touches the aboleth or that hits it with a melee attack while " +
@@ -68,4 +81,21 @@ namespace MonsterSoupSrdImportTest
                 } },
         };
     }
+
+    public sealed class Aboleth_ProbingTelepathy : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Probing Telepathy"].Template;
+
+        public override string MonsterTraitString =>
+            "If a creature communicates telepathically with the aboleth, the aboleth learns " +
+            "the creature’s greatest desires if the aboleth can see the creature.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent",  value = "the aboleth" } },
+        };
+    }
+
+    #endregion Aboleth
 }
