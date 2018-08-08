@@ -53,7 +53,7 @@ namespace MonsterSoupSrdImport
 
         private static class Extract
         {
-            // Simple Extracts
+            // Simple Extracts //
 
             public static void AC(Monster monster, ref string statBlock) => ExtractLine(monster, AC_Regex, ParseAC, ref statBlock);
             public static void HPAndDice(Monster monster, ref string statBlock) => ExtractLine(monster, HP_Regex, ParseHPAndDice, ref statBlock);
@@ -70,7 +70,7 @@ namespace MonsterSoupSrdImport
             public static void Challenge(Monster monster, ref string statBlock) => ExtractLine(monster, CR_Regex, ParseCR, ref statBlock);
             public static void LegendaryResistances(Monster monster, ref string statBlock) => ExtractFullLine(monster, LegRes_Regex, ParseLegRes, ref statBlock);
 
-            // Bespoke Extracts
+            // Bespoke Extracts //
 
             public static void Attributes(Monster monster, ref string statBlock)
             {
@@ -91,7 +91,7 @@ namespace MonsterSoupSrdImport
                 }
             }
 
-            // Compound/Section Extracts
+            // Compound/Section Extracts //
 
             public static void LegendaryActions(Monster monster, ref string statBlock)
             {
@@ -316,7 +316,6 @@ namespace MonsterSoupSrdImport
                     foreach (Match list in spellLists)
                     {
                         var levelMatch = new Regex(@"(\d).*\((\d) slots?\):").Match(list.Value);
-                        //var spellsMatch = new Regex(@": ([\s\S]+)").Match(list.Value);
 
                         var spellStr = list.Value;
                         var levelItem = new SpellsAndSlotsByLevel

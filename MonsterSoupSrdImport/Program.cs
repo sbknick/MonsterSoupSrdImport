@@ -22,26 +22,8 @@ namespace MonsterSoupSrdImport
             // Read in Monsters //
 
             var text = File.ReadAllText("./SRD_Monsters.json");
-            
 
-            // Process Monsters //
-
-            var monsterSet = new HashSet<Monster>();
-            var monsterQueue = ExtractMonsterDicts(text);
-            //var monsterSet = ConvertDictsToMonsters(monsterQueue);
-            
-            foreach (var monsterDict in monsterQueue)
-            {
-                var monsterInput = ParseMonsterInput(monsterDict);
-
-                var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
-                monster.Attributes = monsterInput.Attributes;
-
-                monster.Traits = traitParser.ConvertTraits(monster);
-
-                monsterSet.Add(monster);
-            }
-
+            var monsterSet = ProcessMonsterFile(text);
 
             // Write output files //
 
@@ -82,11 +64,32 @@ namespace MonsterSoupSrdImport
                               Descs = wlog.Select(wl => wl.Item2).ToArray()
                           };
             
+            // Write Output for What's Left! //
+
             Write(grouped, "whatsleft.json");
         }
 
+        private static IEnumerable<Monster> ProcessMonsterFile(string text)
+        {
+            var monsterOutputs = new HashSet<Monster>();
+            var monsterInputs = ExtractMonsterDicts(text);
 
-        private static Queue<KeyValuePair<string, Dict>> ExtractMonsterDicts(string text)
+            foreach (var monsterDict in monsterInputs)
+            {
+                var monsterInput = ParseMonsterInput(monsterDict);
+
+                var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
+                monster.Attributes = monsterInput.Attributes;
+
+                monster.Traits = traitParser.ConvertTraits(monster);
+
+                monsterOutputs.Add(monster);
+            }
+
+            return monsterOutputs;
+        }
+        
+        private static IEnumerable<KeyValuePair<string, Dict>> ExtractMonsterDicts(string text)
         {
             Dict dataDict = JsonConvert.DeserializeObject<Dict>(text);
 
@@ -121,32 +124,7 @@ namespace MonsterSoupSrdImport
 
             return monsterQueue;
         }
-
-        //private static HashSet<Monster> ConvertDictsToMonsters(Queue<KeyValuePair<string, Dict>> monsterQueue)
-        //{
-        //    HashSet<Monster> monsterSet = new HashSet<Monster>();
-
-        //    while (monsterQueue.Count > 0)
-        //    {
-        //        var monsterDict = monsterQueue.Dequeue();
-
-        //        var monsterInput = ParseMonsterInput(monsterDict);
-
-        //        var monster = new MonsterMDParser().ParseMDContent(monsterDict.Key, monsterInput.ContentMD);
-        //        monster.Attributes = monsterInput.Attributes;
-
-        //        monsterSet.Add(monster);
-        //    }
-
-        //    return monsterSet;
-        //}
-
-        //private static Trait[] ConvertTraits(HashSet<Monster> monsterSet)
-        //{
-        //    var traits = monsterSet.SelectMany(TraitMDParser.ConvertTraits);
-        //    return traits.OrderBy(t => t.Name).ToArray();
-        //}
-
+        
         private static MonsterInput ParseMonsterInput(KeyValuePair<string, Dict> monsterDict)
         {
             var sb = new StringBuilder();

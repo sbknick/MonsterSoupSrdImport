@@ -2,7 +2,6 @@
 
 namespace MonsterSoupSrdImport
 {
-
     public class Monster
     {
         public string WhatsLeft { get; set; }
