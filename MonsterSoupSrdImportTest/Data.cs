@@ -31,6 +31,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Bulette : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Standing Leap", new Bulette_StandingLeap() },
+        };
+    }
+
 
 
 
@@ -150,4 +158,24 @@ namespace MonsterSoupSrdImportTest
 
     #endregion Bugbear
 
+    #region Bulette
+
+    public sealed class Bulette_StandingLeap : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Standing Leap"].Template;
+
+        public override string MonsterTraitString =>
+            "The bulette’s long jump is up to 30 feet and its high jump is up to 15 feet, " +
+            "with or without a running start.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The bulette" } },
+            { "longJump:Number", new Arg { key = "longJump", argType = "Number", value = 30 } },
+            { "highJump:Number", new Arg { key = "highJump", argType = "Number", value = 15 } },
+        }; 
+    }
+
+    #endregion Bulette
 }

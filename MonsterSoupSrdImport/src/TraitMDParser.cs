@@ -120,7 +120,19 @@ namespace MonsterSoupSrdImport
                     "If {shortName} surprises a creature and hits it with an attack during the " +
                     "first round of combat, the target takes an extra {damage:Damage} from the attack."
                 }
+            },
+
+            // from Bulette
+            {
+                "Standing Leap",
+                new Trait
+                {
+                    Name = "Standing Leap",
+                    Template =
+                    "{ShortName}’s long jump is up to {longJump:Number} feet and its high jump is up " +
+                    "to {highJump:Number} feet, with or without a running start."
                 }
+            },
         };
     }
 }

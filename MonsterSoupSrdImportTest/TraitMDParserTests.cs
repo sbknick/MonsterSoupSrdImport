@@ -132,6 +132,27 @@ namespace MonsterSoupSrdImportTest
                     },
                 }
             };
+
+            // Bulette
+            var bulette = new Bulette();
+            yield return new object[]
+            {
+                bulette,
+                new Monster
+                {
+                    Name = "Bulette",
+                    WhatsLeft = @"
+                        ***Standing Leap.*** The bulette’s long jump is up to 30 feet and its high jump is up to 15 feet, with or without a running start.",
+                },
+                new MonsterTrait[]
+                {
+                    new MonsterTrait
+                    {
+                        Name = "Standing Leap",
+                        Replaces = bulette.Traits["Standing Leap"].ExpectedArgsOutput,
+                    },
+                }
+            };
         }
     }
 }

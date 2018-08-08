@@ -316,17 +316,23 @@ namespace MonsterSoupSrdImportTest
 
         public static IEnumerable<object[]> ComplexArgs_FromTemplates_TestCases()
         {
+            // Aboleth, Mucous Cloud
             var aboleth = new Aboleth();
             var mucousCloud = aboleth.Traits["Mucous Cloud"];
 
-            // Aboleth, Mucous Cloud
             yield return new object[] { mucousCloud.TraitTemplate, mucousCloud.MonsterTraitString, mucousCloud.ExpectedArgsOutput };
 
+            // Bugbear, Surprise Attack
             var bugbear = new Bugbear();
             var surpriseAttack = bugbear.Traits["Surprise Attack"];
 
-            // Bugbear, Surprise Attack
             yield return new object[] { surpriseAttack.TraitTemplate, surpriseAttack.MonsterTraitString, surpriseAttack.ExpectedArgsOutput };
+
+            // Bulette, Standing Leap
+            var bulette = new Bulette();
+            var standingLeap = bulette.Traits["Standing Leap"];
+
+            yield return new object[] { standingLeap.TraitTemplate, standingLeap.MonsterTraitString, standingLeap.ExpectedArgsOutput };
         }
     }
 }

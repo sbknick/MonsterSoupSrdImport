@@ -50,6 +50,7 @@ namespace MonsterSoupSrdImport
         {
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
+            { "Number", ArgParser.ParseNumberArgValues },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
         };
 
@@ -134,6 +135,13 @@ namespace MonsterSoupSrdImport
             }
 
             #endregion
+
+            #region Number
+
+            public static object ParseNumberArgValues(string values, string[] flags)
+                => values.ToInt();
+
+            #endregion Number
 
             #region SavingThrow
 
