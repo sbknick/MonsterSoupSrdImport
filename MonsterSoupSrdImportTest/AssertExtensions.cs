@@ -57,4 +57,16 @@ public static class AssertExt
 
         return assert;
     }
+
+    public static void ValueObjectsAreEqual(this Assert assert, object value1, object value2)
+    {
+        if (value1 is string[] || value1 is List<string>)
+        {
+            assert.ElementsAreEqual(value1 as IEnumerable<string>, value2 as IEnumerable<string>);
+        }
+        else
+        {
+            assert.FieldsAreEqual(value1, value2);
+        }
+    }
 }

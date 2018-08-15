@@ -52,8 +52,8 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Charge", new Minotaur_Charge() },
-            //{ },
-            //{ },
+            { "Labyrinthine Recall", new Minotaur_LabyrinthineRecall() },
+            { "Reckless", new Minotaur_Reckless() },
         };
     }
 
@@ -278,6 +278,35 @@ namespace MonsterSoupSrdImportTest
                         "knocked prone",
                     }
                 } },
+        };
+    }
+
+    public sealed class Minotaur_LabyrinthineRecall : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Labyrinthine Recall"].Template;
+
+        public override string MonsterTraitString =>
+            "The minotaur can perfectly recall any path it has traveled.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The minotaur" } },
+        };
+    }
+
+    public sealed class Minotaur_Reckless : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Reckless"].Template;
+
+        public override string MonsterTraitString =>
+            "At the start of its turn, the minotaur can gain advantage on all melee weapon attack rolls " +
+            "it makes during that turn, but attack rolls against it have advantage until the start of its next turn.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the minotaur" } },
         };
     }
 

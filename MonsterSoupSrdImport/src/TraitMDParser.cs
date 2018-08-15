@@ -153,7 +153,7 @@ namespace MonsterSoupSrdImport
                 {
                     Name = "Labyrinthine Recall",
                     Template =
-                    "The minotaur can perfectly recall any path it has traveled."
+                    "{ShortName} can perfectly recall any path it has traveled."
                 }
             },
             {
@@ -162,7 +162,7 @@ namespace MonsterSoupSrdImport
                 {
                     Name = "Reckless",
                     Template =
-                    "At the start of its turn, the minotaur can gain advantage on all " +
+                    "At the start of its turn, {shortName} can gain advantage on all " +
                     "melee weapon attack rolls it makes during that turn, but attack rolls against it " +
                     "have advantage until the start of its next turn."
                 }

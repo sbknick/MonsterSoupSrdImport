@@ -66,137 +66,79 @@ namespace MonsterSoupSrdImportTest
                     Assert.AreEqual(expectedReplace.key, replace.key);
                     Assert.AreEqual(expectedReplace.argType, replace.argType);
                     Assert.That.ElementsAreEqual(expectedReplace.flags, replace.flags);
-                    Assert.That.FieldsAreEqual(expectedReplace.value, replace.value);
+                    Assert.That.ValueObjectsAreEqual(expectedReplace.value, replace.value);
                 }
             }
         }
         
         public static IEnumerable<object[]> TemplateArgs_TestCases()
         {
-            // Aboleth
-            var aboleth = new Aboleth();
-            yield return new object[]
-            {
-                aboleth,
-                new Monster
-                {
-                    Name = "Aboleth",
-                    WhatsLeft = @"
-                        ***Amphibious.*** The aboleth can breathe air and water.
-                        ***Mucous Cloud.*** While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.
-                        ***Probing Telepathy.*** If a creature communicates telepathically with the aboleth, the aboleth learns the creature’s greatest desires if the aboleth can see the creature.",
-                },
-                new MonsterTrait[]
-                {
-                    new MonsterTrait
-                    {
-                        Name = "Amphibious",
-                        Replaces = aboleth.Traits["Amphibious"].ExpectedArgsOutput,
-                    },
-                    new MonsterTrait
-                    {
-                        Name = "Mucous Cloud",
-                        Replaces = aboleth.Traits["Mucous Cloud"].ExpectedArgsOutput,
-                    },
-                    new MonsterTrait
-                    {
-                        Name = "Probing Telepathy",
-                        Replaces = aboleth.Traits["Probing Telepathy"].ExpectedArgsOutput,
-                    },
-                },
-            };
+            // Test Setup Functions //
 
-            // Bugbear
-            var bugbear = new Bugbear();
-            yield return new object[]
+            object[] TestMonster(MonsterTestData monster, string whatsLeft, string[] traits)
             {
-                bugbear,
-                new Monster
+                return new object[]
                 {
-                    Name = "Bugbear",
-                    WhatsLeft = @"
-                        ***Brute.*** A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack).
-                        ***Surprise Attack.*** If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack.",
-                },
-                new MonsterTrait[]
+                    monster,
+                    new Monster
+                    {
+                        Name = monster.GetType().Name,
+                        WhatsLeft = whatsLeft,
+                    },
+                    traits.Select(traitName => TraitForMonster(monster, traitName)).ToArray(),
+                };
+            }
+
+            MonsterTrait TraitForMonster(MonsterTestData monster, string traitName)
+            {
+                return new MonsterTrait
                 {
-                    new MonsterTrait
-                    {
-                        Name = "Brute",
-                        Replaces = bugbear.Traits["Brute"].ExpectedArgsOutput,
-                    },
-                    new MonsterTrait
-                    {
-                        Name = "Surprise Attack",
-                        Replaces = bugbear.Traits["Surprise Attack"].ExpectedArgsOutput,
-                    },
-                }
-            };
+                    Name = traitName,
+                    Replaces = monster.Traits[traitName].ExpectedArgsOutput,
+                };
+            }
+
+            // Test Data // 
+
+            // Aboleth
+            yield return TestMonster(
+                new Aboleth(), @"
+                    ***Amphibious.*** The aboleth can breathe air and water.
+                    ***Mucous Cloud.*** While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 feet of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.
+                    ***Probing Telepathy.*** If a creature communicates telepathically with the aboleth, the aboleth learns the creature’s greatest desires if the aboleth can see the creature.",
+                new[] { "Amphibious", "Mucous Cloud", "Probing Telepathy" }
+            );
+            
+            // Bugbear
+            yield return TestMonster(
+                new Bugbear(), @"
+                    ***Brute.*** A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack).
+                    ***Surprise Attack.*** If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack.",
+                new[] { "Brute", "Surprise Attack" }
+            );
 
             // Bulette
-            var bulette = new Bulette();
-            yield return new object[]
-            {
-                bulette,
-                new Monster
-                {
-                    Name = "Bulette",
-                    WhatsLeft = @"
-                        ***Standing Leap.*** The bulette’s long jump is up to 30 feet and its high jump is up to 15 feet, with or without a running start.",
-                },
-                new MonsterTrait[]
-                {
-                    new MonsterTrait
-                    {
-                        Name = "Standing Leap",
-                        Replaces = bulette.Traits["Standing Leap"].ExpectedArgsOutput,
-                    },
-                }
-            };
+            yield return TestMonster(
+                new Bulette(), @"
+                    ***Standing Leap.*** The bulette’s long jump is up to 30 feet and its high jump is up to 15 feet, with or without a running start.",
+                new[] { "Standing Leap" }
+            );
 
             // Centaur
-            var centaur = new Centaur();
-            yield return new object[]
-            {
-                centaur,
-                new Monster
-                {
-                    Name = "Centaur",
-                    WhatsLeft = @"
-                        ***Charge.*** If the centaur moves at least 30 feet straight toward a target and then hits it with a pike attack on the same turn, the target takes an extra 10 (3d6) piercing damage.",
-                },
-                new MonsterTrait[]
-                {
-                    new MonsterTrait
-                    {
-                        Name = "Charge",
-                        Replaces = centaur.Traits["Charge"].ExpectedArgsOutput,
-                    },
-                }
-            };
+            yield return TestMonster(
+                new Centaur(), @"
+                    ***Charge.*** If the centaur moves at least 30 feet straight toward a target and then hits it with a pike attack on the same turn, the target takes an extra 10 (3d6) piercing damage.",
+                new[] { "Charge" }
+            );
 
-            //// Minotaur
-            //var minotaur = new Minotaur();
-            //yield return new object[]
-            //{
-            //    minotaur,
-            //    new Monster
-            //    {
-            //        Name = "Minotaur",
-            //        WhatsLeft = @"
-            //            ***Charge.*** If the minotaur moves at least 10 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) piercing damage. If the target is a creature, it must succeed on a DC 14 Strength saving throw or be pushed up to 10 feet away and knocked prone.
-            //            ***Labyrinthine Recall.*** The minotaur can perfectly recall any path it has traveled.
-            //            ***Reckless.*** At the start of its turn, the minotaur can gain advantage on all melee weapon attack rolls it makes during that turn, but attack rolls against it have advantage until the start of its next turn.",
-            //    },
-            //    new MonsterTrait[]
-            //    {
-            //        new MonsterTrait
-            //        {
-            //            Name = "Charge",
-            //            Replaces = minotaur.Traits["Charge"].ExpectedArgsOutput,
-            //        },
-            //    }
-            //};
+            // Minotaur
+            yield return TestMonster(
+                new Minotaur(), @"
+                    ***Charge.*** If the minotaur moves at least 10 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) piercing damage. If the target is a creature, it must succeed on a DC 14 Strength saving throw or be pushed up to 10 feet away and knocked prone.
+                    ***Labyrinthine Recall.*** The minotaur can perfectly recall any path it has traveled.
+                    ***Reckless.*** At the start of its turn, the minotaur can gain advantage on all melee weapon attack rolls it makes during that turn, but attack rolls against it have advantage until the start of its next turn.",
+                new[] { "Charge", "Labyrinthine Recall", "Reckless" }
+            );
         }
     }
 }

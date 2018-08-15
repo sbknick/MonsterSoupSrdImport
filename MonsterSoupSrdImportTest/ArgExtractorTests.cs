@@ -310,7 +310,7 @@ namespace MonsterSoupSrdImportTest
                 Assert.AreEqual(xform.Value.key, transformedArg.key);
                 Assert.AreEqual(xform.Value.argType, transformedArg.argType);
                 Assert.That.ElementsAreEqual(xform.Value.flags, transformedArg.flags);
-                AssertValuesAreEqual(xform.Value.value, transformedArg.value);
+                Assert.That.ValueObjectsAreEqual(xform.Value.value, transformedArg.value);
             }
         }
 
@@ -340,18 +340,6 @@ namespace MonsterSoupSrdImportTest
             var minotaur = new Minotaur();
             var charge2 = minotaur.Traits["Charge"];
             yield return new object[] { charge2.TraitTemplate, charge2.MonsterTraitString, charge2.ExpectedArgsOutput };
-        }
-
-        private void AssertValuesAreEqual(object value1, object value2)
-        {
-            if (value1 is string[] || value1 is List<string>)
-            {
-                Assert.That.ElementsAreEqual(value1 as IEnumerable<string>, value2 as IEnumerable<string>);
-            }
-            else
-            {
-                Assert.That.FieldsAreEqual(value1, value2);
-            }
         }
     }
 }
