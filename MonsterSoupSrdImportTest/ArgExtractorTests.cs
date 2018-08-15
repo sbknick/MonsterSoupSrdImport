@@ -310,7 +310,7 @@ namespace MonsterSoupSrdImportTest
                 Assert.AreEqual(xform.Value.key, transformedArg.key);
                 Assert.AreEqual(xform.Value.argType, transformedArg.argType);
                 Assert.That.ElementsAreEqual(xform.Value.flags, transformedArg.flags);
-                Assert.That.FieldsAreEqual(xform.Value.value, transformedArg.value);
+                AssertValuesAreEqual(xform.Value.value, transformedArg.value);
             }
         }
 
@@ -319,20 +319,39 @@ namespace MonsterSoupSrdImportTest
             // Aboleth, Mucous Cloud
             var aboleth = new Aboleth();
             var mucousCloud = aboleth.Traits["Mucous Cloud"];
-
             yield return new object[] { mucousCloud.TraitTemplate, mucousCloud.MonsterTraitString, mucousCloud.ExpectedArgsOutput };
 
             // Bugbear, Surprise Attack
             var bugbear = new Bugbear();
             var surpriseAttack = bugbear.Traits["Surprise Attack"];
-
             yield return new object[] { surpriseAttack.TraitTemplate, surpriseAttack.MonsterTraitString, surpriseAttack.ExpectedArgsOutput };
 
             // Bulette, Standing Leap
             var bulette = new Bulette();
             var standingLeap = bulette.Traits["Standing Leap"];
-
             yield return new object[] { standingLeap.TraitTemplate, standingLeap.MonsterTraitString, standingLeap.ExpectedArgsOutput };
+
+            // Centaur, Charge (simple)
+            var centaur = new Centaur();
+            var charge1 = centaur.Traits["Charge"];
+            yield return new object[] { charge1.TraitTemplate, charge1.MonsterTraitString, charge1.ExpectedArgsOutput };
+
+            // Minotaur, Charge (complex)
+            var minotaur = new Minotaur();
+            var charge2 = minotaur.Traits["Charge"];
+            yield return new object[] { charge2.TraitTemplate, charge2.MonsterTraitString, charge2.ExpectedArgsOutput };
+        }
+
+        private void AssertValuesAreEqual(object value1, object value2)
+        {
+            if (value1 is string[] || value1 is List<string>)
+            {
+                Assert.That.ElementsAreEqual(value1 as IEnumerable<string>, value2 as IEnumerable<string>);
+            }
+            else
+            {
+                Assert.That.FieldsAreEqual(value1, value2);
+            }
         }
     }
 }

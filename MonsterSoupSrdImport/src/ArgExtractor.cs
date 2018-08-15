@@ -14,13 +14,79 @@ namespace MonsterSoupSrdImport
     {
         public Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString)
         {
-            var argsFromTemplate = GetArgsFromTemplate(traitTemplate, monsterTraitString);
+            var conditionalStrippedTraitTemplate = GetValidTemplateSansConditionals(traitTemplate, monsterTraitString);
+            
+            var argsFromTemplate = GetArgsFromTemplate(conditionalStrippedTraitTemplate.Template, monsterTraitString);
 
             var transformedArgs = TransformComplexMonsterTraits(argsFromTemplate);
+
+            if (conditionalStrippedTraitTemplate.Arg != null)
+                transformedArgs.Add(conditionalStrippedTraitTemplate.ArgKey, conditionalStrippedTraitTemplate.Arg);
 
             return transformedArgs;
         }
 
+        private ConditionalStrippedTemplate GetValidTemplateSansConditionals(string template, string monsterTraitString)
+        {
+            var conditionalMatches = TemplateHasConditionalRegex.Match(template);
+
+            if (!conditionalMatches.Success)
+                return new ConditionalStrippedTemplate { Template = template };
+
+            if (conditionalMatches.Groups[3].Value != conditionalMatches.Groups[5].Value)
+                throw new ArgumentException("A conditional argument in a template has a name mismatch.\r\n" + template);
+
+
+            var flags = conditionalMatches.Groups[4].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+
+            var arg = new Arg
+            {
+                key = conditionalMatches.Groups[3].Value,
+                argType = "YesNo",
+                flags = flags.Length > 0 ? flags : null,
+            };
+
+
+            var monsterUsesConditional = TryStripConditionalFromTemplate(conditionalMatches, monsterTraitString, out string newTemplate);
+
+            if (monsterUsesConditional)
+            {
+                arg.value = conditionalMatches.Groups[6].Value;
+            }
+            else
+            {
+                arg.value = conditionalMatches.Groups[6].Value == "Yes" ? "No" : "Yes";
+            }
+
+            return new ConditionalStrippedTemplate
+            {
+                Template = newTemplate,
+                Arg = arg,
+                ArgKey = conditionalMatches.Groups[2].Value,
+            };
+        }
+
+        private bool TryStripConditionalFromTemplate(Match conditionalMatches, string monsterTraitString, out string newTemplate)
+        {
+            var template = conditionalMatches.Groups[1].Value + " " + conditionalMatches.Groups[7].Value;
+
+            var captureString = GetCaptureString(template);
+
+            var usesCondition = new Regex(captureString).Match(monsterTraitString);
+
+            if (usesCondition.Success)
+            {
+                newTemplate = template;
+                return true;
+            }
+            else
+            {
+                newTemplate = conditionalMatches.Groups[1].Value;
+                return false;
+            }
+        }
+        
+        private static readonly Regex TemplateHasConditionalRegex = new Regex(@"(.*)\{(([a-zA-Z]+?):YesNo:?(.*)?)\}\[([a-zA-Z]+)=(\S+) (.*)\]");
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
@@ -29,8 +95,7 @@ namespace MonsterSoupSrdImport
 
             var matches = SimpleArgsRegex.Matches(traitTemplate);
 
-            var escapedTemplate = Escape(traitTemplate, '.', '(', ')', '*');
-            var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
+            var captureString = GetCaptureString(traitTemplate);
 
             var captures = new Regex(captureString).Match(monsterTraitString);
 
@@ -46,11 +111,21 @@ namespace MonsterSoupSrdImport
             return argLookup;
         }
 
+        private string GetCaptureString(string template)
+        {
+            var escapedTemplate = Escape(template, '.', '(', ')', '*');
+            var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
+
+            return captureString;
+        }
+
         private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
         {
+            { "Attack", ArgParser.ParseTextArgValue },
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
-            { "Number", ArgParser.ParseNumberArgValues },
+            { "MultiOption", ArgParser.ParseMultiOptionArgValues },
+            { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
         };
 
@@ -86,6 +161,13 @@ namespace MonsterSoupSrdImport
 
                 return arg;
             }
+        }
+
+        private struct ConditionalStrippedTemplate
+        {
+            public string Template;
+            public Arg Arg;
+            public string ArgKey;
         }
 
         private static class ArgParser
@@ -136,12 +218,23 @@ namespace MonsterSoupSrdImport
 
             #endregion
 
-            #region Number
+            #region MultiOption
 
-            public static object ParseNumberArgValues(string values, string[] flags)
-                => values.ToInt();
+            private static readonly Regex MultiOptionRegex = new Regex(@"(.*?)(?:$| and (.*))");
 
-            #endregion Number
+            public static object ParseMultiOptionArgValues(string values, string[] flags)
+            {
+                var matches = MultiOptionRegex.Match(values);
+
+                var options = new List<string> { matches.Groups[1].Value };
+
+                if (matches.Groups.Count > 2)
+                    options.Add(matches.Groups[2].Value);
+
+                return options;
+            }
+
+            #endregion MultiOption
 
             #region SavingThrow
 
@@ -159,6 +252,12 @@ namespace MonsterSoupSrdImport
             }
 
             #endregion
+
+            public static object ParseTextArgValue(string values, string[] flags)
+                => values;
+
+            public static object ParseNumberArgValue(string values, string[] flags)
+                => values.ToInt();
         }
 
         private string Escape(string template, params char[] toEscape)

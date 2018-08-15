@@ -133,6 +133,40 @@ namespace MonsterSoupSrdImport
                     "to {highJump:Number} feet, with or without a running start."
                 }
             },
+
+            // from Minotaur
+            {
+                "Charge",
+                new Trait
+                {
+                    Name = "Charge",
+                    Template =
+                    "If {shortName} moves at least {distance:Number} feet straight toward a target and " +
+                    "then hits it with a {attack:Attack} attack on the same turn, the target takes " +
+                    "an extra {damage:Damage:Typed}.{hasSavingThrow:YesNo}[hasSavingThrow=Yes If the target is a creature, it must succeed on " +
+                    "a {save:SavingThrow} or be {affected:MultiOption}.]"
+                }
+            },
+            {
+                "Labyrinthine Recall",
+                new Trait
+                {
+                    Name = "Labyrinthine Recall",
+                    Template =
+                    "The minotaur can perfectly recall any path it has traveled."
+                }
+            },
+            {
+                "Reckless",
+                new Trait
+                {
+                    Name = "Reckless",
+                    Template =
+                    "At the start of its turn, the minotaur can gain advantage on all " +
+                    "melee weapon attack rolls it makes during that turn, but attack rolls against it " +
+                    "have advantage until the start of its next turn."
+                }
+            },
         };
     }
 }

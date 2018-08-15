@@ -39,6 +39,24 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Centaur : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Charge", new Centaur_Charge() },
+        };
+    }
+
+    public sealed class Minotaur : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Charge", new Minotaur_Charge() },
+            //{ },
+            //{ },
+        };
+    }
+
 
 
 
@@ -178,4 +196,90 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Bulette
+
+    #region Centaur
+
+    public sealed class Centaur_Charge : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Charge"].Template;
+        
+        public override string MonsterTraitString =>
+            "If the centaur moves at least 30 feet straight toward a target and then hits it " +
+            "with a pike attack on the same turn, the target takes an extra 10 (3d6) piercing damage.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the centaur" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 30 } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "pike" } },
+            { "damage:Damage:Typed", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    flags = new[] { "Typed" },
+                    value = new TypedDamageArgs
+                    {
+                        diceCount = 3,
+                        dieSize = 6,
+                        damageType = "piercing",
+                    }
+                } },
+            { "hasSavingThrow:YesNo", new Arg { key = "hasSavingThrow", argType = "YesNo", value = "No" } },
+        };
+    }
+
+    #endregion Centaur
+
+    #region Minotaur
+
+    public sealed class Minotaur_Charge : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Charge"].Template;
+
+        public override string MonsterTraitString =>
+            "If the minotaur moves at least 10 feet straight toward a target and then hits it with " +
+            "a gore attack on the same turn, the target takes an extra 9 (2d8) piercing damage. If " +
+            "the target is a creature, it must succeed on a DC 14 Strength saving throw or be pushed " +
+            "up to 10 feet away and knocked prone.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the minotaur" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 10 } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "gore" } },
+            { "damage:Damage:Typed", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    flags = new[] { "Typed" },
+                    value = new TypedDamageArgs
+                    {
+                        diceCount = 2,
+                        dieSize = 8,
+                        damageType = "piercing",
+                    }
+                } },
+            { "hasSavingThrow:YesNo", new Arg { key = "hasSavingThrow", argType = "YesNo", value = "Yes" } },
+            { "save:SavingThrow", new Arg
+                {
+                    key = "save",
+                    argType = "SavingThrow",
+                    value = new SavingThrowArgs { DC = 14, Attribute = "Strength" }
+                } },
+            { "affected:MultiOption", new Arg
+                {
+                    key = "affected",
+                    argType = "MultiOption",
+                    value = new[]
+                    {
+                        "pushed up to 10 feet away",
+                        "knocked prone",
+                    }
+                } },
+        };
+    }
+
+    #endregion Minotaur
 }
