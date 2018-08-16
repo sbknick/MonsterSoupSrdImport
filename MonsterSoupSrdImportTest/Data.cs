@@ -11,6 +11,7 @@ namespace MonsterSoupSrdImportTest
         public abstract Dictionary<string, TraitTestData> Traits { get; }
     }
 
+    // Monsters //
 
     public sealed class Aboleth : MonsterTestData
     {
@@ -53,6 +54,16 @@ namespace MonsterSoupSrdImportTest
         {
             { "Amphibious", new Chuul_Amphibious() },
             { "Sense Magic", new Chuul_SenseMagic() },
+        };
+    }
+
+    public sealed class Cloaker : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Damage Transfer -Cloaker-", new Cloaker_DamageTransfer() },
+            { "False Appearance", new Cloaker_FalseAppearance() },
+            { "Light Sensitivity", new Cloaker_LightSensitivity() },
         };
     }
 
@@ -354,4 +365,75 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion
+
+    #region Cloaker
+
+    public sealed class Cloaker_DamageTransfer : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Damage Transfer -Cloaker-"].Template;
+
+        public override string MonsterTraitString =>
+            "While attached to a creature, the cloaker takes only half the damage dealt to it " +
+            "(rounded down), and that creature takes the other half.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the cloaker" } },
+        };
+    }
+
+    public sealed class Cloaker_FalseAppearance : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["False Appearance"].Template;
+
+        public override string MonsterTraitString =>
+            "While the cloaker remains motionless without its underside exposed, " +
+            "it is indistinguishable from a dark leather cloak.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the cloaker" } },
+            { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "Yes" } },
+            { "moreRequirements:Text", new Arg { key = "moreRequirements", argType = "Text", value = "without its underside exposed" } },
+            { "description:Text", new Arg { key = "description", argType = "Text", value = "a dark leather cloak" } },
+        };
+    }
+
+    public sealed class Cloaker_LightSensitivity : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Light Sensitivity"].Template;
+
+        public override string MonsterTraitString =>
+            "While in bright light, the cloaker has disadvantage on attack rolls and " +
+            "Wisdom (Perception) checks that rely on sight.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the cloaker" } },
+        };
+    }
+
+    #endregion Cloaker
+
+    #region Rug of Smothering
+
+    public sealed class RugOfSmothering_DamageTransfer : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Damage Transfer (Rug of Smothering)"].Template;
+
+        public override string MonsterTraitString =>
+            "While it is grappling a creature, the rug takes only half the damage dealt to it, " +
+            "and the creature grappled by the rug takes the other half.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rug" } },
+        };
+    }
+
+    #endregion Rug of Smothering
 }

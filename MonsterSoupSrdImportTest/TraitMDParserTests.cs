@@ -147,6 +147,16 @@ namespace MonsterSoupSrdImportTest
                     ***Sense Magic.*** The chuul senses magic within 120 feet of it at will. This trait otherwise works like the *detect magic* spell but isn’t itself magical.",
                 new[] { "Amphibious", "Sense Magic" }
             );
+
+            // Cloaker
+            var cloaker = new Cloaker();
+            yield return TestMonster(
+                cloaker, @"
+                    ***Damage Transfer -Cloaker-.*** While attached to a creature, the cloaker takes only half the damage dealt to it (rounded down), and that creature takes the other half.
+                    ***False Appearance.*** While the cloaker remains motionless without its underside exposed, it is indistinguishable from a dark leather cloak.
+                    ***Light Sensitivity.*** While in bright light, the cloaker has disadvantage on attack rolls and Wisdom (Perception) checks that rely on sight.",
+                new[] { "Damage Transfer -Cloaker-", "False Appearance", "Light Sensitivity" }
+            );
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MonsterSoupSrdImport
         private readonly IArgExtractor argExtractor;
 
         private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=$|\*{3})");
-        private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*)");
+        private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*{{3}})");
 
         public TraitMDParser(IArgExtractor argExtractor)
         {
@@ -174,9 +174,53 @@ namespace MonsterSoupSrdImport
                 new Trait
                 {
                     Name = "Sense Magic",
-                    Template = 
+                    Template =
                     "{ShortName} senses magic within {distance:Number} feet of it at will. This trait otherwise works like the " +
                     "*detect magic* spell but isn’t itself magical."
+                }
+            },
+
+            // from Cloaker
+            {
+                "Damage Transfer -Cloaker-",
+                new Trait
+                {
+                    Name = "Damage Transfer -Cloaker-",
+                    Template =
+                    "While attached to a creature, {shortName} takes only half the damage dealt to it " +
+                    "(rounded down), and that creature takes the other half."
+                }
+            },
+            {
+                "False Appearance",
+                new Trait
+                {
+                    Name = "False Appearance",
+                    Template =
+                    "While {shortName} remains motionless{more:YesNo}[more=Yes {moreRequirements:Text}], " +
+                    "it is indistinguishable from {description:Text}."
+                }
+            },
+            {
+                "Light Sensitivity",
+                new Trait
+                {
+                    Name = "Light Sensitivity",
+                    Template =
+                    "While in bright light, {shortName} has disadvantage on attack rolls " +
+                    "and Wisdom (Perception) checks that rely on sight."
+                }
+            },
+
+            // from Rug of Smothering
+            {
+                "Damage Transfer (Rug of Smothering)",
+                new Trait
+                {
+                    Name = "Damage Transfer (Rug of Smothering)",
+                    Template =
+                    "While it is grappling a creature, {shortName} takes only half the damage dealt to it, " +
+                    "and the creature grappled by {shortName} takes the other half."
                 }
             },
         };

@@ -69,6 +69,11 @@ namespace MonsterSoupSrdImport
         private bool TryStripConditionalFromTemplate(Match conditionalMatches, string monsterTraitString, out string newTemplate)
         {
             var template = conditionalMatches.Groups[1].Value + " " + conditionalMatches.Groups[7].Value;
+            if (!string.IsNullOrWhiteSpace(conditionalMatches.Groups[8].Value))
+            {
+                var str = conditionalMatches.Groups[8].Value;
+                template += StartsWithPunctuation.Match(str).Success ? str : " " + str;
+            }
 
             var captureString = GetCaptureString(template);
 
@@ -86,8 +91,9 @@ namespace MonsterSoupSrdImport
             }
         }
         
-        private static readonly Regex TemplateHasConditionalRegex = new Regex(@"(.*)\{(([a-zA-Z]+?):YesNo:?(.*)?)\}\[([a-zA-Z]+)=(\S+) (.*)\]");
+        private static readonly Regex TemplateHasConditionalRegex = new Regex(@"(.*)\{(([a-zA-Z]+?):YesNo:?(.*)?)\}\[([a-zA-Z]+)=(\S+) (.*)\](.*)");
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
+        private static readonly Regex StartsWithPunctuation = new Regex(@"^[^\s]");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
         {
@@ -127,6 +133,7 @@ namespace MonsterSoupSrdImport
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
+            { "Text", ArgParser.ParseTextArgValue },
         };
 
         public Dictionary<string, Arg> TransformComplexMonsterTraits(Dictionary<string, string> argsLookup)
