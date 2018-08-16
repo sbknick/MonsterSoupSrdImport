@@ -47,6 +47,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Chuul : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Amphibious", new Chuul_Amphibious() },
+            { "Sense Magic", new Chuul_SenseMagic() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -311,4 +320,38 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Minotaur
+
+    #region Chuul
+
+    public sealed class Chuul_Amphibious : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Amphibious"].Template;
+
+        public override string MonsterTraitString =>
+            "The chuul can breathe air and water.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The chuul" } },
+        };
+    }
+
+    public sealed class Chuul_SenseMagic : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Sense Magic"].Template;
+
+        public override string MonsterTraitString =>
+            "The chuul senses magic within 120 feet of it at will. This trait otherwise works like the " +
+            "*detect magic* spell but isn’t itself magical.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The chuul" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 120 } },
+        };
+    }
+
+    #endregion
 }

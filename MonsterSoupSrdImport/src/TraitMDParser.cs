@@ -9,7 +9,7 @@ namespace MonsterSoupSrdImport
     {
         private readonly IArgExtractor argExtractor;
 
-        private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=\*|$)");
+        private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=$|\*{3})");
         private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*)");
 
         public TraitMDParser(IArgExtractor argExtractor)
@@ -165,6 +165,18 @@ namespace MonsterSoupSrdImport
                     "At the start of its turn, {shortName} can gain advantage on all " +
                     "melee weapon attack rolls it makes during that turn, but attack rolls against it " +
                     "have advantage until the start of its next turn."
+                }
+            },
+
+            // from Chuul
+            {
+                "Sense Magic",
+                new Trait
+                {
+                    Name = "Sense Magic",
+                    Template = 
+                    "{ShortName} senses magic within {distance:Number} feet of it at will. This trait otherwise works like the " +
+                    "*detect magic* spell but isn’t itself magical."
                 }
             },
         };

@@ -316,30 +316,21 @@ namespace MonsterSoupSrdImportTest
 
         public static IEnumerable<object[]> ComplexArgs_FromTemplates_TestCases()
         {
-            // Aboleth, Mucous Cloud
-            var aboleth = new Aboleth();
-            var mucousCloud = aboleth.Traits["Mucous Cloud"];
-            yield return new object[] { mucousCloud.TraitTemplate, mucousCloud.MonsterTraitString, mucousCloud.ExpectedArgsOutput };
+            object[] TestTraitFromMonster<T>(string traitName)
+                where T : MonsterTestData, new()
+            {
+                var monster = new T();
+                var trait = monster.Traits[traitName];
 
-            // Bugbear, Surprise Attack
-            var bugbear = new Bugbear();
-            var surpriseAttack = bugbear.Traits["Surprise Attack"];
-            yield return new object[] { surpriseAttack.TraitTemplate, surpriseAttack.MonsterTraitString, surpriseAttack.ExpectedArgsOutput };
+                return new object[] { trait.TraitTemplate, trait.MonsterTraitString, trait.ExpectedArgsOutput };
+            }
 
-            // Bulette, Standing Leap
-            var bulette = new Bulette();
-            var standingLeap = bulette.Traits["Standing Leap"];
-            yield return new object[] { standingLeap.TraitTemplate, standingLeap.MonsterTraitString, standingLeap.ExpectedArgsOutput };
-
-            // Centaur, Charge (simple)
-            var centaur = new Centaur();
-            var charge1 = centaur.Traits["Charge"];
-            yield return new object[] { charge1.TraitTemplate, charge1.MonsterTraitString, charge1.ExpectedArgsOutput };
-
-            // Minotaur, Charge (complex)
-            var minotaur = new Minotaur();
-            var charge2 = minotaur.Traits["Charge"];
-            yield return new object[] { charge2.TraitTemplate, charge2.MonsterTraitString, charge2.ExpectedArgsOutput };
+            yield return TestTraitFromMonster<Aboleth>("Mucous Cloud");
+            yield return TestTraitFromMonster<Bugbear>("Surprise Attack");
+            yield return TestTraitFromMonster<Bulette>("Standing Leap");
+            yield return TestTraitFromMonster<Centaur>("Charge"); // Simple Charge
+            yield return TestTraitFromMonster<Minotaur>("Charge"); // Complex Charge
+            yield return TestTraitFromMonster<Chuul>("Sense Magic");
         }
     }
 }

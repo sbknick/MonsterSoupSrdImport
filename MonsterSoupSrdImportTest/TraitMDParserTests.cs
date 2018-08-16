@@ -139,6 +139,14 @@ namespace MonsterSoupSrdImportTest
                     ***Reckless.*** At the start of its turn, the minotaur can gain advantage on all melee weapon attack rolls it makes during that turn, but attack rolls against it have advantage until the start of its next turn.",
                 new[] { "Charge", "Labyrinthine Recall", "Reckless" }
             );
+
+            // Chuul
+            yield return TestMonster(
+                new Chuul(), @"
+                    ***Amphibious.*** The chuul can breathe air and water.
+                    ***Sense Magic.*** The chuul senses magic within 120 feet of it at will. This trait otherwise works like the *detect magic* spell but isn’t itself magical.",
+                new[] { "Amphibious", "Sense Magic" }
+            );
         }
     }
 }
