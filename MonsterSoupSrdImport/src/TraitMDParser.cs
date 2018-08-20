@@ -234,6 +234,27 @@ namespace MonsterSoupSrdImport
                     "and the creature grappled by {shortName} takes the other half."
                 }
             },
+
+            // from Couatl
+            {
+                "Magic Weapons",
+                new Trait
+                {
+                    Name = "Magic Weapons",
+                    Template =
+                    "{ShortName}’s weapon attacks are magical."
+                }
+            },
+            {
+                "Shielded Mind",
+                new Trait
+                {
+                    Name = "Shielded Mind",
+                    Template =
+                    "{ShortName} is immune to scrying and to any effect that would sense its emotions, " +
+                    "read its thoughts, or detect its location."
+                }
+            },
         };
     }
 }

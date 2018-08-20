@@ -67,6 +67,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Couatl : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Magic Weapons", new Couatl_MagicWeapons() },
+            { "Shielded Mind", new Couatl_ShieldedMind() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -479,4 +488,37 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Rug of Smothering
+
+    #region Couatl
+
+    public sealed class Couatl_MagicWeapons : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Magic Weapons"].Template;
+
+        public override string MonsterTraitString =>
+            "The couatl’s weapon attacks are magical.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The couatl" } },
+        };
+    }
+
+    public sealed class Couatl_ShieldedMind : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Shielded Mind"].Template;
+
+        public override string MonsterTraitString =>
+            "The couatl is immune to scrying and to any effect that would sense its emotions, " +
+            "read its thoughts, or detect its location.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The couatl" } },
+        };
+    }
+
+    #endregion Couatl
 }

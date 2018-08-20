@@ -165,6 +165,14 @@ namespace MonsterSoupSrdImportTest
                     ***False Appearance.*** While the rug remains motionless, it is indistinguishable from a normal rug.",
                 new[] { "Antimagic Susceptibility", "Damage Transfer - Rug of Smothering", "False Appearance" }
             );
+
+            // Couatl
+            yield return TestMonster(
+                new Couatl(), @"
+                    ***Magic Weapons.*** The couatl’s weapon attacks are magical.
+                    ***Shielded Mind.*** The couatl is immune to scrying and to any effect that would sense its emotions, read its thoughts, or detect its location.",
+                new[] { "Magic Weapons", "Shielded Mind" }
+            );
         }
     }
 }

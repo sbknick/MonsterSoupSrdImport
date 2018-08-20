@@ -337,6 +337,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<RugOfSmothering>("Antimagic Susceptibility");
             yield return TestTraitFromMonster<RugOfSmothering>("Damage Transfer - Rug of Smothering");
             yield return TestTraitFromMonster<RugOfSmothering>("False Appearance");
+            yield return TestTraitFromMonster<Couatl>("Magic Weapons");
+            yield return TestTraitFromMonster<Couatl>("Shielded Mind");
         }
     }
 }
