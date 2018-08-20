@@ -149,13 +149,21 @@ namespace MonsterSoupSrdImportTest
             );
 
             // Cloaker
-            var cloaker = new Cloaker();
             yield return TestMonster(
-                cloaker, @"
-                    ***Damage Transfer -Cloaker-.*** While attached to a creature, the cloaker takes only half the damage dealt to it (rounded down), and that creature takes the other half.
+                new Cloaker(), @"
+                    ***Damage Transfer - Cloaker.*** While attached to a creature, the cloaker takes only half the damage dealt to it (rounded down), and that creature takes the other half.
                     ***False Appearance.*** While the cloaker remains motionless without its underside exposed, it is indistinguishable from a dark leather cloak.
                     ***Light Sensitivity.*** While in bright light, the cloaker has disadvantage on attack rolls and Wisdom (Perception) checks that rely on sight.",
-                new[] { "Damage Transfer -Cloaker-", "False Appearance", "Light Sensitivity" }
+                new[] { "Damage Transfer - Cloaker", "False Appearance", "Light Sensitivity" }
+            );
+
+            // Rug of Smothering
+            yield return TestMonster(
+                new RugOfSmothering(), @"
+                    ***Antimagic Susceptibility.*** The rug is incapacitated while in the area of an *antimagic field.* If targeted by *dispel magic*, the rug must succeed on a Constitution saving throw against the caster’s spell save DC or fall unconscious for 1 minute.
+                    ***Damage Transfer - Rug of Smothering.*** While it is grappling a creature, the rug takes only half the damage dealt to it, and the creature grappled by the rug takes the other half.
+                    ***False Appearance.*** While the rug remains motionless, it is indistinguishable from a normal rug.",
+                new[] { "Antimagic Susceptibility", "Damage Transfer - Rug of Smothering", "False Appearance" }
             );
         }
     }

@@ -331,9 +331,12 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Centaur>("Charge"); // Simple Charge
             yield return TestTraitFromMonster<Minotaur>("Charge"); // Complex Charge
             yield return TestTraitFromMonster<Chuul>("Sense Magic");
-            yield return TestTraitFromMonster<Cloaker>("Damage Transfer -Cloaker-");
+            yield return TestTraitFromMonster<Cloaker>("Damage Transfer - Cloaker");
             yield return TestTraitFromMonster<Cloaker>("False Appearance");
             yield return TestTraitFromMonster<Cloaker>("Light Sensitivity");
+            yield return TestTraitFromMonster<RugOfSmothering>("Antimagic Susceptibility");
+            yield return TestTraitFromMonster<RugOfSmothering>("Damage Transfer - Rug of Smothering");
+            yield return TestTraitFromMonster<RugOfSmothering>("False Appearance");
         }
     }
 }

@@ -61,7 +61,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Damage Transfer -Cloaker-", new Cloaker_DamageTransfer() },
+            { "Damage Transfer - Cloaker", new Cloaker_DamageTransfer() },
             { "False Appearance", new Cloaker_FalseAppearance() },
             { "Light Sensitivity", new Cloaker_LightSensitivity() },
         };
@@ -74,6 +74,16 @@ namespace MonsterSoupSrdImportTest
             { "Charge", new Minotaur_Charge() },
             { "Labyrinthine Recall", new Minotaur_LabyrinthineRecall() },
             { "Reckless", new Minotaur_Reckless() },
+        };
+    }
+
+    public sealed class RugOfSmothering : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Antimagic Susceptibility", new RugOfSmothering_AntimagicSusceptibility() },
+            { "Damage Transfer - Rug of Smothering", new RugOfSmothering_DamageTransfer() },
+            { "False Appearance", new RugOfSmothering_FalseAppearance() },
         };
     }
 
@@ -371,7 +381,7 @@ namespace MonsterSoupSrdImportTest
     public sealed class Cloaker_DamageTransfer : TraitTestData
     {
         public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Damage Transfer -Cloaker-"].Template;
+            TraitMDParser.StandardTraits["Damage Transfer - Cloaker"].Template;
 
         public override string MonsterTraitString =>
             "While attached to a creature, the cloaker takes only half the damage dealt to it " +
@@ -423,7 +433,7 @@ namespace MonsterSoupSrdImportTest
     public sealed class RugOfSmothering_DamageTransfer : TraitTestData
     {
         public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Damage Transfer (Rug of Smothering)"].Template;
+            TraitMDParser.StandardTraits["Damage Transfer - Rug of Smothering"].Template;
 
         public override string MonsterTraitString =>
             "While it is grappling a creature, the rug takes only half the damage dealt to it, " +
@@ -432,6 +442,39 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rug" } },
+        };
+    }
+
+    public sealed class RugOfSmothering_AntimagicSusceptibility : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Antimagic Susceptibility"].Template;
+
+        public override string MonsterTraitString =>
+            "The rug is incapacitated while in the area of an *antimagic field.* If targeted by " +
+            "*dispel magic*, the rug must succeed on a Constitution saving throw against the " +
+            "caster’s spell save DC or fall unconscious for 1 minute.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The rug" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rug" } },
+        };
+    }
+
+    public sealed class RugOfSmothering_FalseAppearance : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["False Appearance"].Template;
+
+        public override string MonsterTraitString =>
+            "While the rug remains motionless, it is indistinguishable from a normal rug.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rug" } },
+            { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "No" } },
+            { "description:Text", new Arg { key = "description", argType = "Text", value = "a normal rug" } },
         };
     }
 

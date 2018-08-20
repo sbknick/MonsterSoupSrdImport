@@ -68,16 +68,36 @@ namespace MonsterSoupSrdImport
 
         private bool TryStripConditionalFromTemplate(Match conditionalMatches, string monsterTraitString, out string newTemplate)
         {
-            var template = conditionalMatches.Groups[1].Value + " " + conditionalMatches.Groups[7].Value;
-            if (!string.IsNullOrWhiteSpace(conditionalMatches.Groups[8].Value))
+            string preConditionalText = conditionalMatches.Groups[1].Value;
+            string postConditionalText = conditionalMatches.Groups[8].Value;
+            string conditionalText = conditionalMatches.Groups[7].Value;
+
+            var withSpace = true;
+            Match usesCondition = null;
+            string template = null;
+            do
             {
-                var str = conditionalMatches.Groups[8].Value;
-                template += StartsWithPunctuation.Match(str).Success ? str : " " + str;
+                template = withSpace
+                    ? preConditionalText + " " + conditionalText
+                    : preConditionalText + conditionalText;
+
+                if (!string.IsNullOrWhiteSpace(postConditionalText))
+                {
+                    template += StartsWithPunctuation.Match(postConditionalText).Success
+                        ? postConditionalText
+                        : " " + postConditionalText;
+                }
+
+                var captureString = GetCaptureString(template);
+                usesCondition = new Regex(captureString).Match(monsterTraitString);
+                
+                if (!withSpace || usesCondition.Success)
+                {
+                    break;
+                }
+                withSpace = false;
             }
-
-            var captureString = GetCaptureString(template);
-
-            var usesCondition = new Regex(captureString).Match(monsterTraitString);
+            while (true);
 
             if (usesCondition.Success)
             {
@@ -86,7 +106,15 @@ namespace MonsterSoupSrdImport
             }
             else
             {
-                newTemplate = conditionalMatches.Groups[1].Value;
+                newTemplate = preConditionalText;
+                
+                if (!string.IsNullOrWhiteSpace(postConditionalText))
+                {
+                    newTemplate += StartsWithPunctuation.Match(postConditionalText).Success
+                        ? postConditionalText
+                        : " " + postConditionalText;
+                }
+
                 return false;
             }
         }
