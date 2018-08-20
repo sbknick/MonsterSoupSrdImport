@@ -339,6 +339,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<RugOfSmothering>("False Appearance");
             yield return TestTraitFromMonster<Couatl>("Magic Weapons");
             yield return TestTraitFromMonster<Couatl>("Shielded Mind");
+            yield return TestTraitFromMonster<Darkmantle>("Echolocation");
+            yield return TestTraitFromMonster<Darkmantle>("False Appearance");
         }
     }
 }

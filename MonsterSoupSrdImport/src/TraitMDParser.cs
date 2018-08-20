@@ -255,6 +255,17 @@ namespace MonsterSoupSrdImport
                     "read its thoughts, or detect its location."
                 }
             },
+
+            // from Darkmantle
+            {
+                "Echolocation",
+                new Trait
+                {
+                    Name = "Echolocation",
+                    Template =
+                    "{ShortName} can’t use its blindsight while deafened."
+                }
+            },
         };
     }
 }

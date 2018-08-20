@@ -173,6 +173,14 @@ namespace MonsterSoupSrdImportTest
                     ***Shielded Mind.*** The couatl is immune to scrying and to any effect that would sense its emotions, read its thoughts, or detect its location.",
                 new[] { "Magic Weapons", "Shielded Mind" }
             );
+
+            // Darkmantle
+            yield return TestMonster(
+                new Darkmantle(), @"
+                    ***Echolocation.*** The darkmantle can’t use its blindsight while deafened.
+                    ***False Appearance.*** While the darkmantle remains motionless, it is indistinguishable from a cave formation such as a stalactite or stalagmite.",
+                new[] { "Echolocation", "False Appearance" }
+            );
         }
     }
 }

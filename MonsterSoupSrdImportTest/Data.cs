@@ -76,6 +76,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Darkmantle : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Echolocation", new Darkmantle_Echolocation() },
+            { "False Appearance", new Darkmantle_FalseAppearance() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -521,4 +530,44 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Couatl
+
+    #region Darkmantle
+
+    public sealed class Darkmantle_Echolocation : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Echolocation"].Template;
+
+        public override string MonsterTraitString =>
+            "The darkmantle can’t use its blindsight while deafened.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The darkmantle" } },
+        };
+    }
+
+    public sealed class Darkmantle_FalseAppearance : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["False Appearance"].Template;
+
+        public override string MonsterTraitString =>
+            "While the darkmantle remains motionless, it is indistinguishable from a cave formation " +
+            "such as a stalactite or stalagmite.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the darkmantle" } },
+            { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "No" } },
+            { "description:Text", new Arg
+                {
+                    key = "description",
+                    argType = "Text",
+                    value = "a cave formation such as a stalactite or stalagmite"
+                } },
+        };
+    }
+
+    #endregion Darkmantle
 }
