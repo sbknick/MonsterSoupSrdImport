@@ -266,6 +266,47 @@ namespace MonsterSoupSrdImport
                     "{ShortName} can’t use its blindsight while deafened."
                 }
             },
+
+            // from Drider
+            {
+                "Fey Ancestry",
+                new Trait
+                {
+                    Name = "Fey Ancestry",
+                    Template =
+                    "{ShortName} has advantage on saving throws against being charmed, and " +
+                    "magic can’t put {shortName} to sleep."
+                }
+            },
+            {
+                "Spider Climb",
+                new Trait
+                {
+                    Name = "Spider Climb",
+                    Template =
+                    "{ShortName} can climb difficult surfaces, including upside down on ceilings, " +
+                    "without needing to make an ability check."
+                }
+            },
+            {
+                "Sunlight Sensitivity",
+                new Trait
+                {
+                    Name = "Sunlight Sensitivity",
+                    Template =
+                    "While in sunlight, {shortName} has disadvantage on attack rolls, as well as " +
+                    "on Wisdom (Perception) checks that rely on sight."
+                }
+            },
+            {
+                "Web Walker",
+                new Trait
+                {
+                    Name = "Web Walker",
+                    Template =
+                    "{ShortName} ignores movement restrictions caused by webbing."
+                }
+            },
         };
     }
 }

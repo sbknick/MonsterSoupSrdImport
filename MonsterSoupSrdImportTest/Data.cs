@@ -85,6 +85,17 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Drider : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Fey Ancestry", new Drider_FeyAncestry() },
+            { "Spider Climb", new Drider_SpiderClimb() },
+            { "Sunlight Sensitivity", new Drider_SunlightSensitivity() },
+            { "Web Walker", new Drider_WebWalker() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -570,4 +581,68 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Darkmantle
+
+    #region Drider
+
+    public sealed class Drider_FeyAncestry : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Fey Ancestry"].Template;
+
+        public override string MonsterTraitString =>
+            "The drider has advantage on saving throws against being charmed, and " +
+            "magic can’t put the drider to sleep.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The drider" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the drider" } },
+        };
+    }
+
+    public sealed class Drider_SpiderClimb : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Spider Climb"].Template;
+
+        public override string MonsterTraitString =>
+            "The drider can climb difficult surfaces, including upside down on ceilings, " +
+            "without needing to make an ability check.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The drider" } },
+        };
+    }
+
+    public sealed class Drider_SunlightSensitivity : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Sunlight Sensitivity"].Template;
+
+        public override string MonsterTraitString =>
+            "While in sunlight, the drider has disadvantage on attack rolls, " +
+            "as well as on Wisdom (Perception) checks that rely on sight.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the drider" } },
+        };
+    }
+
+    public sealed class Drider_WebWalker : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Web Walker"].Template;
+
+        public override string MonsterTraitString =>
+            "The drider ignores movement restrictions caused by webbing.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The drider" } },
+        };
+    }
+
+    #endregion Drider
 }

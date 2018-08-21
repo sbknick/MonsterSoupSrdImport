@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using Moq;
 using System.Collections.Generic;
@@ -180,6 +180,16 @@ namespace MonsterSoupSrdImportTest
                     ***Echolocation.*** The darkmantle can’t use its blindsight while deafened.
                     ***False Appearance.*** While the darkmantle remains motionless, it is indistinguishable from a cave formation such as a stalactite or stalagmite.",
                 new[] { "Echolocation", "False Appearance" }
+            );
+
+            // Drider
+            yield return TestMonster(
+                new Drider(), @"
+                    ***Fey Ancestry.*** The drider has advantage on saving throws against being charmed, and magic can’t put the drider to sleep.
+                    ***Spider Climb.*** The drider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
+                    ***Sunlight Sensitivity.*** While in sunlight, the drider has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight.
+                    ***Web Walker.*** The drider ignores movement restrictions caused by webbing.",
+                new[] { "Fey Ancestry", "Spider Climb", "Sunlight Sensitivity", "Web Walker" }
             );
         }
     }

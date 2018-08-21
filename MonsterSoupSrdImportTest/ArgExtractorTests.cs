@@ -341,6 +341,11 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Couatl>("Shielded Mind");
             yield return TestTraitFromMonster<Darkmantle>("Echolocation");
             yield return TestTraitFromMonster<Darkmantle>("False Appearance");
+            yield return TestTraitFromMonster<Drider>("Fey Ancestry");
+            yield return TestTraitFromMonster<Drider>("Spider Climb");
+            yield return TestTraitFromMonster<Drider>("Sunlight Sensitivity");
+            yield return TestTraitFromMonster<Drider>("Web Walker");
+
         }
     }
 }
