@@ -307,6 +307,18 @@ namespace MonsterSoupSrdImport
                     "{ShortName} ignores movement restrictions caused by webbing."
                 }
             },
+
+            // from Ettercap
+            {
+                "Web Sense",
+                new Trait
+                {
+                    Name = "Web Sense",
+                    Template =
+                    "While in contact with a web, {shortName} knows the exact location of " +
+                    "any other creature in contact with the same web."
+                }
+            },
         };
     }
 }

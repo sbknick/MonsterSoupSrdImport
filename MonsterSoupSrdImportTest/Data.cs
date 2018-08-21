@@ -96,6 +96,16 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Ettercap : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Spider Climb", new Ettercap_SpiderClimb() },
+            { "Web Sense", new Ettercap_WebSense() },
+            { "Web Walker", new Ettercap_WebWalker() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -645,4 +655,52 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Drider
+
+    #region Ettercap
+
+    public sealed class Ettercap_SpiderClimb : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Spider Climb"].Template;
+
+        public override string MonsterTraitString =>
+            "The ettercap can climb difficult surfaces, including upside down on ceilings, " +
+            "without needing to make an ability check.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ettercap" } },
+        };
+    }
+
+    public sealed class Ettercap_WebSense : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Web Sense"].Template;
+
+        public override string MonsterTraitString =>
+            "While in contact with a web, the ettercap knows the exact location " +
+            "of any other creature in contact with the same web.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the ettercap" } },
+        };
+    }
+
+    public sealed class Ettercap_WebWalker : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Web Walker"].Template;
+
+        public override string MonsterTraitString =>
+            "The ettercap ignores movement restrictions caused by webbing.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ettercap" } },
+        };
+    }
+
+    #endregion Ettercap
 }

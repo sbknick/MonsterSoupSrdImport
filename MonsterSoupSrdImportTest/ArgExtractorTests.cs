@@ -345,7 +345,9 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Drider>("Spider Climb");
             yield return TestTraitFromMonster<Drider>("Sunlight Sensitivity");
             yield return TestTraitFromMonster<Drider>("Web Walker");
-
+            yield return TestTraitFromMonster<Ettercap>("Spider Climb");
+            yield return TestTraitFromMonster<Ettercap>("Web Sense");
+            yield return TestTraitFromMonster<Ettercap>("Web Walker");
         }
     }
 }

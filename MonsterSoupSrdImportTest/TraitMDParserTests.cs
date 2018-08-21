@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using Moq;
 using System.Collections.Generic;
@@ -190,6 +190,15 @@ namespace MonsterSoupSrdImportTest
                     ***Sunlight Sensitivity.*** While in sunlight, the drider has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight.
                     ***Web Walker.*** The drider ignores movement restrictions caused by webbing.",
                 new[] { "Fey Ancestry", "Spider Climb", "Sunlight Sensitivity", "Web Walker" }
+            );
+
+            // Ettercap
+            yield return TestMonster(
+                new Ettercap(), @"
+                    ***Spider Climb.*** The ettercap can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
+                    ***Web Sense.*** While in contact with a web, the ettercap knows the exact location of any other creature in contact with the same web.
+                    ***Web Walker.*** The ettercap ignores movement restrictions caused by webbing.",
+                new[] { "Spider Climb", "Web Sense", "Web Walker" }
             );
         }
     }
