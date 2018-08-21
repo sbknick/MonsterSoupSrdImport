@@ -106,6 +106,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Ettin : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Two Heads", new Ettin_TwoHeads() },
+            { "Wakeful", new Ettin_Wakeful() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -703,4 +712,37 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Ettercap
+
+    #region Ettin
+
+    public sealed class Ettin_TwoHeads : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Two Heads"].Template;
+
+        public override string MonsterTraitString =>
+            "The ettin has advantage on Wisdom (Perception) checks and on saving throws against " +
+            "being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ettin" } },
+        };
+    }
+
+    public sealed class Ettin_Wakeful : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Wakeful"].Template;
+
+        public override string MonsterTraitString =>
+            "When one of the ettin’s heads is asleep, its other head is awake.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the ettin" } },
+        };
+    }
+
+    #endregion Ettin
 }

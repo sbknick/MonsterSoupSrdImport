@@ -200,6 +200,14 @@ namespace MonsterSoupSrdImportTest
                     ***Web Walker.*** The ettercap ignores movement restrictions caused by webbing.",
                 new[] { "Spider Climb", "Web Sense", "Web Walker" }
             );
+
+            // Ettin
+            yield return TestMonster(
+                new Ettin(), @"
+                    ***Two Heads.*** The ettin has advantage on Wisdom (Perception) checks and on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.
+                    ***Wakeful.*** When one of the ettin’s heads is asleep, its other head is awake.",
+                new[] { "Two Heads", "Wakeful" }
+            );
         }
     }
 }

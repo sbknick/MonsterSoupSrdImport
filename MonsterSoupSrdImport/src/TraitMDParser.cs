@@ -319,6 +319,27 @@ namespace MonsterSoupSrdImport
                     "any other creature in contact with the same web."
                 }
             },
+
+            // from Ettin
+            {
+                "Two Heads",
+                new Trait
+                {
+                    Name = "Two Heads",
+                    Template =
+                    "{ShortName} has advantage on Wisdom (Perception) checks and on saving throws " +
+                    "against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious."
+                }
+            },
+            {
+                "Wakeful",
+                new Trait
+                {
+                    Name = "Wakeful",
+                    Template =
+                    "When one of {shortName}’s heads is asleep, its other head is awake."
+                }
+            },
         };
     }
 }
