@@ -231,6 +231,14 @@ namespace MonsterSoupSrdImportTest
                     ***Rampage.*** When the gnoll reduces a creature to 0 hit points with a melee attack on its turn, the gnoll can take a bonus action to move up to half its speed and make a bite attack.",
                 new[] { "Rampage" }
             );
+
+            // Deep Gnome
+            yield return TestMonster(
+                new DeepGnome(), @"
+                    ***Stone Camouflage.*** The gnome has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.
+                    ***Gnome Cunning.*** The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic.",
+                new[] { "Stone Camouflage", "Gnome Cunning" }
+            );
         }
     }
 }

@@ -355,6 +355,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<GibberingMouther>("Aberrant Ground");
             yield return TestTraitFromMonster<GibberingMouther>("Gibbering");
             yield return TestTraitFromMonster<Gnoll>("Rampage");
+            yield return TestTraitFromMonster<DeepGnome>("Stone Camouflage");
+            yield return TestTraitFromMonster<DeepGnome>("Gnome Cunning");
         }
     }
 }

@@ -403,6 +403,26 @@ namespace MonsterSoupSrdImport
                     "{shortName} can take a bonus action to move up to half its speed and make a {attack:Attack} attack."
                 }
             },
+
+            // from Deep Gnome
+            {
+                "Stone Camouflage",
+                new Trait
+                {
+                    Name = "Stone Camouflage",
+                    Template =
+                    "{ShortName} has advantage on Dexterity (Stealth) checks made to hide in rocky terrain."
+                }
+            },
+            {
+                "Gnome Cunning",
+                new Trait
+                {
+                    Name = "Gnome Cunning",
+                    Template =
+                    "{ShortName} has advantage on Intelligence, Wisdom, and Charisma saving throws against magic."
+                }
+            },
         };
     }
 }

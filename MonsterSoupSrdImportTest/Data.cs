@@ -85,6 +85,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class DeepGnome : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Stone Camouflage", new DeepGnome_StoneCamouflage() },
+            { "Gnome Cunning", new DeepGnome_GnomeCunning() },
+        };
+    }
+
     public sealed class Drider : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -901,4 +910,36 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Gnoll
+
+    #region Deep Gnome
+
+    public sealed class DeepGnome_StoneCamouflage : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Stone Camouflage"].Template;
+
+        public override string MonsterTraitString =>
+            "The gnome has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The gnome" } },
+        };
+    }
+
+    public sealed class DeepGnome_GnomeCunning : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Gnome Cunning"].Template;
+
+        public override string MonsterTraitString =>
+            "The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The gnome" } },
+        };
+    }
+
+    #endregion Deep Gnome
 }
