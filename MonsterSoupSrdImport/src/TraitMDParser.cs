@@ -362,6 +362,35 @@ namespace MonsterSoupSrdImport
                     "It takes {damage:Damage:Typed} if it ends its turn inside an object."
                 }
             },
+
+            // from Gibbering Mouther
+            {
+                "Aberrant Ground",
+                new Trait
+                {
+                    Name = "Aberrant Ground",
+                    Template =
+                    "The ground in a {radius:Number}-foot radius around {shortName} is doughlike difficult terrain. " +
+                    "Each creature that starts its turn in that area must succeed on a {save:SavingThrow} or " +
+                    "have its speed reduced to 0 until the start of its next turn."
+                }
+            },
+            {
+                "Gibbering",
+                new Trait
+                {
+                    Name = "Gibbering",
+                    Template =
+                    "{ShortName} babbles incoherently while it can see any creature and isn’t incapacitated. " +
+                    "Each creature that starts its turn within {distance:Number} feet of {shortName} and " +
+                    "can hear the gibbering must succeed on a {save:SavingThrow}. On a failure, the creature " +
+                    "can’t take reactions until the start of its next turn and rolls a d8 to determine what it does " +
+                    "during its turn. On a 1 to 4, the creature does nothing. On a 5 or 6, the creature takes " +
+                    "no action or bonus action and uses all its movement to move in a randomly determined direction. " +
+                    "On a 7 or 8, the creature makes a melee attack against a randomly determined creature within " +
+                    "its reach or does nothing if it can’t make such an attack."
+                }
+            },
         };
     }
 }
