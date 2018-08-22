@@ -340,6 +340,28 @@ namespace MonsterSoupSrdImport
                     "When one of {shortName}’s heads is asleep, its other head is awake."
                 }
             },
+
+            // from Ghost
+            {
+                "Ethereal Sight",
+                new Trait
+                {
+                    Name = "Ethereal Sight",
+                    Template =
+                    "{ShortName} can see 60 feet into the Ethereal Plane when it is " +
+                    "on the Material Plane, and vice versa."
+                }
+            },
+            {
+                "Incorporeal Movement",
+                new Trait
+                {
+                    Name = "Incorporeal Movement",
+                    Template =
+                    "{ShortName} can move through other creatures and objects as if they were difficult terrain. " +
+                    "It takes {damage:Damage:Typed} if it ends its turn inside an object."
+                }
+            },
         };
     }
 }

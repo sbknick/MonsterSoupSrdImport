@@ -115,6 +115,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Ghost : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Ethereal Sight", new Ghost_EtherealSight() },
+            { "Incorporeal Movement", new Ghost_IncorporealMovement() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -745,4 +754,50 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Ettin
+
+    #region Ghost
+
+    public sealed class Ghost_EtherealSight : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Ethereal Sight"].Template;
+
+        public override string MonsterTraitString =>
+            "The ghost can see 60 feet into the Ethereal Plane when it is " +
+            "on the Material Plane, and vice versa.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ghost" } },
+        };
+    }
+
+    public sealed class Ghost_IncorporealMovement : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Incorporeal Movement"].Template;
+
+        public override string MonsterTraitString =>
+            "The ghost can move through other creatures and objects as if they were difficult terrain. " +
+            "It takes 5 (1d10) force damage if it ends its turn inside an object.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ghost" } },
+            { "damage:Damage:Typed", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    flags = new[] { "Typed" },
+                    value = new TypedDamageArgs
+                    {
+                        diceCount = 1,
+                        dieSize = 10,
+                        damageType = "force",
+                    }
+                } },
+        };
+    }
+
+    #endregion Ghost
 }

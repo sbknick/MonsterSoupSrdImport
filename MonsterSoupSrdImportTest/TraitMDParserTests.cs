@@ -208,6 +208,14 @@ namespace MonsterSoupSrdImportTest
                     ***Wakeful.*** When one of the ettin’s heads is asleep, its other head is awake.",
                 new[] { "Two Heads", "Wakeful" }
             );
+
+            // Ghost
+            yield return TestMonster(
+                new Ghost(), @"
+                    ***Ethereal Sight.*** The ghost can see 60 feet into the Ethereal Plane when it is on the Material Plane, and vice versa.
+                    ***Incorporeal Movement.*** The ghost can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object.",
+                new [] { "Ethereal Sight", "Incorporeal Movement" }
+            );
         }
     }
 }

@@ -350,6 +350,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Ettercap>("Web Walker");
             yield return TestTraitFromMonster<Ettin>("Two Heads");
             yield return TestTraitFromMonster<Ettin>("Wakeful");
+            yield return TestTraitFromMonster<Ghost>("Ethereal Sight");
+            yield return TestTraitFromMonster<Ghost>("Incorporeal Movement");
         }
     }
 }
