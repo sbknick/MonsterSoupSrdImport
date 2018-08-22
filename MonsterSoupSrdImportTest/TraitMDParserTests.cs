@@ -224,6 +224,13 @@ namespace MonsterSoupSrdImportTest
                     ***Gibbering.*** The mouther babbles incoherently while it can see any creature and isn’t incapacitated. Each creature that starts its turn within 20 feet of the mouther and can hear the gibbering must succeed on a DC 10 Wisdom saving throw. On a failure, the creature can’t take reactions until the start of its next turn and rolls a d8 to determine what it does during its turn. On a 1 to 4, the creature does nothing. On a 5 or 6, the creature takes no action or bonus action and uses all its movement to move in a randomly determined direction. On a 7 or 8, the creature makes a melee attack against a randomly determined creature within its reach or does nothing if it can’t make such an attack.",
                 new[] { "Aberrant Ground", "Gibbering" }
             );
+
+            // Gnoll
+            yield return TestMonster(
+                new Gnoll(), @"
+                    ***Rampage.*** When the gnoll reduces a creature to 0 hit points with a melee attack on its turn, the gnoll can take a bonus action to move up to half its speed and make a bite attack.",
+                new[] { "Rampage" }
+            );
         }
     }
 }

@@ -133,6 +133,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Gnoll : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Rampage", new Gnoll_Rampage() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -873,4 +881,24 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Gibbering Mouther
+
+    #region Gnoll
+
+    public sealed class Gnoll_Rampage : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Rampage"].Template;
+
+        public override string MonsterTraitString =>
+            "When the gnoll reduces a creature to 0 hit points with a melee attack on its turn, " +
+            "the gnoll can take a bonus action to move up to half its speed and make a bite attack.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the gnoll" } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "bite" } },
+        };
+    }
+
+    #endregion Gnoll
 }

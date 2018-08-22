@@ -354,6 +354,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Ghost>("Incorporeal Movement");
             yield return TestTraitFromMonster<GibberingMouther>("Aberrant Ground");
             yield return TestTraitFromMonster<GibberingMouther>("Gibbering");
+            yield return TestTraitFromMonster<Gnoll>("Rampage");
         }
     }
 }
