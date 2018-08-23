@@ -360,6 +360,10 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Goblin>("Nimble Escape");
             yield return TestTraitFromMonster<Gorgon>("Trampling Charge");
             yield return TestTraitFromMonster<Triceratops>("Trampling Charge");
+            yield return TestTraitFromMonster<Griffon>("Keen Sight");
+            yield return TestTraitFromMonster<Grimlock>("Blind Senses");
+            yield return TestTraitFromMonster<Grimlock>("Keen Hearing and Smell");
+            yield return TestTraitFromMonster<Grimlock>("Stone Camouflage");
         }
     }
 }

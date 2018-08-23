@@ -448,6 +448,37 @@ namespace MonsterSoupSrdImport
                     "one {extraAttack:Attack} against it as a bonus action."
                 }
             },
+
+            // from Griffon
+            {
+                "Keen Sight",
+                new Trait
+                {
+                    Name = "Keen Sight",
+                    Template =
+                    "{ShortName} has advantage on Wisdom (Perception) checks that rely on sight."
+                }
+            },
+
+            // from Grimlock
+            {
+                "Blind Senses",
+                new Trait
+                {
+                    Name = "Blind Senses",
+                    Template =
+                    "{ShortName} can’t use its blindsight while deafened and unable to smell."
+                }
+            },
+            {
+                "Keen Hearing and Smell",
+                new Trait
+                {
+                    Name = "Keen Hearing and Smell",
+                    Template =
+                    "{ShortName} has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+                }
+            },
         };
     }
 }

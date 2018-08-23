@@ -166,6 +166,24 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Griffon : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Keen Sight", new Griffon_KeenSight() },
+        };
+    }
+
+    public sealed class Grimlock : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Blind Senses", new Grimlock_BlindSenses() },
+            { "Keen Hearing and Smell", new Grimlock_KeenHearingAndSmell() },
+            { "Stone Camouflage", new Grimlock_StoneCamouflage() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1054,4 +1072,68 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Triceratops
+
+    #region Griffon
+
+    public sealed class Griffon_KeenSight : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Keen Sight"].Template;
+
+        public override string MonsterTraitString =>
+            "The griffon has advantage on Wisdom (Perception) checks that rely on sight.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The griffon" } },
+        };
+    }
+
+    #endregion Griffon
+
+    #region Grimlock
+
+    public sealed class Grimlock_BlindSenses : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Blind Senses"].Template;
+
+        public override string MonsterTraitString =>
+            "The grimlock can’t use its blindsight while deafened and unable to smell.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The grimlock" } },
+        };
+    }
+
+    public sealed class Grimlock_KeenHearingAndSmell : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Keen Hearing and Smell"].Template;
+
+        public override string MonsterTraitString =>
+            "The grimlock has advantage on Wisdom (Perception) checks that rely on hearing or smell.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The grimlock" } },
+        };
+    }
+
+    public sealed class Grimlock_StoneCamouflage : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Stone Camouflage"].Template;
+
+        public override string MonsterTraitString =>
+            "The grimlock has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The grimlock" } },
+        };
+    }
+
+    #endregion Grimlock
 }

@@ -260,6 +260,22 @@ namespace MonsterSoupSrdImportTest
                     ***Trampling Charge.*** If the triceratops moves at least 20 feet straight toward a creature and then hits it with a gore attack on the same turn, that target must succeed on a DC 13 Strength saving throw or be knocked prone. If the target is prone, the triceratops can make one stomp attack against it as a bonus action.",
                 new[] { "Trampling Charge" }
             );
+
+            // Griffon
+            yield return TestMonster(
+                new Griffon(), @"
+                    ***Keen Sight.*** The griffon has advantage on Wisdom (Perception) checks that rely on sight.",
+                new[] { "Keen Sight" }
+            );
+
+            // Grimlock
+            yield return TestMonster(
+                new Grimlock(), @"
+                    ***Blind Senses.*** The grimlock can’t use its blindsight while deafened and unable to smell.
+                    ***Keen Hearing and Smell.*** The grimlock has advantage on Wisdom (Perception) checks that rely on hearing or smell.
+                    ***Stone Camouflage.*** The grimlock has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.",
+                new[] { "Blind Senses", "Keen Hearing and Smell", "Stone Camouflage" }
+            );
         }
     }
 }
