@@ -239,6 +239,13 @@ namespace MonsterSoupSrdImportTest
                     ***Gnome Cunning.*** The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic.",
                 new[] { "Stone Camouflage", "Gnome Cunning" }
             );
+
+            // Goblin
+            yield return TestMonster(
+                new Goblin(), @"
+                    ***Nimble Escape.*** The goblin can take the Disengage or Hide action as a bonus action on each of its turns.",
+                new[] { "Nimble Escape" }
+            );
         }
     }
 }

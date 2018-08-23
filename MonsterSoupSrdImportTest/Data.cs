@@ -150,6 +150,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Goblin : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Nimble Escape", new Goblin_NimbleEscape() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -942,4 +950,22 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Deep Gnome
+
+    #region Goblin
+
+    public sealed class Goblin_NimbleEscape : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Nimble Escape"].Template;
+
+        public override string MonsterTraitString =>
+            "The goblin can take the Disengage or Hide action as a bonus action on each of its turns.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The goblin" } },
+        };
+    }
+
+    #endregion
 }

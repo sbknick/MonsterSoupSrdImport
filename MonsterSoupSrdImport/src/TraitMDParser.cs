@@ -423,6 +423,17 @@ namespace MonsterSoupSrdImport
                     "{ShortName} has advantage on Intelligence, Wisdom, and Charisma saving throws against magic."
                 }
             },
+
+            // from Goblin
+            {
+                "Nimble Escape",
+                new Trait
+                {
+                    Name = "Nimble Escape",
+                    Template =
+                    "{ShortName} can take the Disengage or Hide action as a bonus action on each of its turns."
+                }
+            },
         };
     }
 }
