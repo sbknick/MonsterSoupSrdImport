@@ -155,7 +155,7 @@ namespace MonsterSoupSrdImport
 
         private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
         {
-            { "Attack", ArgParser.ParseTextArgValue },
+            { "Attack", ArgParser.ParseAttackArgValues },
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
@@ -207,6 +207,32 @@ namespace MonsterSoupSrdImport
 
         private static class ArgParser
         {
+            #region Attack
+
+            private static readonly Regex AttackWithStringRegex = new Regex(@"attack with its (\S+)");
+            private static readonly Regex AttackStringRegex = new Regex(@"(\S+) attack");
+
+            public static object ParseAttackArgValues(string values, string[] flags)
+            {
+                var withMatch = AttackWithStringRegex.Match(values);
+
+                if (withMatch.Success)
+                    return new AttackRefArgs
+                    {
+                        attack = withMatch.Groups[1].Value,
+                        withIts = true,
+                    };
+
+                var notWithMatch = AttackStringRegex.Match(values);
+
+                return new AttackRefArgs
+                {
+                    attack = notWithMatch.Groups[1].Value,
+                };
+            }
+
+            #endregion
+
             #region Damage
 
             private static readonly Regex DamageStringRegex = new Regex(@"\((\d+)d(\d+)\) ?(\S*?)? damage");

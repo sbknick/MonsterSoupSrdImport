@@ -122,6 +122,12 @@ namespace MonsterSoupSrdImport
         public object value;
     }
 
+    public class AttackRefArgs
+    {
+        public string attack;
+        public bool withIts;
+    }
+
     public class DiceRollArgs
     {
         public int diceCount;
@@ -134,14 +140,14 @@ namespace MonsterSoupSrdImport
         public bool? usePrimaryStatBonus;
     }
 
-    public class TypedDamageArgs : DamageArgs
-    {
-        public string damageType;
-    }
-
     public class SavingThrowArgs
     {
         public int DC;
         public string Attribute;
+    }
+
+    public class TypedDamageArgs : DamageArgs
+    {
+        public string damageType;
     }
 }

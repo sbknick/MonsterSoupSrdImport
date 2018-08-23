@@ -246,6 +246,20 @@ namespace MonsterSoupSrdImportTest
                     ***Nimble Escape.*** The goblin can take the Disengage or Hide action as a bonus action on each of its turns.",
                 new[] { "Nimble Escape" }
             );
+
+            // Gorgon
+            yield return TestMonster(
+                new Gorgon(), @"
+                    ***Trampling Charge.*** If the gorgon moves at least 20 feet straight toward a creature and then hits it with a gore attack on the same turn, that target must succeed on a DC 16 Strength saving throw or be knocked prone. If the target is prone, the gorgon can make one attack with its hooves against it as a bonus action.",
+                new[] { "Trampling Charge" }
+            );
+
+            // Triceratops
+            yield return TestMonster(
+                new Triceratops(), @"
+                    ***Trampling Charge.*** If the triceratops moves at least 20 feet straight toward a creature and then hits it with a gore attack on the same turn, that target must succeed on a DC 13 Strength saving throw or be knocked prone. If the target is prone, the triceratops can make one stomp attack against it as a bonus action.",
+                new[] { "Trampling Charge" }
+            );
         }
     }
 }

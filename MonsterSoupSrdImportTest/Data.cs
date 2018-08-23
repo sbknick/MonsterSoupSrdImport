@@ -158,6 +158,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Gorgon : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Trampling Charge", new Gorgon_TramplingCharge() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -175,6 +183,14 @@ namespace MonsterSoupSrdImportTest
             { "Antimagic Susceptibility", new RugOfSmothering_AntimagicSusceptibility() },
             { "Damage Transfer - Rug of Smothering", new RugOfSmothering_DamageTransfer() },
             { "False Appearance", new RugOfSmothering_FalseAppearance() },
+        };
+    }
+
+    public sealed class Triceratops : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Trampling Charge", new Triceratops_TramplingCharge() },
         };
     }
 
@@ -333,7 +349,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the centaur" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 30 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "pike" } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "pike" } } },
             { "damage:Damage:Typed", new Arg
                 {
                     key = "damage",
@@ -369,7 +385,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the minotaur" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 10 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "gore" } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
             { "damage:Damage:Typed", new Arg
                 {
                     key = "damage",
@@ -913,7 +929,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the gnoll" } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = "bite" } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "bite" } } },
         };
     }
 
@@ -968,4 +984,74 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion
+
+    #region Gorgon
+
+    public sealed class Gorgon_TramplingCharge : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Trampling Charge"].Template;
+
+        public override string MonsterTraitString =>
+            "If the gorgon moves at least 20 feet straight toward a creature and then hits it with " +
+            "a gore attack on the same turn, that target must succeed on a DC 16 Strength saving throw " +
+            "or be knocked prone. If the target is prone, the gorgon can make one attack with its hooves " +
+            "against it as a bonus action.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the gorgon" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 20 } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
+            { "save:SavingThrow", new Arg
+                {
+                    key = "save",
+                    argType = "SavingThrow",
+                    value = new SavingThrowArgs { Attribute = "Strength", DC = 16 }
+                } },
+            { "extraAttack:Attack", new Arg
+            {
+                key = "extraAttack",
+                argType = "Attack",
+                value = new AttackRefArgs { attack = "hooves", withIts = true }
+            } },
+        };
+    }
+
+    #endregion
+
+    #region Triceratops
+
+    public sealed class Triceratops_TramplingCharge : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Trampling Charge"].Template;
+
+        public override string MonsterTraitString =>
+            "If the triceratops moves at least 20 feet straight toward a creature and then hits it with " +
+            "a gore attack on the same turn, that target must succeed on a DC 13 Strength saving throw " +
+            "or be knocked prone. If the target is prone, the triceratops can make one stomp attack " +
+            "against it as a bonus action.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the triceratops" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 20 } },
+            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
+            { "save:SavingThrow", new Arg
+                {
+                    key = "save",
+                    argType = "SavingThrow",
+                    value = new SavingThrowArgs { Attribute = "Strength", DC = 13 }
+                } },
+            { "extraAttack:Attack", new Arg
+                {
+                    key = "extraAttack",
+                    argType = "Attack",
+                    value = new AttackRefArgs { attack = "stomp" }
+                } },
+        };
+    }
+
+    #endregion Triceratops
 }

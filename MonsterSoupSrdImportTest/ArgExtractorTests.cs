@@ -358,6 +358,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<DeepGnome>("Stone Camouflage");
             yield return TestTraitFromMonster<DeepGnome>("Gnome Cunning");
             yield return TestTraitFromMonster<Goblin>("Nimble Escape");
+            yield return TestTraitFromMonster<Gorgon>("Trampling Charge");
+            yield return TestTraitFromMonster<Triceratops>("Trampling Charge");
         }
     }
 }

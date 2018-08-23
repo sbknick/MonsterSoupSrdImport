@@ -142,7 +142,7 @@ namespace MonsterSoupSrdImport
                     Name = "Charge",
                     Template =
                     "If {shortName} moves at least {distance:Number} feet straight toward a target and " +
-                    "then hits it with a {attack:Attack} attack on the same turn, the target takes " +
+                    "then hits it with a {attack:Attack} on the same turn, the target takes " +
                     "an extra {damage:Damage:Typed}.{hasSavingThrow:YesNo}[hasSavingThrow=Yes If the target is a creature, it must succeed on " +
                     "a {save:SavingThrow} or be {affected:MultiOption}.]"
                 }
@@ -400,7 +400,7 @@ namespace MonsterSoupSrdImport
                     Name = "Rampage",
                     Template =
                     "When {shortName} reduces a creature to 0 hit points with a melee attack on its turn, " +
-                    "{shortName} can take a bonus action to move up to half its speed and make a {attack:Attack} attack."
+                    "{shortName} can take a bonus action to move up to half its speed and make a {attack:Attack}."
                 }
             },
 
@@ -432,6 +432,20 @@ namespace MonsterSoupSrdImport
                     Name = "Nimble Escape",
                     Template =
                     "{ShortName} can take the Disengage or Hide action as a bonus action on each of its turns."
+                }
+            },
+
+            // from Gorgon
+            {
+                "Trampling Charge",
+                new Trait
+                {
+                    Name = "Trampling Charge",
+                    Template =
+                    "If {shortName} moves at least {distance:Number} feet straight toward a creature and then " +
+                    "hits it with a {attack:Attack} on the same turn, that target must succeed on a " +
+                    "{save:SavingThrow} or be knocked prone. If the target is prone, {shortName} can make " +
+                    "one {extraAttack:Attack} against it as a bonus action."
                 }
             },
         };
