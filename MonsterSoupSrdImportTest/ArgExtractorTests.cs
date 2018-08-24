@@ -365,6 +365,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Grimlock>("Keen Hearing and Smell");
             yield return TestTraitFromMonster<Grimlock>("Stone Camouflage");
             yield return TestTraitFromMonster<HellHound>("Pack Tactics");
+            yield return TestTraitFromMonster<Hobgoblin>("Martial Advantage");
         }
     }
 }

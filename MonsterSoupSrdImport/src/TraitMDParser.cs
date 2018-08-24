@@ -491,6 +491,19 @@ namespace MonsterSoupSrdImport
                     "{shortName}’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
                 }
             },
+
+            // from Hobgoblin
+            {
+                "Martial Advantage",
+                new Trait
+                {
+                    Name = "Martial Advantage",
+                    Template =
+                    "Once per turn, {shortName} can deal an extra {damage:Damage} to a creature it hits with " +
+                    "a weapon attack if that creature is within 5 feet of an ally of {shortName} that isn’t " +
+                    "incapacitated."
+                }
+            },
         };
     }
 }

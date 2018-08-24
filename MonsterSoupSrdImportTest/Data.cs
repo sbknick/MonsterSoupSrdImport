@@ -203,6 +203,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Hobgoblin : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Martial Advantage", new Hobgoblin_MartialAdvantage() },
+        };
+    }
+
     public sealed class RugOfSmothering : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1179,4 +1187,30 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Hell Hound
+
+    #region Hobgoblin
+
+    public sealed class Hobgoblin_MartialAdvantage : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Martial Advantage"].Template;
+
+        public override string MonsterTraitString =>
+            "Once per turn, the hobgoblin can deal an extra 7 (2d6) damage to a creature " +
+            "it hits with a weapon attack if that creature is within 5 feet of an ally of " +
+            "the hobgoblin that isn’t incapacitated.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hobgoblin" } },
+            { "damage:Damage", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    value = new DamageArgs { diceCount = 2, dieSize = 6 },
+                } },
+        };
+    }
+
+    #endregion Hobgoblin
 }

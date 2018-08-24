@@ -284,6 +284,13 @@ namespace MonsterSoupSrdImportTest
                     ***Pack Tactics.*** The hound has advantage on an attack roll against a creature if at least one of the hound’s allies is within 5 feet of the creature and the ally isn’t incapacitated.",
                 new[] { "Keen Hearing and Smell", "Pack Tactics" }
             );
+
+            // Hobgoblin
+            yield return TestMonster(
+                new Hobgoblin(), @"
+                    ***Martial Advantage.*** Once per turn, the hobgoblin can deal an extra 7 (2d6) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn’t incapacitated.",
+                new[] { "Martial Advantage" }
+            );
         }
     }
 }
