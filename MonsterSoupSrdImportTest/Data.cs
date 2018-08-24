@@ -184,6 +184,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class HellHound : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Keen Hearing and Smell", new HellHound_KeenHearingAndSmell() },
+            { "Pack Tactics", new HellHound_PackTactics() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1136,4 +1145,38 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Grimlock
+
+    #region Hell Hound
+
+    public sealed class HellHound_KeenHearingAndSmell : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Keen Hearing and Smell"].Template;
+
+        public override string MonsterTraitString =>
+            "The hound has advantage on Wisdom (Perception) checks that rely on hearing or smell.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The hound" } },
+        };
+    }
+
+    public sealed class HellHound_PackTactics : TraitTestData
+    {
+        public override string TraitTemplate =>
+            TraitMDParser.StandardTraits["Pack Tactics"].Template;
+
+        public override string MonsterTraitString =>
+            "The hound has advantage on an attack roll against a creature if at least one of " +
+            "the hound’s allies is within 5 feet of the creature and the ally isn’t incapacitated.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The hound" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hound" } },
+        };
+    }
+
+    #endregion Hell Hound
 }

@@ -276,6 +276,14 @@ namespace MonsterSoupSrdImportTest
                     ***Stone Camouflage.*** The grimlock has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.",
                 new[] { "Blind Senses", "Keen Hearing and Smell", "Stone Camouflage" }
             );
+
+            // Hell Hound
+            yield return TestMonster(
+                new HellHound(), @"
+                    ***Keen Hearing and Smell.*** The hound has advantage on Wisdom (Perception) checks that rely on hearing or smell.
+                    ***Pack Tactics.*** The hound has advantage on an attack roll against a creature if at least one of the hound’s allies is within 5 feet of the creature and the ally isn’t incapacitated.",
+                new[] { "Keen Hearing and Smell", "Pack Tactics" }
+            );
         }
     }
 }

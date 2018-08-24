@@ -479,6 +479,18 @@ namespace MonsterSoupSrdImport
                     "{ShortName} has advantage on Wisdom (Perception) checks that rely on hearing or smell."
                 }
             },
+
+            // from Hell Hound
+            {
+                "Pack Tactics",
+                new Trait
+                {
+                    Name = "Pack Tactics",
+                    Template =
+                    "{ShortName} has advantage on an attack roll against a creature if at least one of " +
+                    "{shortName}’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
+                }
+            },
         };
     }
 }
