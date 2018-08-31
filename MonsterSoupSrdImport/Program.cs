@@ -49,19 +49,18 @@ namespace MonsterSoupSrdImport
 
             var whatsLeftOut = whatsLeft.SelectMany(wl => wl.WhatsLeft).Select(split);
 
-            Tuple<string, string> split(string input)
+            (string traitName, string traitDesc) split(string input)
             {
                 var match = new Regex(@"^\*{3}([\s\S]+)\.\*{3} ([\s\S]+)$").Match(input);
-                return new Tuple<string, string>(match.Groups[1].Value, match.Groups[2].Value);
+                return (match.Groups[1].Value, match.Groups[2].Value);
             }
-
             var grouped = from wlo in whatsLeftOut
-                          group wlo by wlo.Item1 into wlog
+                          group wlo by wlo.traitName into wlog
                           where !string.IsNullOrWhiteSpace(wlog.Key)
                           select new
                           {
                               wlog.Key,
-                              Descs = wlog.Select(wl => wl.Item2).ToArray()
+                              Descs = wlog.Select(wl => wl.traitDesc).ToArray()
                           };
             
             // Write Output for What's Left! //

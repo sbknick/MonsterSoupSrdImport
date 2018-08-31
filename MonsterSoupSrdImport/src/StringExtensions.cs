@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
-    public static class PopTokenExtension
+    public static class StringExtensions
     {
+        private static readonly Regex NewlineRegex = new Regex(@"([\r\n]+)|(\\r\\n)|(\\n)|(\\r)");
+        
+        public static string NormalizeNewlines(this string input)
+            => NewlineRegex.Replace(input, "\n");
+
+        public static string Escape(this string input, params char[] toEscape)
+        {
+            foreach (var c in toEscape.Select(c => Convert.ToString(c)))
+                input = input.Replace(c, Regex.Escape(c));
+
+            return input;
+        }
+
         public static string PopToken(this string input, PopType popType, out string output)
         {
             var chars = new[] {

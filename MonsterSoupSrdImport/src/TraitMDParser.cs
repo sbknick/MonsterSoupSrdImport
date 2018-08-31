@@ -143,7 +143,7 @@ namespace MonsterSoupSrdImport
                     Template =
                     "If {shortName} moves at least {distance:Number} feet straight toward a target and " +
                     "then hits it with a {attack:Attack} on the same turn, the target takes " +
-                    "an extra {damage:Damage:Typed}.{hasSavingThrow:YesNo}[hasSavingThrow=Yes If the target is a creature, it must succeed on " +
+                    "an extra {damage:Damage:Typed}.{hasSavingThrow:YesNo}[hasSavingThrow=Yes  If the target is a creature, it must succeed on " +
                     "a {save:SavingThrow} or be {affected:MultiOption}.]"
                 }
             },
@@ -502,6 +502,93 @@ namespace MonsterSoupSrdImport
                     "Once per turn, {shortName} can deal an extra {damage:Damage} to a creature it hits with " +
                     "a weapon attack if that creature is within 5 feet of an ally of {shortName} that isn’t " +
                     "incapacitated."
+                }
+            },
+
+            // THE SHAPECHANGER SECTION //
+
+            {
+                "Shapechanger - Mimic",
+                new Trait
+                {
+                    Name = "Shapechanger - Mimic",
+                    Template =
+                    "{ShortName} can use its action to polymorph into an object or back into its true, amorphous form. " +
+                    "Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t " +
+                    "transformed. It reverts to its true form if it dies."
+                }
+            },
+            {
+                "Shapechanger - Vampire",
+                new Trait
+                {
+                    Name = "Shapechanger - Vampire",
+                    Template =
+                    "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
+                    "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
+
+                    "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
+                    "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
+                    "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
+                    "to its true form if it dies.\r\n" +
+
+                    "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
+                    "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
+                    "and stop there. In addition, if air can pass through a space, the mist can do so without " +
+                    "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
+                    "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
+                    "takes from sunlight."
+                }
+            },
+
+            // from Vampire
+            {
+                "Misty Escape - Vampire",
+                new Trait
+                {
+                    Name = "Misty Escape - Vampire",
+                    Template =
+                    "When it drops to 0 hit points outside its resting place, {shortName} transforms into a " +
+                    "cloud of mist (as in the Shapechanger trait) instead of falling unconscious, provided that " +
+                    "it isn’t in sunlight or running water. If it can’t transform, it is destroyed.\r\n" +
+
+                    "While it has 0 hit points in mist form, it can’t revert to its {regularForm:Text} form, and it must " +
+                    "reach its resting place within 2 hours or be destroyed. Once in its resting place, it reverts " +
+                    "to its {regularForm:Text} form. It is then paralyzed until it regains at least 1 hit point. " +
+                    "After spending 1 hour in its resting place with 0 hit points, it regains 1 hit point."
+                }
+            },
+            {
+                "Regeneration",
+                new Trait
+                {
+                    Name = "Regeneration",
+                    Template =
+                    "{ShortName} regains {amount:Number} hit points at the start of its turn" +
+                    "{hasConditions:YesNo}[hasConditions=Yes  if it {conditions:MultiOption}]." +
+                    "{canBeShutOff:YesNo}[canBeShutOff=Yes  If {shortName} takes {damage:Text}, this trait doesn’t " +
+                    "function at the start of {shortName}’s next turn.]" +
+                    "{hasExtraDeathCondition:YesNo}[hasExtraDeathCondition=Yes  {ShortName} dies only if it starts its turn " +
+                    "with 0 hit points and doesn’t regenerate.]"
+                }
+            },
+            {
+                "Vampire Weaknesses",
+                new Trait
+                {
+                    Name = "Vampire Weaknesses",
+                    Template =
+                    "{ShortName} has the following flaws:\r\n" +
+
+                    "*Forbiddance.* {ShortName} can’t enter a residence without an invitation from one of the occupants.\r\n" +
+
+                    "*Harmed by Running Water.* {ShortName} takes 20 acid damage if it ends its turn in running water.\r\n" +
+
+                    "*Stake to the Heart.* If a piercing weapon made of wood is driven into {shortName}’s heart while " +
+                    "{shortName} is incapacitated in its resting place, {shortName} is paralyzed until the stake is removed.\r\n" +
+
+                    "*Sunlight Hypersensitivity.* {ShortName} takes 20 radiant damage when it starts its turn in sunlight. " +
+                    "While in sunlight, it has disadvantage on attack rolls and ability checks."
                 }
             },
         };

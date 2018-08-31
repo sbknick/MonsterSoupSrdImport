@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,114 +14,134 @@ namespace MonsterSoupSrdImport
     {
         public Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString)
         {
-            var conditionalStrippedTraitTemplate = GetValidTemplateSansConditionals(traitTemplate, monsterTraitString);
+            traitTemplate = traitTemplate.NormalizeNewlines();
+            monsterTraitString = monsterTraitString.NormalizeNewlines();
+
+            var perm = GetTemplateConditionalPermutation(traitTemplate, monsterTraitString);
             
-            var argsFromTemplate = GetArgsFromTemplate(conditionalStrippedTraitTemplate.Template, monsterTraitString);
+            var argsFromTemplate = GetArgsFromTemplate(perm.Template, monsterTraitString);
 
             var transformedArgs = TransformComplexMonsterTraits(argsFromTemplate);
 
-            if (conditionalStrippedTraitTemplate.Arg != null)
-                transformedArgs.Add(conditionalStrippedTraitTemplate.ArgKey, conditionalStrippedTraitTemplate.Arg);
+            if (perm.Args?.Length > 0)
+                foreach (var arg in perm.Args)
+                    transformedArgs.Add(arg.ArgKey, arg.Arg);
 
             return transformedArgs;
         }
 
-        private ConditionalStrippedTemplate GetValidTemplateSansConditionals(string template, string monsterTraitString)
+        private TemplateConditionalPermutation GetTemplateConditionalPermutation(string template, string monsterTraitString)
         {
-            var conditionalMatches = TemplateHasConditionalRegex.Match(template);
+            var perms = GetConditionalPermutations(template);
 
-            if (!conditionalMatches.Success)
-                return new ConditionalStrippedTemplate { Template = template };
-
-            if (conditionalMatches.Groups[3].Value != conditionalMatches.Groups[5].Value)
-                throw new ArgumentException("A conditional argument in a template has a name mismatch.\r\n" + template);
-
-
-            var flags = conditionalMatches.Groups[4].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
-
-            var arg = new Arg
+            if (perms == null)
             {
-                key = conditionalMatches.Groups[3].Value,
-                argType = "YesNo",
-                flags = flags.Length > 0 ? flags : null,
-            };
-
-
-            var monsterUsesConditional = TryStripConditionalFromTemplate(conditionalMatches, monsterTraitString, out string newTemplate);
-
-            if (monsterUsesConditional)
-            {
-                arg.value = conditionalMatches.Groups[6].Value;
-            }
-            else
-            {
-                arg.value = conditionalMatches.Groups[6].Value == "Yes" ? "No" : "Yes";
+                return new TemplateConditionalPermutation
+                {
+                    Template = template,
+                };
             }
 
-            return new ConditionalStrippedTemplate
+            // TEST FOR WHICH PERMUTATION IS APPROPRIATE PARA ESTA MONSTERA //
+            foreach (var perm in perms)
             {
-                Template = newTemplate,
-                Arg = arg,
-                ArgKey = conditionalMatches.Groups[2].Value,
+                var captureString = GetCaptureString(perm.Template);
+                var usesCondition = new Regex(captureString).Match(monsterTraitString).Success;
+
+                if (usesCondition)
+                {
+                    return perm;
+                }
+            }
+
+            throw new Exception();
+        }
+
+        private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
+        {
+            var ConditionalsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}\[(\S+?)=(\S+?) (.*?)\]");
+            var conditionalMatches = ConditionalsRegex.Matches(template);
+
+            if (conditionalMatches.Count == 0)
+                return null;
+
+            var permutationList = new List<(int specificity, TemplateConditionalPermutation tcp)>();
+
+            int count = conditionalMatches.Count;
+            int permutationCount = (int)Math.Pow(2, count);
+
+            var permutation = new bool[count];
+
+            for (int i = permutationCount - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    permutation[j] = (i & (1 << j)) != 0;
+                }
+
+                permutationList.Add((permutation.Count(p => p), BuildPermutation(permutation, conditionalMatches, template)));
+            }
+
+            return permutationList.Select(p => p.tcp).ToList();
+        }
+
+        private struct TemplateConditionalPermutation
+        {
+            public string Template;
+            public (string ArgKey, Arg Arg)[] Args;
+        }
+
+        private TemplateConditionalPermutation BuildPermutation(bool[] permutation, MatchCollection conditionalMatches, string template)
+        {
+            string Replace(Match match, string insert = null) =>
+                $"{template.Substring(0, match.Index)}{insert}{template.Substring(match.Index + match.Length)}";
+            
+            var matchArgs = new Stack<(string key, Arg arg)>();
+
+            for (int i = permutation.Length - 1; i >= 0; i--)
+            {
+                var match = conditionalMatches[i];
+
+                if (match.Groups[2].Value != match.Groups[4].Value)
+                    throw new ArgumentException();
+
+                var flags = match.Groups[3].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+
+                var arg = new Arg
+                {
+                    key = match.Groups[2].Value,
+                    argType = "YesNo",
+                    flags = flags.Length > 0 ? flags : null,
+                };
+
+                string condition() => match.Groups[5].Value;
+                string notCondition() => condition() == "Yes" ? "No" : "Yes";
+
+                if (!permutation[i])
+                {
+                    // Excise Match
+                    template = Replace(match);
+                    arg.value = notCondition();
+                }
+                else
+                {
+                    // Replace Match with appropriate template string.
+                    template = Replace(match, match.Groups[6].Value);
+                    arg.value = condition();
+                }
+
+                matchArgs.Push((match.Groups[1].Value, arg));
+            }
+
+            return new TemplateConditionalPermutation
+            {
+                Template = template,
+                Args = matchArgs.ToArray(),
             };
         }
 
-        private bool TryStripConditionalFromTemplate(Match conditionalMatches, string monsterTraitString, out string newTemplate)
-        {
-            string preConditionalText = conditionalMatches.Groups[1].Value;
-            string postConditionalText = conditionalMatches.Groups[8].Value;
-            string conditionalText = conditionalMatches.Groups[7].Value;
 
-            var withSpace = true;
-            Match usesCondition = null;
-            string template = null;
-            do
-            {
-                template = withSpace
-                    ? preConditionalText + " " + conditionalText
-                    : preConditionalText + conditionalText;
-
-                if (!string.IsNullOrWhiteSpace(postConditionalText))
-                {
-                    template += StartsWithPunctuation.Match(postConditionalText).Success
-                        ? postConditionalText
-                        : " " + postConditionalText;
-                }
-
-                var captureString = GetCaptureString(template);
-                usesCondition = new Regex(captureString).Match(monsterTraitString);
-                
-                if (!withSpace || usesCondition.Success)
-                {
-                    break;
-                }
-                withSpace = false;
-            }
-            while (true);
-
-            if (usesCondition.Success)
-            {
-                newTemplate = template;
-                return true;
-            }
-            else
-            {
-                newTemplate = preConditionalText;
-                
-                if (!string.IsNullOrWhiteSpace(postConditionalText))
-                {
-                    newTemplate += StartsWithPunctuation.Match(postConditionalText).Success
-                        ? postConditionalText
-                        : " " + postConditionalText;
-                }
-
-                return false;
-            }
-        }
-        
-        private static readonly Regex TemplateHasConditionalRegex = new Regex(@"(.*)\{(([a-zA-Z]+?):YesNo:?(.*)?)\}\[([a-zA-Z]+)=(\S+) (.*)\](.*)");
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
-        private static readonly Regex StartsWithPunctuation = new Regex(@"^[^\s]");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
         {
@@ -147,10 +167,10 @@ namespace MonsterSoupSrdImport
 
         private string GetCaptureString(string template)
         {
-            var escapedTemplate = Escape(template, '.', '(', ')', '*');
+            var escapedTemplate = template.Escape('.', '(', ')', '*');
             var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
 
-            return captureString;
+            return $"^{captureString}$";
         }
 
         private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
@@ -197,14 +217,7 @@ namespace MonsterSoupSrdImport
                 return arg;
             }
         }
-
-        private struct ConditionalStrippedTemplate
-        {
-            public string Template;
-            public Arg Arg;
-            public string ArgKey;
-        }
-
+        
         private static class ArgParser
         {
             #region Attack
@@ -319,14 +332,6 @@ namespace MonsterSoupSrdImport
 
             public static object ParseNumberArgValue(string values, string[] flags)
                 => values.ToInt();
-        }
-
-        private string Escape(string template, params char[] toEscape)
-        {
-            foreach (var c in toEscape.Select(c => Convert.ToString(c)))
-                template = template.Replace(c, Regex.Escape(c));
-
-            return template;
         }
     }
 }
