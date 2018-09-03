@@ -2,7 +2,7 @@
 
 namespace MonsterSoupSrdImport
 {
-    public static class TraitTemplates
+    public class TraitTemplates
     {
         public static readonly Dictionary<string, Trait> StandardTraits = new Dictionary<string, Trait>
         {
