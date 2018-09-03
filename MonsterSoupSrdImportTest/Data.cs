@@ -1,4 +1,4 @@
-﻿using MonsterSoupSrdImport;
+using MonsterSoupSrdImport;
 using System.Collections.Generic;
 
 namespace MonsterSoupSrdImportTest
@@ -248,7 +248,9 @@ namespace MonsterSoupSrdImportTest
 
     public abstract class TraitTestData
     {
-        public abstract string TraitTemplate { get; }
+        public string TraitTemplate => TraitTemplates.StandardTraits[Trait].Template;
+
+        public abstract string Trait { get; }
         public abstract string MonsterTraitString { get; }
         public abstract Dictionary<string, Arg> ExpectedArgsOutput { get; }
     }
@@ -258,11 +260,10 @@ namespace MonsterSoupSrdImportTest
     /// </summary>
 
     #region Aboleth
-    
+
     public sealed class Aboleth_Amphibious : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Amphibious"].Template;
+        public override string Trait => "Amphibious";
 
         public override string MonsterTraitString =>
             "The aboleth can breathe air and water.";
@@ -272,11 +273,10 @@ namespace MonsterSoupSrdImportTest
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The aboleth" } },
         };
     }
-    
+
     public sealed class Aboleth_MucousCloud : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Mucous Cloud"].Template;
+        public override string Trait => "Mucous Cloud";
 
         public override string MonsterTraitString =>
             "While underwater, the aboleth is surrounded by transformative mucus. " +
@@ -305,8 +305,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Aboleth_ProbingTelepathy : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Probing Telepathy"].Template;
+        public override string Trait => "Probing Telepathy";
 
         public override string MonsterTraitString =>
             "If a creature communicates telepathically with the aboleth, the aboleth learns " +
@@ -321,11 +320,10 @@ namespace MonsterSoupSrdImportTest
     #endregion Aboleth
 
     #region Bugbear
-    
+
     public sealed class Bugbear_Brute : TraitTestData
     {
-        public override string TraitTemplate => 
-            TraitMDParser.StandardTraits["Brute"].Template;
+        public override string Trait => "Brute";
 
         public override string MonsterTraitString =>
             "A melee weapon deals one extra die of its damage when the bugbear hits " +
@@ -339,8 +337,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Bugbear_SurpriseAttack : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Surprise Attack"].Template;
+        public override string Trait => "Surprise Attack";
 
         public override string MonsterTraitString =>
             "If the bugbear surprises a creature and hits it with an attack during the first round " +
@@ -364,8 +361,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Bulette_StandingLeap : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Standing Leap"].Template;
+        public override string Trait => "Standing Leap";
 
         public override string MonsterTraitString =>
             "The bulette’s long jump is up to 30 feet and its high jump is up to 15 feet, " +
@@ -376,7 +372,7 @@ namespace MonsterSoupSrdImportTest
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The bulette" } },
             { "longJump:Number", new Arg { key = "longJump", argType = "Number", value = 30 } },
             { "highJump:Number", new Arg { key = "highJump", argType = "Number", value = 15 } },
-        }; 
+        };
     }
 
     #endregion Bulette
@@ -385,9 +381,8 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Centaur_Charge : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Charge"].Template;
-        
+        public override string Trait => "Charge";
+
         public override string MonsterTraitString =>
             "If the centaur moves at least 30 feet straight toward a target and then hits it " +
             "with a pike attack on the same turn, the target takes an extra 10 (3d6) piercing damage.";
@@ -419,8 +414,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Minotaur_Charge : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Charge"].Template;
+        public override string Trait => "Charge";
 
         public override string MonsterTraitString =>
             "If the minotaur moves at least 10 feet straight toward a target and then hits it with " +
@@ -467,8 +461,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Minotaur_LabyrinthineRecall : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Labyrinthine Recall"].Template;
+        public override string Trait => "Labyrinthine Recall";
 
         public override string MonsterTraitString =>
             "The minotaur can perfectly recall any path it has traveled.";
@@ -481,8 +474,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Minotaur_Reckless : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Reckless"].Template;
+        public override string Trait => "Reckless";
 
         public override string MonsterTraitString =>
             "At the start of its turn, the minotaur can gain advantage on all melee weapon attack rolls " +
@@ -500,8 +492,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Chuul_Amphibious : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Amphibious"].Template;
+        public override string Trait => "Amphibious";
 
         public override string MonsterTraitString =>
             "The chuul can breathe air and water.";
@@ -514,8 +505,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Chuul_SenseMagic : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Sense Magic"].Template;
+        public override string Trait => "Sense Magic";
 
         public override string MonsterTraitString =>
             "The chuul senses magic within 120 feet of it at will. This trait otherwise works like the " +
@@ -528,14 +518,13 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    #endregion
+    #endregion Chuul
 
     #region Cloaker
 
     public sealed class Cloaker_DamageTransfer : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Damage Transfer - Cloaker"].Template;
+        public override string Trait => "Damage Transfer - Cloaker";
 
         public override string MonsterTraitString =>
             "While attached to a creature, the cloaker takes only half the damage dealt to it " +
@@ -549,8 +538,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Cloaker_FalseAppearance : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["False Appearance"].Template;
+        public override string Trait => "False Appearance";
 
         public override string MonsterTraitString =>
             "While the cloaker remains motionless without its underside exposed, " +
@@ -567,8 +555,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Cloaker_LightSensitivity : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Light Sensitivity"].Template;
+        public override string Trait => "Light Sensitivity";
 
         public override string MonsterTraitString =>
             "While in bright light, the cloaker has disadvantage on attack rolls and " +
@@ -586,8 +573,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class RugOfSmothering_DamageTransfer : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Damage Transfer - Rug of Smothering"].Template;
+        public override string Trait => "Damage Transfer - Rug of Smothering";
 
         public override string MonsterTraitString =>
             "While it is grappling a creature, the rug takes only half the damage dealt to it, " +
@@ -601,8 +587,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class RugOfSmothering_AntimagicSusceptibility : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Antimagic Susceptibility"].Template;
+        public override string Trait => "Antimagic Susceptibility";
 
         public override string MonsterTraitString =>
             "The rug is incapacitated while in the area of an *antimagic field.* If targeted by " +
@@ -618,8 +603,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class RugOfSmothering_FalseAppearance : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["False Appearance"].Template;
+        public override string Trait => "False Appearance";
 
         public override string MonsterTraitString =>
             "While the rug remains motionless, it is indistinguishable from a normal rug.";
@@ -638,8 +622,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Couatl_MagicWeapons : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Magic Weapons"].Template;
+        public override string Trait => "Magic Weapons";
 
         public override string MonsterTraitString =>
             "The couatl’s weapon attacks are magical.";
@@ -652,8 +635,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Couatl_ShieldedMind : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Shielded Mind"].Template;
+        public override string Trait => "Shielded Mind";
 
         public override string MonsterTraitString =>
             "The couatl is immune to scrying and to any effect that would sense its emotions, " +
@@ -671,8 +653,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Darkmantle_Echolocation : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Echolocation"].Template;
+        public override string Trait => "Echolocation";
 
         public override string MonsterTraitString =>
             "The darkmantle can’t use its blindsight while deafened.";
@@ -685,8 +666,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Darkmantle_FalseAppearance : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["False Appearance"].Template;
+        public override string Trait => "False Appearance";
 
         public override string MonsterTraitString =>
             "While the darkmantle remains motionless, it is indistinguishable from a cave formation " +
@@ -711,8 +691,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Drider_FeyAncestry : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Fey Ancestry"].Template;
+        public override string Trait => "Fey Ancestry";
 
         public override string MonsterTraitString =>
             "The drider has advantage on saving throws against being charmed, and " +
@@ -727,8 +706,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Drider_SpiderClimb : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Spider Climb"].Template;
+        public override string Trait => "Spider Climb";
 
         public override string MonsterTraitString =>
             "The drider can climb difficult surfaces, including upside down on ceilings, " +
@@ -742,8 +720,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Drider_SunlightSensitivity : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Sunlight Sensitivity"].Template;
+        public override string Trait => "Sunlight Sensitivity";
 
         public override string MonsterTraitString =>
             "While in sunlight, the drider has disadvantage on attack rolls, " +
@@ -757,8 +734,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Drider_WebWalker : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Web Walker"].Template;
+        public override string Trait => "Web Walker";
 
         public override string MonsterTraitString =>
             "The drider ignores movement restrictions caused by webbing.";
@@ -775,8 +751,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettercap_SpiderClimb : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Spider Climb"].Template;
+        public override string Trait => "Spider Climb";
 
         public override string MonsterTraitString =>
             "The ettercap can climb difficult surfaces, including upside down on ceilings, " +
@@ -790,8 +765,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettercap_WebSense : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Web Sense"].Template;
+        public override string Trait => "Web Sense";
 
         public override string MonsterTraitString =>
             "While in contact with a web, the ettercap knows the exact location " +
@@ -805,8 +779,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettercap_WebWalker : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Web Walker"].Template;
+        public override string Trait => "Web Walker";
 
         public override string MonsterTraitString =>
             "The ettercap ignores movement restrictions caused by webbing.";
@@ -823,8 +796,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettin_TwoHeads : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Two Heads"].Template;
+        public override string Trait => "Two Heads";
 
         public override string MonsterTraitString =>
             "The ettin has advantage on Wisdom (Perception) checks and on saving throws against " +
@@ -838,8 +810,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettin_Wakeful : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Wakeful"].Template;
+        public override string Trait => "Wakeful";
 
         public override string MonsterTraitString =>
             "When one of the ettin’s heads is asleep, its other head is awake.";
@@ -856,8 +827,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ghost_EtherealSight : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Ethereal Sight"].Template;
+        public override string Trait => "Ethereal Sight";
 
         public override string MonsterTraitString =>
             "The ghost can see 60 feet into the Ethereal Plane when it is " +
@@ -871,8 +841,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ghost_IncorporealMovement : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Incorporeal Movement"].Template;
+        public override string Trait => "Incorporeal Movement";
 
         public override string MonsterTraitString =>
             "The ghost can move through other creatures and objects as if they were difficult terrain. " +
@@ -902,8 +871,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class GibberingMouther_AberrantGround : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Aberrant Ground"].Template;
+        public override string Trait => "Aberrant Ground";
 
         public override string MonsterTraitString =>
             "The ground in a 10-foot radius around the mouther is doughlike difficult terrain. " +
@@ -929,8 +897,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class GibberingMouther_Gibbering : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Gibbering"].Template;
+        public override string Trait => "Gibbering";
 
         public override string MonsterTraitString =>
             "The mouther babbles incoherently while it can see any creature and isn’t incapacitated. " +
@@ -966,8 +933,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Gnoll_Rampage : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Rampage"].Template;
+        public override string Trait => "Rampage";
 
         public override string MonsterTraitString =>
             "When the gnoll reduces a creature to 0 hit points with a melee attack on its turn, " +
@@ -986,8 +952,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class DeepGnome_StoneCamouflage : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Stone Camouflage"].Template;
+        public override string Trait => "Stone Camouflage";
 
         public override string MonsterTraitString =>
             "The gnome has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.";
@@ -1000,8 +965,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class DeepGnome_GnomeCunning : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Gnome Cunning"].Template;
+        public override string Trait => "Gnome Cunning";
 
         public override string MonsterTraitString =>
             "The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic.";
@@ -1018,8 +982,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Goblin_NimbleEscape : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Nimble Escape"].Template;
+        public override string Trait => "Nimble Escape";
 
         public override string MonsterTraitString =>
             "The goblin can take the Disengage or Hide action as a bonus action on each of its turns.";
@@ -1030,14 +993,13 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    #endregion
+    #endregion Goblin
 
     #region Gorgon
 
     public sealed class Gorgon_TramplingCharge : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Trampling Charge"].Template;
+        public override string Trait => "Trampling Charge";
 
         public override string MonsterTraitString =>
             "If the gorgon moves at least 20 feet straight toward a creature and then hits it with " +
@@ -1065,14 +1027,13 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    #endregion
+    #endregion Gorgon
 
     #region Triceratops
 
     public sealed class Triceratops_TramplingCharge : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Trampling Charge"].Template;
+        public override string Trait => "Trampling Charge";
 
         public override string MonsterTraitString =>
             "If the triceratops moves at least 20 feet straight toward a creature and then hits it with " +
@@ -1106,8 +1067,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Griffon_KeenSight : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Keen Sight"].Template;
+        public override string Trait => "Keen Sight";
 
         public override string MonsterTraitString =>
             "The griffon has advantage on Wisdom (Perception) checks that rely on sight.";
@@ -1124,8 +1084,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Grimlock_BlindSenses : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Blind Senses"].Template;
+        public override string Trait => "Blind Senses";
 
         public override string MonsterTraitString =>
             "The grimlock can’t use its blindsight while deafened and unable to smell.";
@@ -1138,8 +1097,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Grimlock_KeenHearingAndSmell : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Keen Hearing and Smell"].Template;
+        public override string Trait => "Keen Hearing and Smell";
 
         public override string MonsterTraitString =>
             "The grimlock has advantage on Wisdom (Perception) checks that rely on hearing or smell.";
@@ -1152,8 +1110,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Grimlock_StoneCamouflage : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Stone Camouflage"].Template;
+        public override string Trait => "Stone Camouflage";
 
         public override string MonsterTraitString =>
             "The grimlock has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.";
@@ -1170,8 +1127,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class HellHound_KeenHearingAndSmell : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Keen Hearing and Smell"].Template;
+        public override string Trait => "Keen Hearing and Smell";
 
         public override string MonsterTraitString =>
             "The hound has advantage on Wisdom (Perception) checks that rely on hearing or smell.";
@@ -1184,8 +1140,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class HellHound_PackTactics : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Pack Tactics"].Template;
+        public override string Trait => "Pack Tactics";
 
         public override string MonsterTraitString =>
             "The hound has advantage on an attack roll against a creature if at least one of " +
@@ -1204,8 +1159,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Hobgoblin_MartialAdvantage : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Martial Advantage"].Template;
+        public override string Trait => "Martial Advantage";
 
         public override string MonsterTraitString =>
             "Once per turn, the hobgoblin can deal an extra 7 (2d6) damage to a creature " +
@@ -1230,8 +1184,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_Shapechanger : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Shapechanger - Vampire"].Template;
+        public override string Trait => "Shapechanger - Vampire";
 
         public override string MonsterTraitString =>
             "If the vampire isn’t in sunlight or running water, it can use its action to polymorph " +
@@ -1257,8 +1210,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_MistyEscape : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Misty Escape - Vampire"].Template;
+        public override string Trait => "Misty Escape - Vampire";
 
         public override string MonsterTraitString =>
             "When it drops to 0 hit points outside its resting place, the vampire transforms into a " +
@@ -1279,8 +1231,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_Regeneration : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Regeneration"].Template;
+        public override string Trait => "Regeneration";
 
         public override string MonsterTraitString =>
             "The vampire regains 20 hit points at the start of its turn if it has at least 1 hit point " +
@@ -1311,8 +1262,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_SpiderClimb : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Spider Climb"].Template;
+        public override string Trait => "Spider Climb";
 
         public override string MonsterTraitString =>
             "The vampire can climb difficult surfaces, including upside down on ceilings, " +
@@ -1326,14 +1276,13 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_VampireWeaknesses : TraitTestData
     {
-        public override string TraitTemplate =>
-            TraitMDParser.StandardTraits["Vampire Weaknesses"].Template;
+        public override string Trait => "Vampire Weaknesses";
 
         public override string MonsterTraitString =>
             "The vampire has the following flaws:\\r\\n" +
 
             "*Forbiddance.* The vampire can’t enter a residence without an invitation from one of the occupants.\\r\\n" +
- 
+
             "*Harmed by Running Water.* The vampire takes 20 acid damage if it ends its turn in running water.\\r\\n" +
 
             "*Stake to the Heart.* If a piercing weapon made of wood is driven into the vampire’s heart while " +
@@ -1350,5 +1299,7 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    #endregion
+    #endregion Vampire
+    }
+
 }
