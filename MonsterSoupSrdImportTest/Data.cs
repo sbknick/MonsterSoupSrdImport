@@ -229,6 +229,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Troll : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Keen Smell", new Troll_KeenSmell() },
+            { "Regeneration", new Troll_Regeneration() },
+        };
+    }
+
     public sealed class Vampire : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1300,6 +1309,43 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Vampire
+
+    #region Troll
+
+    public sealed class Troll_KeenSmell : TraitTestData
+    {
+        public override string Trait => "Keen Smell";
+
+        public override string MonsterTraitString =>
+            "The troll has advantage on Wisdom (Perception) checks that rely on smell.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The troll" } },
+        };
     }
 
+    public sealed class Troll_Regeneration : TraitTestData
+    {
+        public override string Trait => "Regeneration";
+
+        public override string MonsterTraitString =>
+            "The troll regains 10 hit points at the start of its turn. If the troll " +
+            "takes acid or fire damage, this trait doesn’t function at the start of the " +
+            "troll’s next turn. The troll dies only if it starts its turn with 0 hit " +
+            "points and doesn’t regenerate.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The troll" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the troll" } },
+            { "amount:Number", new Arg { key = "amount", argType = "Number", value = 10 } },
+            { "hasConditions:YesNo", new Arg { key = "hasConditions", argType = "YesNo", value = "No" } },
+            { "canBeShutOff:YesNo", new Arg { key = "canBeShutOff", argType = "YesNo", value = "Yes" } },
+            { "damage:Text", new Arg { key = "damage", argType = "Text", value = "acid or fire damage" } },
+            { "hasExtraDeathCondition:YesNo", new Arg { key = "hasExtraDeathCondition", argType = "YesNo", value = "Yes" } },
+        };
+    }
+
+    #endregion Troll
 }

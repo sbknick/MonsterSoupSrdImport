@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using System.Collections.Generic;
 using System.Linq;
@@ -371,6 +371,9 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Vampire>("Misty Escape - Vampire");
             yield return TestTraitFromMonster<Vampire>("Regeneration");
             yield return TestTraitFromMonster<Vampire>("Vampire Weaknesses");
+
+            yield return TestTraitFromMonster<Troll>("Keen Smell");
+            yield return TestTraitFromMonster<Troll>("Regeneration");
         }
     }
 }

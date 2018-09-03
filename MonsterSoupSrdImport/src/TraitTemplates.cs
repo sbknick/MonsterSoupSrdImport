@@ -530,6 +530,17 @@ namespace MonsterSoupSrdImport
                     "While in sunlight, it has disadvantage on attack rolls and ability checks."
                 }
             },
+
+            // from Troll
+            {
+                "Keen Smell",
+                new Trait
+                {
+                    Name = "Keen Smell",
+                    Template =
+                    "{ShortName} has advantage on Wisdom (Perception) checks that rely on smell."
+                }
+            },
         };
     }
 }

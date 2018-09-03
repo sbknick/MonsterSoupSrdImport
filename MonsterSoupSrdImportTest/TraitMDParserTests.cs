@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonsterSoupSrdImport;
 using Moq;
 using System.Collections.Generic;
@@ -312,10 +312,15 @@ namespace MonsterSoupSrdImportTest
                 new[] { "Shapechanger - Vampire", "Misty Escape - Vampire", "Regeneration", "Spider Climb", "Vampire Weaknesses" }
             );
 
-            // /SHAPECHANGERS //
+            // //SHAPECHANGERS //
 
-            // Troll, for extra Regeneration testing. ... Oni or Shield Guardian for the simple case.
-
+            // Troll
+            yield return TestMonster(
+                new Troll(), @"
+                    ***Keen Smell.*** The troll has advantage on Wisdom (Perception) checks that rely on smell.
+                    ***Regeneration.*** The troll regains 10 hit points at the start of its turn. If the troll takes acid or fire damage, this trait doesn’t function at the start of the troll’s next turn. The troll dies only if it starts its turn with 0 hit points and doesn’t regenerate.",
+                new[] { "Keen Smell", "Regeneration" }
+            );
         }
     }
 }
