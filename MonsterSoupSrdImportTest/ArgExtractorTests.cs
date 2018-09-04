@@ -378,6 +378,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Hydra>("Multiple Heads");
             yield return TestTraitFromMonster<Hydra>("Reactive Heads");
             yield return TestTraitFromMonster<Hydra>("Wakeful - Hydra");
+            yield return TestTraitFromMonster<Homunculus>("Telepathic Bond - Homunculus");
         }
     }
 }

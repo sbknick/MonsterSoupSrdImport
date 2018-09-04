@@ -193,21 +193,19 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-    public sealed class Minotaur : MonsterTestData
-    {
-        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
-        {
-            { "Charge", new Minotaur_Charge() },
-            { "Labyrinthine Recall", new Minotaur_LabyrinthineRecall() },
-            { "Reckless", new Minotaur_Reckless() },
-        };
-    }
-
     public sealed class Hobgoblin : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Martial Advantage", new Hobgoblin_MartialAdvantage() },
+        };
+    }
+
+    public sealed class Homunculus : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Telepathic Bond - Homunculus", new Homunculus_TelepathicBond() },
         };
     }
 
@@ -219,6 +217,16 @@ namespace MonsterSoupSrdImportTest
             { "Multiple Heads", new Hydra_MultipleHeads() },
             { "Reactive Heads", new Hydra_ReactiveHeads() },
             { "Wakeful - Hydra", new Hydra_Wakeful() },
+        };
+    }
+
+    public sealed class Minotaur : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Charge", new Minotaur_Charge() },
+            { "Labyrinthine Recall", new Minotaur_LabyrinthineRecall() },
+            { "Reckless", new Minotaur_Reckless() },
         };
     }
 
@@ -1424,4 +1432,23 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Hydra
+
+    #region Homunculus
+
+    public sealed class Homunculus_TelepathicBond : TraitTestData
+    {
+        public override string Trait => "Telepathic Bond - Homunculus";
+
+        public override string MonsterTraitString =>
+            "While the homunculus is on the same plane of existence as its master, " +
+            "it can magically convey what it senses to its master, and the two can " +
+            "communicate telepathically.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the homunculus" } },
+        };
+    }
+
+    #endregion Homunculus
 }

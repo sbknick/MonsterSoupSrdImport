@@ -589,6 +589,19 @@ namespace MonsterSoupSrdImport
                     "While {shortName} sleeps, at least one of its heads is awake."
                 }
             },
+
+            // from Homunculus
+            {
+                "Telepathic Bond - Homunculus",
+                new Trait
+                {
+                    Name = "Telepathic Bond - Homunculus",
+                    Template =
+                    "While {shortName} is on the same plane of existence as its master, " +
+                    "it can magically convey what it senses to its master, and the two can " +
+                    "communicate telepathically."
+                }
+            },
         };
     }
 }
