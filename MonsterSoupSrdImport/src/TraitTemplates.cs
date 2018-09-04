@@ -470,6 +470,22 @@ namespace MonsterSoupSrdImport
                 "are on the same plane of existence. {ShortName} also knows the " +
                 "location of its summoner."
             },
+
+            // from Kraken
+            new Trait
+            {
+                Name = "Freedom of Movement",
+                Template =
+                "{ShortName} ignores difficult terrain, and magical effects can’t " +
+                "reduce its speed or cause it to be restrained. It can spend 5 feet " +
+                "of movement to escape from nonmagical restraints or being grappled."
+            },
+            new Trait
+            {
+                Name = "Siege Monster",
+                Template =
+                "{ShortName} deals double damage to objects and structures."
+            },
         }.ToDictionary(kvp => kvp.Name);
     }
 }

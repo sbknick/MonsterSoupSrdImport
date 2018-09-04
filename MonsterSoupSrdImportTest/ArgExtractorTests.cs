@@ -381,6 +381,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Homunculus>("Telepathic Bond - Homunculus");
             yield return TestTraitFromMonster<InvisibleStalker>("Invisibility");
             yield return TestTraitFromMonster<InvisibleStalker>("Faultless Tracker");
+            yield return TestTraitFromMonster<Kraken>("Freedom of Movement");
+            yield return TestTraitFromMonster<Kraken>("Siege Monster");
         }
     }
 }

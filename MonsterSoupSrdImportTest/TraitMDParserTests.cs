@@ -348,6 +348,15 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Faultless Tracker.*** The stalker is given a quarry by its summoner. The stalker knows the direction and distance to its quarry as long as the two of them are on the same plane of existence. The stalker also knows the location of its summoner.",
                 new[] { "Invisibility", "Faultless Tracker" }
             );
+
+            // Kraken
+            yield return TestMonster(
+                new Kraken(), @"
+                    ***Amphibious.*** The kraken can breathe air and water.
+                    ***Freedom of Movement.*** The kraken ignores difficult terrain, and magical effects can’t reduce its speed or cause it to be restrained. It can spend 5 feet of movement to escape from nonmagical restraints or being grappled.
+                    ***Siege Monster.*** The kraken deals double damage to objects and structures.",
+                new[] { "Amphibious", "Freedom of Movement", "Siege Monster" }
+            );
         }
     }
 }

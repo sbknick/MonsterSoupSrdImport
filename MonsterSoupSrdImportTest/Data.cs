@@ -229,6 +229,16 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Kraken : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Amphibious", new Kraken_Amphibious() },
+            { "Freedom of Movement", new Kraken_FreedomOfMovement() },
+            { "Siege Monster", new Kraken_SiegeMonster() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1492,4 +1502,49 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Invisible Stalker
+
+    #region Kraken
+
+    public sealed class Kraken_Amphibious : TraitTestData
+    {
+        public override string Trait => "Amphibious";
+
+        public override string MonsterTraitString =>
+            "The kraken can breathe air and water.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The kraken" } },
+        };
+    }
+
+    public sealed class Kraken_FreedomOfMovement : TraitTestData
+    {
+        public override string Trait => "Freedom of Movement";
+
+        public override string MonsterTraitString =>
+            "The kraken ignores difficult terrain, and magical effects can’t " +
+            "reduce its speed or cause it to be restrained. It can spend 5 feet " +
+            "of movement to escape from nonmagical restraints or being grappled.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The kraken" } },
+        };
+    }
+
+    public sealed class Kraken_SiegeMonster : TraitTestData
+    {
+        public override string Trait => "Siege Monster";
+
+        public override string MonsterTraitString =>
+            "The kraken deals double damage to objects and structures.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The kraken" } },
+        };
+    }
+
+    #endregion Kraken
 }
