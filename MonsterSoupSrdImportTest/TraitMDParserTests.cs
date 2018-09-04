@@ -340,6 +340,14 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Telepathic Bond - Homunculus.*** While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically.",
                 new[] { "Telepathic Bond - Homunculus" }
             );
+
+            // Invisible Stalker
+            yield return TestMonster(
+                new InvisibleStalker(), @"
+                    ***Invisibility.*** The stalker is invisible.
+                    ***Faultless Tracker.*** The stalker is given a quarry by its summoner. The stalker knows the direction and distance to its quarry as long as the two of them are on the same plane of existence. The stalker also knows the location of its summoner.",
+                new[] { "Invisibility", "Faultless Tracker" }
+            );
         }
     }
 }

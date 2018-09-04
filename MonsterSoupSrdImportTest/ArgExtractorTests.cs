@@ -379,6 +379,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Hydra>("Reactive Heads");
             yield return TestTraitFromMonster<Hydra>("Wakeful - Hydra");
             yield return TestTraitFromMonster<Homunculus>("Telepathic Bond - Homunculus");
+            yield return TestTraitFromMonster<InvisibleStalker>("Invisibility");
+            yield return TestTraitFromMonster<InvisibleStalker>("Faultless Tracker");
         }
     }
 }

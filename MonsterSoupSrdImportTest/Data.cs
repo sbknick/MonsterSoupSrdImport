@@ -220,6 +220,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class InvisibleStalker : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Invisibility", new InvisibleStalker_Invisibility() },
+            { "Faultless Tracker", new InvisibleStalker_FaultlessTracker() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1451,4 +1460,36 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Homunculus
+
+    #region Invisible Stalker
+
+    public sealed class InvisibleStalker_Invisibility : TraitTestData
+    {
+        public override string Trait => "Invisibility";
+
+        public override string MonsterTraitString => "The stalker is invisible.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The stalker" } },
+        };
+    }
+
+    public sealed class InvisibleStalker_FaultlessTracker : TraitTestData
+    {
+        public override string Trait => "Faultless Tracker";
+
+        public override string MonsterTraitString =>
+            "The stalker is given a quarry by its summoner. The stalker knows " +
+            "the direction and distance to its quarry as long as the two of them " +
+            "are on the same plane of existence. The stalker also knows the " +
+            "location of its summoner.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The stalker" } },
+        };
+    }
+
+    #endregion Invisible Stalker
 }

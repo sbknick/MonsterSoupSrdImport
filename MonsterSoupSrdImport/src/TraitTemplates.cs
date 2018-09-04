@@ -453,6 +453,23 @@ namespace MonsterSoupSrdImport
                 "it can magically convey what it senses to its master, and the two can " +
                 "communicate telepathically."
             },
+
+            // from Invisible Stalker
+            new Trait
+            {
+                Name = "Invisibility",
+                Template =
+                "{ShortName} is invisible."
+            },
+            new Trait
+            {
+                Name = "Faultless Tracker",
+                Template =
+                "{ShortName} is given a quarry by its summoner. {ShortName} knows " +
+                "the direction and distance to its quarry as long as the two of them " +
+                "are on the same plane of existence. {ShortName} also knows the " +
+                "location of its summoner."
+            },
         }.ToDictionary(kvp => kvp.Name);
     }
 }
