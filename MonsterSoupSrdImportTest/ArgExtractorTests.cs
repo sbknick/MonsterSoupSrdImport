@@ -374,6 +374,10 @@ namespace MonsterSoupSrdImportTest
 
             yield return TestTraitFromMonster<Troll>("Keen Smell");
             yield return TestTraitFromMonster<Troll>("Regeneration");
+            yield return TestTraitFromMonster<Hydra>("Hold Breath");
+            yield return TestTraitFromMonster<Hydra>("Multiple Heads");
+            yield return TestTraitFromMonster<Hydra>("Reactive Heads");
+            yield return TestTraitFromMonster<Hydra>("Wakeful - Hydra");
         }
     }
 }

@@ -321,6 +321,18 @@ namespace MonsterSoupSrdImportTest
                     ***Regeneration.*** The troll regains 10 hit points at the start of its turn. If the troll takes acid or fire damage, this trait doesn’t function at the start of the troll’s next turn. The troll dies only if it starts its turn with 0 hit points and doesn’t regenerate.",
                 new[] { "Keen Smell", "Regeneration" }
             );
+
+            // Hydra
+            yield return TestMonster(
+                new Hydra(), @"
+***Hold Breath.*** The hydra can hold its breath for 1 hour.
+***Multiple Heads.*** The hydra has five heads. While it has more than one head, the hydra has advantage on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.
+Whenever the hydra takes 25 or more damage in a single turn, one of its heads dies. If all its heads die, the hydra dies.
+At the end of its turn, it grows two heads for each of its heads that died since its last turn, unless it has taken fire damage since its last turn. The hydra regains 10 hit points for each head regrown in this way.
+***Reactive Heads.*** For each head the hydra has beyond one, it gets an extra reaction that can be used only for opportunity attacks.
+***Wakeful - Hydra.*** While the hydra sleeps, at least one of its heads is awake.",
+                new[] { "Hold Breath", "Multiple Heads", "Reactive Heads", "Wakeful - Hydra" }
+            );
         }
     }
 }

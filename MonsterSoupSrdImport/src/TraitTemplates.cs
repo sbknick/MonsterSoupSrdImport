@@ -541,6 +541,54 @@ namespace MonsterSoupSrdImport
                     "{ShortName} has advantage on Wisdom (Perception) checks that rely on smell."
                 }
             },
+
+            // from Hydra
+            {
+                "Hold Breath",
+                new Trait
+                {
+                    Name = "Hold Breath",
+                    Template = "{ShortName} can hold its breath for {duration:Text}."
+                }
+            },
+            {
+                "Multiple Heads",
+                new Trait
+                {
+                    Name = "Multiple Heads",
+                    Template =
+                    "{ShortName} has {headCount:Text} heads. While it has more than one head, " +
+                    "{shortName} has advantage on saving throws against being blinded, charmed, " +
+                    "deafened, frightened, stunned, and knocked unconscious.\r\n" +
+
+                    "Whenever {shortName} takes {minimumDamage:Number} or more damage in a " +
+                    "single turn, one of its heads dies. If all its heads die, the hydra dies.\r\n" +
+
+                    "At the end of its turn, it grows two heads for each of its heads that died " +
+                    "since its last turn, unless it has taken {damageType:Text} since its last turn. " +
+                    "{ShortName} regains {healAmount:Number} hit points for each head regrown " +
+                    "in this way."
+                }
+            },
+            {
+                "Reactive Heads",
+                new Trait
+                {
+                    Name = "Reactive Heads",
+                    Template =
+                    "For each head {shortName} has beyond one, it gets an extra reaction that " +
+                    "can be used only for opportunity attacks."
+                }
+            },
+            {
+                "Wakeful - Hydra",
+                new Trait
+                {
+                    Name = "Wakeful - Hydra",
+                    Template =
+                    "While {shortName} sleeps, at least one of its heads is awake."
+                }
+            },
         };
     }
 }

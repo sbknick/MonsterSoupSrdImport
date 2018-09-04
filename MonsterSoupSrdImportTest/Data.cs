@@ -211,6 +211,17 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Hydra : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Hold Breath", new Hydra_HoldBreath() },
+            { "Multiple Heads", new Hydra_MultipleHeads() },
+            { "Reactive Heads", new Hydra_ReactiveHeads() },
+            { "Wakeful - Hydra", new Hydra_Wakeful() },
+        };
+    }
+
     public sealed class RugOfSmothering : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1348,4 +1359,69 @@ namespace MonsterSoupSrdImportTest
     }
 
     #endregion Troll
+
+    #region Hydra
+
+    public sealed class Hydra_HoldBreath : TraitTestData
+    {
+        public override string Trait => "Hold Breath";
+
+        public override string MonsterTraitString =>
+            "The hydra can hold its breath for 1 hour.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The hydra" } },
+            { "duration:Text", new Arg { key = "duration", argType = "Text", value = "1 hour" } },
+        };
+    }
+
+    public sealed class Hydra_MultipleHeads : TraitTestData
+    {
+        public override string Trait => "Multiple Heads";
+
+        public override string MonsterTraitString =>
+@"The hydra has five heads. While it has more than one head, the hydra has advantage on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.
+Whenever the hydra takes 25 or more damage in a single turn, one of its heads dies. If all its heads die, the hydra dies.
+At the end of its turn, it grows two heads for each of its heads that died since its last turn, unless it has taken fire damage since its last turn. The hydra regains 10 hit points for each head regrown in this way.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The hydra" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hydra" } },
+            { "headCount:Text", new Arg { key = "headCount", argType = "Text", value = "five" } },
+            { "minimumDamage:Number", new Arg { key = "minimumDamage", argType = "Number", value = 25 } },
+            { "damageType:Text", new Arg { key = "damageType", argType = "Text", value = "fire damage" } },
+            { "healAmount:Number", new Arg { key = "healAmount", argType = "Number", value = 10 } },
+        };
+    }
+
+    public sealed class Hydra_ReactiveHeads : TraitTestData
+    {
+        public override string Trait => "Reactive Heads";
+
+        public override string MonsterTraitString =>
+            "For each head the hydra has beyond one, it gets an extra reaction that " +
+            "can be used only for opportunity attacks.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hydra" } },
+        };
+    }
+
+    public sealed class Hydra_Wakeful : TraitTestData
+    {
+        public override string Trait => "Wakeful - Hydra";
+
+        public override string MonsterTraitString =>
+            "While the hydra sleeps, at least one of its heads is awake.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hydra" } },
+        };
+    }
+
+    #endregion Hydra
 }
