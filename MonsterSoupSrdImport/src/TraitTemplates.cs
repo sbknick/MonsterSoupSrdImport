@@ -271,10 +271,10 @@ namespace MonsterSoupSrdImport
                 }
             },
             {
-                "Wakeful",
+                "Wakeful - Ettin",
                 new Trait
                 {
-                    Name = "Wakeful",
+                    Name = "Wakeful - Ettin",
                     Template =
                     "When one of {shortName}’s heads is asleep, its other head is awake."
                 }

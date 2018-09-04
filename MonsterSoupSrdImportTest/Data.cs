@@ -120,7 +120,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Two Heads", new Ettin_TwoHeads() },
-            { "Wakeful", new Ettin_Wakeful() },
+            { "Wakeful - Ettin", new Ettin_Wakeful() },
         };
     }
 
@@ -819,7 +819,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettin_Wakeful : TraitTestData
     {
-        public override string Trait => "Wakeful";
+        public override string Trait => "Wakeful - Ettin";
 
         public override string MonsterTraitString =>
             "When one of the ettin’s heads is asleep, its other head is awake.";
