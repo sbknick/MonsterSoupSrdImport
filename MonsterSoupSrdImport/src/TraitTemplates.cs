@@ -486,6 +486,6 @@ namespace MonsterSoupSrdImport
                 Template =
                 "{ShortName} deals double damage to objects and structures."
             },
-        }.ToDictionary(kvp => kvp.Name);
+        }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
