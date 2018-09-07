@@ -492,17 +492,25 @@ namespace MonsterSoupSrdImport
             {
                 Name = "Rejuvenation - Undead",
                 Template =
-                "{usesPhylactery:YesNo}[usesPhylactery=Yes If it has a phylactery, a]" +
+                "{usesPhylactery:YesNo}{usesHeart:YesNo}[usesPhylactery=Yes If it has a phylactery, a]" +
                 "[usesPhylactery=No A] destroyed {shortShortName} gains a new body " +
-                "in {timePeriod:Text}{usesHeart:YesNo}[usesHeart=Yes  if its heart is intact], " +
+                "in {timePeriod:Text}[usesHeart=Yes  if its heart is intact], " +
                 "regaining all its hit points and becoming active again. The new body appears " +
-                "within 5 feet of the [usesPhylactery=Yes phylactery][usesHeart=Yes {shortShortName}'s heart]."
+                "within 5 feet of the [usesPhylactery=Yes phylactery][usesHeart=Yes {shortShortName}’s heart]."
             },
             new Trait
             {
                 Name = "Turn Resistance",
                 Template =
                 "{ShortName} has advantage on saving throws against any effect that turns undead."
+            },
+
+            // from Mummy Lord
+            new Trait
+            {
+                Name = "Magic Resistance",
+                Template =
+                "{ShortName} has advantage on saving throws against spells and other magical effects."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

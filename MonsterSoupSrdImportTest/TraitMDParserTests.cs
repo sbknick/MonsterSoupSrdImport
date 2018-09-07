@@ -365,6 +365,14 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Turn Resistance.*** The lich has advantage on saving throws against any effect that turns undead.",
                 new[] { "Rejuvenation - Undead", "Turn Resistance" }
             );
+
+            // Mummy Lord
+            yield return TestMonster(
+                new MummyLord(), @"
+                    ***Magic Resistance.*** The mummy lord has advantage on saving throws against spells and other magical effects.
+                    ***Rejuvenation - Undead.*** A destroyed mummy lord gains a new body in 24 hours if its heart is intact, regaining all its hit points and becoming active again. The new body appears within 5 feet of the mummy lord’s heart.",
+                new[] { "Magic Resistance", "Rejuvenation - Undead" }
+            );
         }
     }
 }

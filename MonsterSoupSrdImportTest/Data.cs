@@ -258,6 +258,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class MummyLord : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Magic Resistance", new MummyLord_MagicResistance() },
+            { "Rejuvenation - Undead", new MummyLord_Rejuvenation() },
+        };
+    }
+
     public sealed class RugOfSmothering : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1570,10 +1579,10 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
-            { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "lich" } },
             { "usesPhylactery:YesNo", new Arg  { key = "usesPhylactery", argType = "YesNo", value = "Yes" } },
-            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "1d10 days" } },
             { "usesHeart:YesNo", new Arg { key = "usesHeart", argType = "YesNo", value = "No" } },
+            { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "lich" } },
+            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "1d10 days" } },
         };
     }
 
@@ -1591,4 +1600,40 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Lich
+
+    #region Mummy Lord
+
+    public sealed class MummyLord_MagicResistance : TraitTestData
+    {
+        public override string Trait => "Magic Resistance";
+
+        public override string MonsterTraitString =>
+            "The mummy lord has advantage on saving throws against spells and " +
+            "other magical effects.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The mummy lord" } },
+        };
+    }
+
+    public sealed class MummyLord_Rejuvenation : TraitTestData
+    {
+        public override string Trait => "Rejuvenation - Undead";
+
+        public override string MonsterTraitString =>
+            "A destroyed mummy lord gains a new body in 24 hours if its heart is intact, " +
+            "regaining all its hit points and becoming active again. The new body " +
+            "appears within 5 feet of the mummy lord’s heart.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "usesPhylactery:YesNo", new Arg  { key = "usesPhylactery", argType = "YesNo", value = "No" } },
+            { "usesHeart:YesNo", new Arg { key = "usesHeart", argType = "YesNo", value = "Yes" } },
+            { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "mummy lord" } },
+            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "24 hours" } },
+        };
+    }
+        
+    #endregion Mummy Lord
 }

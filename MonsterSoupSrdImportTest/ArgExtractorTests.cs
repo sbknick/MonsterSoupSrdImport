@@ -385,6 +385,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Kraken>("Siege Monster");
             yield return TestTraitFromMonster<Lich>("Rejuvenation - Undead");
             yield return TestTraitFromMonster<Lich>("Turn Resistance");
+            yield return TestTraitFromMonster<MummyLord>("Rejuvenation - Undead");
+            yield return TestTraitFromMonster<MummyLord>("Magic Resistance");
         }
     }
 }
