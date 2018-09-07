@@ -1069,7 +1069,9 @@ namespace MonsterSoupSrdImportTest
         public override string MonsterTraitString =>
             "If the gorgon moves at least 20 feet straight toward a creature and then hits it with " +
             "a gore attack on the same turn, that target must succeed on a DC 16 Strength saving throw " +
-            "or be knocked prone. If the target is prone, the gorgon can make one attack with its hooves " +
+            "or be knocked prone.\r\n" +
+            
+            "If the target is prone, the gorgon can make one attack with its hooves " +
             "against it as a bonus action.";
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
@@ -1103,7 +1105,9 @@ namespace MonsterSoupSrdImportTest
         public override string MonsterTraitString =>
             "If the triceratops moves at least 20 feet straight toward a creature and then hits it with " +
             "a gore attack on the same turn, that target must succeed on a DC 13 Strength saving throw " +
-            "or be knocked prone. If the target is prone, the triceratops can make one stomp attack " +
+            "or be knocked prone.\r\n" +
+            
+            "If the target is prone, the triceratops can make one stomp attack " +
             "against it as a bonus action.";
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>

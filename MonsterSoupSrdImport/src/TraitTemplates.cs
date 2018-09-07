@@ -283,7 +283,9 @@ namespace MonsterSoupSrdImport
                 Template =
                 "If {shortName} moves at least {distance:Number} feet straight toward a creature and then " +
                 "hits it with a {attack:Attack} on the same turn, that target must succeed on a " +
-                "{save:SavingThrow} or be knocked prone. If the target is prone, {shortName} can make " +
+                "{save:SavingThrow} or be knocked prone.\r\n" +
+                
+                "If the target is prone, {shortName} can make " +
                 "one {extraAttack:Attack} against it as a bonus action."
             },
 
