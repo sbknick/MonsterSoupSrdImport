@@ -18,14 +18,13 @@ namespace MonsterSoupSrdImport
             monsterTraitString = monsterTraitString.NormalizeNewlines();
 
             var perm = GetTemplateConditionalPermutation(traitTemplate, monsterTraitString);
+            var conditionalArgs = perm.Args?.ToDictionary(kvp => kvp.ArgKey, kvp => kvp.Arg) ?? new Dictionary<string, Arg>();
             
             var argsFromTemplate = GetArgsFromTemplate(perm.Template, monsterTraitString);
-
             var transformedArgs = TransformComplexMonsterTraits(argsFromTemplate);
 
-            if (perm.Args?.Length > 0)
-                foreach (var arg in perm.Args)
-                    transformedArgs.Add(arg.ArgKey, arg.Arg);
+            foreach (var cArg in conditionalArgs)
+                transformedArgs[cArg.Key] = cArg.Value;
 
             return transformedArgs;
         }
@@ -49,9 +48,7 @@ namespace MonsterSoupSrdImport
                 var usesCondition = new Regex(captureString).Match(monsterTraitString).Success;
 
                 if (usesCondition)
-                {
                     return perm;
-                }
             }
 
             throw new Exception();
@@ -59,15 +56,16 @@ namespace MonsterSoupSrdImport
 
         private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
         {
-            var ConditionalsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}\[(\S+?)=(\S+?) (.*?)\]");
-            var conditionalMatches = ConditionalsRegex.Matches(template);
+            var ConditionalArgsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}");
 
-            if (conditionalMatches.Count == 0)
+            var conditionalArgMatches = ConditionalArgsRegex.Matches(template);
+
+            if (conditionalArgMatches.Count == 0)
                 return null;
 
             var permutationList = new List<(int specificity, TemplateConditionalPermutation tcp)>();
 
-            int count = conditionalMatches.Count;
+            int count = conditionalArgMatches.Count;
             int permutationCount = (int)Math.Pow(2, count);
 
             var permutation = new bool[count];
@@ -75,11 +73,9 @@ namespace MonsterSoupSrdImport
             for (int i = permutationCount - 1; i >= 0; i--)
             {
                 for (int j = 0; j < count; j++)
-                {
                     permutation[j] = (i & (1 << j)) != 0;
-                }
 
-                permutationList.Add((permutation.Count(p => p), BuildPermutation(permutation, conditionalMatches, template)));
+                permutationList.Add((permutation.Count(p => p), BuildPermutation(permutation, conditionalArgMatches, template)));
             }
 
             return permutationList.Select(p => p.tcp).ToList();
@@ -91,46 +87,54 @@ namespace MonsterSoupSrdImport
             public (string ArgKey, Arg Arg)[] Args;
         }
 
-        private TemplateConditionalPermutation BuildPermutation(bool[] permutation, MatchCollection conditionalMatches, string template)
+        private TemplateConditionalPermutation BuildPermutation(bool[] permutation, MatchCollection conditionalArgMatches, string template)
         {
             string Replace(Match match, string insert = null) =>
                 $"{template.Substring(0, match.Index)}{insert}{template.Substring(match.Index + match.Length)}";
-            
-            var matchArgs = new Stack<(string key, Arg arg)>();
 
-            for (int i = permutation.Length - 1; i >= 0; i--)
+            var ConditionalStringsRegex = new Regex(@"\[(\S+?)=(\S+?) (.*?)\]");
+
+            var matchArgs = new List<(string key, Arg arg)>();
+
+            for (int i = 0; i < permutation.Length; i++)
             {
-                var match = conditionalMatches[i];
+                var assumeArgIsYes = permutation[i];
+                var argMatch = conditionalArgMatches[i];
 
-                if (match.Groups[2].Value != match.Groups[4].Value)
-                    throw new ArgumentException();
-
-                var flags = match.Groups[3].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+                var argName = argMatch.Groups[2].Value;
+                var flags = argMatch.Groups[3].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
 
                 var arg = new Arg
                 {
-                    key = match.Groups[2].Value,
+                    key = argMatch.Groups[2].Value,
                     argType = "YesNo",
                     flags = flags.Length > 0 ? flags : null,
+                    value = assumeArgIsYes ? "Yes" : "No",
                 };
 
-                string condition() => match.Groups[5].Value;
-                string notCondition() => condition() == "Yes" ? "No" : "Yes";
+                //template = Replace(argMatch);
 
-                if (!permutation[i])
+                var conditionalsForArg = ConditionalStringsRegex.Matches(template).Cast<Match>()
+                                        .Where(m => m.Groups[1].Value == argName).OrderByDescending(m => m.Index);
+
+
+                foreach (var conditional in conditionalsForArg)
                 {
-                    // Excise Match
-                    template = Replace(match);
-                    arg.value = notCondition();
-                }
-                else
-                {
-                    // Replace Match with appropriate template string.
-                    template = Replace(match, match.Groups[6].Value);
-                    arg.value = condition();
+                    var isYes = conditional.Groups[2].Value == "Yes";
+
+                    if (assumeArgIsYes == isYes)
+                    {
+                        // Replace Match with appropriate template string.
+                        template = Replace(conditional, conditional.Groups[3].Value);
+                    }
+                    else
+                    {
+                        // Excise Match
+                        template = Replace(conditional);
+                    }
                 }
 
-                matchArgs.Push((match.Groups[1].Value, arg));
+                matchArgs.Add((argMatch.Groups[1].Value, arg));
             }
 
             return new TemplateConditionalPermutation
@@ -141,23 +145,31 @@ namespace MonsterSoupSrdImport
         }
 
 
-        private static readonly Regex SimpleArgsRegex = new Regex(@"{([\s\S]+?)}");
+        private static readonly Regex SimpleArgsRegex = new Regex(@"{([a-zA-Z:]+?)}");
+        private static readonly Regex YesNoRegex = new Regex(@"{[a-zA-Z]+?:YesNo:?(.*?)}");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
         {
             var argLookup = new Dictionary<string, string>();
 
+            // create only required keys (to keep ordering for conditionals
             var matches = SimpleArgsRegex.Matches(traitTemplate);
 
-            var captureString = GetCaptureString(traitTemplate);
+            foreach (Match match in matches)
+                argLookup[match.Groups[1].Value] = null;
 
+
+            // grab matches for non-conditional args
+            traitTemplate = YesNoRegex.Strip(traitTemplate);
+
+            matches = SimpleArgsRegex.Matches(traitTemplate);
+
+            var captureString = GetCaptureString(traitTemplate);
             var captures = new Regex(captureString).Match(monsterTraitString);
 
             for (int i = 0; i < matches.Count; i++)
             {
                 var argKey = matches[i].Groups[1].Value;
-                if (argLookup.ContainsKey(argKey)) continue;
-
                 var argValue = captures.Groups[i + 1].Value;
                 argLookup[argKey] = argValue;
             }
@@ -168,7 +180,8 @@ namespace MonsterSoupSrdImport
         private string GetCaptureString(string template)
         {
             var escapedTemplate = template.Escape('.', '(', ')', '*');
-            var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]+?)");
+            escapedTemplate = YesNoRegex.Strip(escapedTemplate);
+            var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]*?)");
 
             return $"^{captureString}$";
         }
@@ -182,6 +195,7 @@ namespace MonsterSoupSrdImport
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
             { "Text", ArgParser.ParseTextArgValue },
+            { "YesNo", ArgParser.ParseTextArgValue },
         };
 
         public Dictionary<string, Arg> TransformComplexMonsterTraits(Dictionary<string, string> argsLookup)

@@ -383,6 +383,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<InvisibleStalker>("Faultless Tracker");
             yield return TestTraitFromMonster<Kraken>("Freedom of Movement");
             yield return TestTraitFromMonster<Kraken>("Siege Monster");
+            yield return TestTraitFromMonster<Lich>("Rejuvenation - Undead");
+            yield return TestTraitFromMonster<Lich>("Turn Resistance");
         }
     }
 }

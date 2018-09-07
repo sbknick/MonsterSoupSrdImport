@@ -357,6 +357,14 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Siege Monster.*** The kraken deals double damage to objects and structures.",
                 new[] { "Amphibious", "Freedom of Movement", "Siege Monster" }
             );
+
+            // Lich
+            yield return TestMonster(
+                new Lich(), @"
+                    ***Rejuvenation - Undead.*** If it has a phylactery, a destroyed lich gains a new body in 1d10 days, regaining all its hit points and becoming active again. The new body appears within 5 feet of the phylactery.
+                    ***Turn Resistance.*** The lich has advantage on saving throws against any effect that turns undead.",
+                new[] { "Rejuvenation - Undead", "Turn Resistance" }
+            );
         }
     }
 }

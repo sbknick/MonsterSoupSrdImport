@@ -102,7 +102,7 @@ namespace MonsterSoupSrdImport
             {
                 Name = "False Appearance",
                 Template =
-                "While {shortName} remains motionless{more:YesNo}[more=Yes {moreRequirements:Text}], " +
+                "While {shortName} remains motionless{more:YesNo}[more=Yes  {moreRequirements:Text}], " +
                 "it is indistinguishable from {description:Text}."
             },
             new Trait
@@ -485,6 +485,24 @@ namespace MonsterSoupSrdImport
                 Name = "Siege Monster",
                 Template =
                 "{ShortName} deals double damage to objects and structures."
+            },
+
+            // from Lich
+            new Trait
+            {
+                Name = "Rejuvenation - Undead",
+                Template =
+                "{usesPhylactery:YesNo}[usesPhylactery=Yes If it has a phylactery, a]" +
+                "[usesPhylactery=No A] destroyed {shortShortName} gains a new body " +
+                "in {timePeriod:Text}{usesHeart:YesNo}[usesHeart=Yes  if its heart is intact], " +
+                "regaining all its hit points and becoming active again. The new body appears " +
+                "within 5 feet of the [usesPhylactery=Yes phylactery][usesHeart=Yes {shortShortName}'s heart]."
+            },
+            new Trait
+            {
+                Name = "Turn Resistance",
+                Template =
+                "{ShortName} has advantage on saving throws against any effect that turns undead."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

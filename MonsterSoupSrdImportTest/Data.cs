@@ -239,6 +239,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Lich : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Rejuvenation - Undead", new Lich_Rejuvenation() },
+            { "Turn Resistance", new Lich_TurnResistance() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -595,7 +604,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the cloaker" } },
             { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "Yes" } },
-            { "moreRequirements:Text", new Arg { key = "moreRequirements", argType = "Text", value = " without its underside exposed" } },
+            { "moreRequirements:Text", new Arg { key = "moreRequirements", argType = "Text", value = "without its underside exposed" } },
             { "description:Text", new Arg { key = "description", argType = "Text", value = "a dark leather cloak" } },
         };
     }
@@ -1547,4 +1556,39 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Kraken
+
+    #region Lich
+
+    public sealed class Lich_Rejuvenation : TraitTestData
+    {
+        public override string Trait => "Rejuvenation - Undead";
+
+        public override string MonsterTraitString =>
+            "If it has a phylactery, a destroyed lich gains a new body in 1d10 days, " +
+            "regaining all its hit points and becoming active again. The new body " +
+            "appears within 5 feet of the phylactery.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "lich" } },
+            { "usesPhylactery:YesNo", new Arg  { key = "usesPhylactery", argType = "YesNo", value = "Yes" } },
+            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "1d10 days" } },
+            { "usesHeart:YesNo", new Arg { key = "usesHeart", argType = "YesNo", value = "No" } },
+        };
+    }
+
+    public sealed class Lich_TurnResistance : TraitTestData
+    {
+        public override string Trait => "Turn Resistance";
+
+        public override string MonsterTraitString =>
+            "The lich has advantage on saving throws against any effect that turns undead.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The lich" } },
+        };
+    }
+
+    #endregion Lich
 }
