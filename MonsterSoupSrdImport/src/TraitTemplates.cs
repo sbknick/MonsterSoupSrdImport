@@ -521,8 +521,17 @@ namespace MonsterSoupSrdImport
                 Name = "Death Burst",
                 Template =
                 "When {shortName} dies, it explodes in {anEffect:Text}. Each creature within " +
-                "{radius:Number} feet of it must make a {save:SavingThrow}" +
-                "{saveForNoDamage:YesNo}{saveForHalfDamage:YesNo}{saveForEffect:YesNo}" +
+                "{radius:Number} feet of " +
+                "[saveForNoDamage=Yes {shortName}]" +
+                "[saveForNoDamage=No it]" +
+                " must " +
+                "[saveForHalfDamage=Yes make]" +
+                "[saveForNoDamage=Yes succeed on]" +
+                "[saveForEffect=Yes then succeed on]" +
+                " a {save:SavingThrow}" +
+                "{saveForNoDamage:YesNo}" +
+                "{saveForHalfDamage:YesNo}" +
+                "{saveForEffect:YesNo}" +
                 "[saveForNoDamage=Yes  or take {damage:Damage:Typed}.]" +
                 "[saveForHalfDamage=Yes , taking {damage:Damage:Typed} on a failed save, or " +
                 "half as much damage on a successful one.]" +

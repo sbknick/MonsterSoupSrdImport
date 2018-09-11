@@ -384,29 +384,23 @@ At the end of its turn, it grows two heads for each of its heads that died since
                 new[] { "Death Burst", "Ignited Illumination" }
             );
 
-            //// Mephits
-            //yield return TestMonster(
-            //    new DustMephit(), @"
-            //        ***Death Burst.*** When the mephit dies, it explodes in a burst of dust. Each creature within 5 feet of it must then succeed on a DC 10 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat the saving throw on each of its turns, ending the effect on itself on a success.",
-            //    new[] { "Death Burst" }
-            //);
-            //yield return TestMonster(
-            //    new IceMephit(), @"
-            //        ***Death Burst.*** When the mephit dies, it explodes in a burst of jagged ice. Each creature within 5 feet of it must make a DC 10 Dexterity saving throw, taking 4 (1d8) slashing damage on a failed save, or half as much damage on a successful one.
-            //        ***False Appearance.*** While the mephit remains motionless, it is indistinguishable from an ordinary shard of ice.",
-            //    new[] { "Death Burst", "False Appearance" }
-            //);
-            //yield return TestMonster(
-            //    new MagmaMephit(), @"
-            //        ***Death Burst.*** When the mephit dies, it explodes in a burst of lava. Each creature within 5 feet of it must make a DC 11 Dexterity saving throw, taking 7 (2d6) fire damage on a failed save, or half as much damage on a successful one.
-            //        ***False Appearance.*** While the mephit remains motionless, it is indistinguishable from an ordinary mound of magma.",
-            //    new[] { "Death Burst", "False Appearance" }
-            //);
-            //yield return TestMonster(
-            //    new SteamMephit(), @"
-            //        ***Death Burst.*** When the mephit dies, it explodes in a cloud of steam. Each creature within 5 feet of the mephit must succeed on a DC 10 Dexterity saving throw or take 4 (1d8) fire damage.",
-            //    new[] { "Death Burst" }
-            //);
+            // Mephits
+            yield return TestMonster(
+                new DustMephit(), @"
+                    ***Death Burst.*** When the mephit dies, it explodes in a burst of dust. Each creature within 5 feet of it must then succeed on a DC 10 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat the saving throw on each of its turns, ending the effect on itself on a success.",
+                new[] { "Death Burst" }
+            );
+            yield return TestMonster(
+                new IceMephit(), @"
+                    ***Death Burst.*** When the mephit dies, it explodes in a burst of jagged ice. Each creature within 5 feet of it must make a DC 10 Dexterity saving throw, taking 4 (1d8) slashing damage on a failed save, or half as much damage on a successful one.
+                    ***False Appearance.*** While the mephit remains motionless, it is indistinguishable from an ordinary shard of ice.",
+                new[] { "Death Burst", "False Appearance" }
+            );
+            yield return TestMonster(
+                new SteamMephit(), @"
+                    ***Death Burst.*** When the mephit dies, it explodes in a cloud of steam. Each creature within 5 feet of the mephit must succeed on a DC 10 Dexterity saving throw or take 4 (1d8) fire damage.",
+                new[] { "Death Burst" }
+            );
         }
     }
 }

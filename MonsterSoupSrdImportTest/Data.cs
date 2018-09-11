@@ -257,6 +257,35 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    #region Mephits
+
+    public sealed class DustMephit : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Death Burst", new DustMephit_DeathBurst() },
+        };
+    }
+
+    public sealed class IceMephit : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Death Burst", new IceMephit_DeathBurst() },
+            { "False Appearance", new IceMephit_FalseAppearance() },
+        };
+    }
+
+    public sealed class SteamMephit : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Death Burst", new SteamMephit_DeathBurst() },
+        };
+    }
+
+    #endregion Mephits
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1700,4 +1729,111 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion
+
+    #region Mephits
+
+    public sealed class DustMephit_DeathBurst : TraitTestData
+    {
+        public override string Trait => "Death Burst";
+
+        public override string MonsterTraitString =>
+            "When the mephit dies, it explodes in a burst of dust. Each creature within " +
+            "5 feet of it must then succeed on a DC 10 Constitution saving throw or be " +
+            "blinded for 1 minute. A blinded creature can repeat the saving throw on each " +
+            "of its turns, ending the effect on itself on a success.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mephit" } },
+            { "anEffect:Text", new Arg { key = "anEffect", argType = "Text", value = "a burst of dust" } },
+            { "radius:Number", new Arg { key = "radius", argType = "Number", value = 5 } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs {
+                DC = 10,
+                Attribute = "Constitution",
+            } } },
+            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
+            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "No" } },
+            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "Yes" } },
+            { "affected:Text", new Arg { key = "affected", argType = "Text", value = "blinded" } },
+            { "ignitesObjects:YesNo", new Arg { key = "ignitesObjects", argType = "YesNo", value = "No" } },
+        };
+    }
+
+    public sealed class IceMephit_DeathBurst : TraitTestData
+    {
+        public override string Trait => "Death Burst";
+
+        public override string MonsterTraitString =>
+            "When the mephit dies, it explodes in a burst of jagged ice. Each creature within " +
+            "5 feet of it must make a DC 10 Dexterity saving throw, taking 4 (1d8) slashing damage " +
+            "on a failed save, or half as much damage on a successful one.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mephit" } },
+            { "anEffect:Text", new Arg { key = "anEffect", argType = "Text", value = "a burst of jagged ice" } },
+            { "radius:Number", new Arg { key = "radius", argType = "Number", value = 5 } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs {
+                DC = 10,
+                Attribute = "Dexterity",
+            } } },
+            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
+            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "Yes" } },
+            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
+                diceCount = 1,
+                dieSize = 8,
+                damageType = "slashing"
+            } } },
+            { "ignitesObjects:YesNo", new Arg { key = "ignitesObjects", argType = "YesNo", value = "No" } },
+        };
+    }
+
+    public sealed class IceMephit_FalseAppearance : TraitTestData
+    {
+        public override string Trait => "False Appearance";
+
+        public override string MonsterTraitString =>
+            "While the mephit remains motionless, it is indistinguishable from " +
+            "an ordinary shard of ice.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mephit" } },
+            { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "No" } },
+            { "description:Text", new Arg { key = "description", argType = "Text", value = "an ordinary shard of ice" } },
+        };
+    }
+
+    public sealed class SteamMephit_DeathBurst : TraitTestData
+    {
+        public override string Trait => "Death Burst";
+
+        public override string MonsterTraitString =>
+            "When the mephit dies, it explodes in a cloud of steam. Each creature within " +
+            "5 feet of the mephit must succeed on a DC 10 Dexterity saving throw or take " +
+            "4 (1d8) fire damage.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mephit" } },
+            { "anEffect:Text", new Arg { key = "anEffect", argType = "Text", value = "a cloud of steam" } },
+            { "radius:Number", new Arg { key = "radius", argType = "Number", value = 5 } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs {
+                DC = 10,
+                Attribute = "Dexterity",
+            } } },
+            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "Yes" } },
+            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "No" } },
+            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
+                diceCount = 1,
+                dieSize = 8,
+                damageType = "fire"
+            } } },
+            { "ignitesObjects:YesNo", new Arg { key = "ignitesObjects", argType = "YesNo", value = "No" } },
+        };
+    }
+
+    #endregion Mephits
 }

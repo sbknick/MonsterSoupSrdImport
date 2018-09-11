@@ -389,12 +389,10 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<MummyLord>("Magic Resistance");
             yield return TestTraitFromMonster<Magmin>("Ignited Illumination");
             yield return TestTraitFromMonster<Magmin>("Death Burst");
-            //yield return TestTraitFromMonster<DustMephit>("Death Burst");
-            //yield return TestTraitFromMonster<IceMephit>("Death Burst");
-            //yield return TestTraitFromMonster<MagmaMephit>("Death Burst");
-            //yield return TestTraitFromMonster<SteamMephit>("Death Burst");
-            //yield return TestTraitFromMonster<IceMephit>("False Appearance");
-            //yield return TestTraitFromMonster<MagmaMephit>("False Appearance");
+            yield return TestTraitFromMonster<DustMephit>("Death Burst");
+            yield return TestTraitFromMonster<IceMephit>("Death Burst");
+            yield return TestTraitFromMonster<IceMephit>("False Appearance");
+            yield return TestTraitFromMonster<SteamMephit>("Death Burst");
         }
     }
 }
