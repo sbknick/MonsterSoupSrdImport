@@ -284,7 +284,7 @@ namespace MonsterSoupSrdImport
                 "If {shortName} moves at least {distance:Number} feet straight toward a creature and then " +
                 "hits it with a {attack:Attack} on the same turn, that target must succeed on a " +
                 "{save:SavingThrow} or be knocked prone.\r\n" +
-                
+
                 "If the target is prone, {shortName} can make " +
                 "one {extraAttack:Attack} against it as a bonus action."
             },
@@ -513,6 +513,31 @@ namespace MonsterSoupSrdImport
                 Name = "Magic Resistance",
                 Template =
                 "{ShortName} has advantage on saving throws against spells and other magical effects."
+            },
+
+            // from Magmin
+            new Trait
+            {
+                Name = "Death Burst",
+                Template =
+                "When {shortName} dies, it explodes in {anEffect:Text}. Each creature within " +
+                "{radius:Number} feet of it must make a {save:SavingThrow}" +
+                "{saveForNoDamage:YesNo}{saveForHalfDamage:YesNo}{saveForEffect:YesNo}" +
+                "[saveForNoDamage=Yes  or take {damage:Damage:Typed}.]" +
+                "[saveForHalfDamage=Yes , taking {damage:Damage:Typed} on a failed save, or " +
+                "half as much damage on a successful one.]" +
+                "[saveForEffect=Yes  or be {affected:Text} for 1 minute. A {affected:Text} creature " +
+                "can repeat the saving throw on each of its turns, ending the effect on itself on a success.]" +
+                "{ignitesObjects:YesNo}[ignitesObjects=Yes  Flammable objects that aren’t being worn or " +
+                "carried in that area are ignited.]"
+            },
+            new Trait
+            {
+                Name = "Ignited Illumination",
+                Template =
+                "As a bonus action, {shortName} can set itself ablaze or extinguish its flames. " +
+                "While ablaze, {shortName} sheds bright light in a {radius:Number}-foot radius and " +
+                "dim light for an additional {radius:Number} feet."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

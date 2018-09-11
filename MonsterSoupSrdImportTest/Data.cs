@@ -248,6 +248,15 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Magmin : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Death Burst", new Magmin_DeathBurst() },
+            { "Ignited Illumination", new Magmin_IgnitedIllumination() },
+        };
+    }
+
     public sealed class Minotaur : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -1638,6 +1647,57 @@ At the end of its turn, it grows two heads for each of its heads that died since
             { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "24 hours" } },
         };
     }
-        
+
     #endregion Mummy Lord
+
+    #region Magmin
+
+    public sealed class Magmin_DeathBurst : TraitTestData
+    {
+        public override string Trait => "Death Burst";
+
+        public override string MonsterTraitString =>
+            "When the magmin dies, it explodes in a burst of fire and magma. Each creature " +
+            "within 10 feet of it must make a DC 11 Dexterity saving throw, taking " +
+            "7 (2d6) fire damage on a failed save, or half as much damage on a successful one. " +
+            "Flammable objects that aren’t being worn or carried in that area are ignited.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the magmin" } },
+            { "anEffect:Text", new Arg { key = "anEffect", argType = "Text", value = "a burst of fire and magma" } },
+            { "radius:Number", new Arg { key = "radius", argType = "Number", value = 10 } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs {
+                DC = 11,
+                Attribute = "Dexterity",
+            } } },
+            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
+            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "Yes" } },
+            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
+                diceCount = 2,
+                dieSize = 6,
+                damageType = "fire"
+            } } },
+            { "ignitesObjects:YesNo", new Arg { key = "ignitesObjects", argType = "YesNo", value = "Yes" } },
+        };
+    }
+
+    public sealed class Magmin_IgnitedIllumination : TraitTestData
+    {
+        public override string Trait => "Ignited Illumination";
+
+        public override string MonsterTraitString =>
+            "As a bonus action, the magmin can set itself ablaze or extinguish its flames. " +
+            "While ablaze, the magmin sheds bright light in a 10-foot radius and dim light " +
+            "for an additional 10 feet.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the magmin" } },
+            { "radius:Number", new Arg { key = "radius", argType = "Number", value = 10 } },
+        };
+    }
+
+    #endregion
 }
