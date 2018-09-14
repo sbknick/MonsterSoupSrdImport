@@ -56,29 +56,64 @@ namespace MonsterSoupSrdImport
 
         private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
         {
-            var ConditionalArgsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}");
+            var ddOptionsLookup = new Dictionary<string, string[]>();
+            var YesNoArgsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}");
+            var DropdownArgsRegex = new Regex(@"\{(([^\{]+?):Dropdown:\[(.*?)\]:?(.*?))\}");
 
-            var conditionalArgMatches = ConditionalArgsRegex.Matches(template);
+            var yesNoArgMatches = YesNoArgsRegex.Matches(template);
+            var dropdownArgMatches = DropdownArgsRegex.Matches(template);
 
-            if (conditionalArgMatches.Count == 0)
+            if (yesNoArgMatches.Count == 0 && dropdownArgMatches.Count == 0)
                 return null;
 
             var permutationList = new List<(int specificity, TemplateConditionalPermutation tcp)>();
 
-            int count = conditionalArgMatches.Count;
-            int permutationCount = (int)Math.Pow(2, count);
+            int yesNoCount = yesNoArgMatches.Count;
+            int ddCount = dropdownArgMatches.Count;
 
-            var permutation = new bool[count];
+            int yesNoPermCount = (int)Math.Pow(2, yesNoCount);
+            int ddPermCount = CountDropDownOptionPermuations();
 
-            for (int i = permutationCount - 1; i >= 0; i--)
+            var yesNoPermutation = new bool[yesNoCount];
+            var ddPermutation = new int[ddCount];
+
+            for (int i = yesNoPermCount - 1; i >= 0; i--)
             {
-                for (int j = 0; j < count; j++)
-                    permutation[j] = (i & (1 << j)) != 0;
+                for (int j = 0; j < yesNoCount; j++)
+                    yesNoPermutation[j] = (i & (1 << j)) != 0;
+                
+                for (int k = 0; k < ddPermCount; k++)
+                {
+                    int m = k;
+                    for (int l = 0; l < ddCount; l++)
+                    {
+                        var key = dropdownArgMatches[l].Groups[2].Value;
+                        var optCount = ddOptionsLookup[key].Length;
+                        ddPermutation[l] = m % optCount;
+                        m /= optCount;
+                    }
 
-                permutationList.Add((permutation.Count(p => p), BuildPermutation(permutation, conditionalArgMatches, template)));
+                    permutationList.Add((
+                        yesNoPermutation.Count(p => p) + ddPermutation.Sum(p => p),
+                        BuildPermutation(yesNoPermutation, yesNoArgMatches, ddPermutation, dropdownArgMatches, ddOptionsLookup, template)
+                    ));
+                }
             }
 
             return permutationList.Select(p => p.tcp).ToList();
+
+
+            int CountDropDownOptionPermuations()
+            {
+                var count = 1;
+                foreach (Match match in dropdownArgMatches)
+                {
+                    var options = match.Groups[3].Value.Split(',');
+                    count *= options.Length;
+                    ddOptionsLookup[match.Groups[2].Value] = options;
+                }
+                return count;
+            }
         }
 
         private struct TemplateConditionalPermutation
@@ -87,56 +122,81 @@ namespace MonsterSoupSrdImport
             public (string ArgKey, Arg Arg)[] Args;
         }
 
-        private TemplateConditionalPermutation BuildPermutation(bool[] permutation, MatchCollection conditionalArgMatches, string template)
+        private TemplateConditionalPermutation BuildPermutation(
+            bool[] yesNoPermutation, MatchCollection yesNoArgMatches,
+            int[] ddPermutation, MatchCollection ddArgMatches, IDictionary<string, string[]> ddOptionsLookup,
+            string template
+        )
         {
-            string Replace(Match match, string insert = null) =>
-                $"{template.Substring(0, match.Index)}{insert}{template.Substring(match.Index + match.Length)}";
-
-            var ConditionalStringsRegex = new Regex(@"\[(\S+?)=(\S+?) (.*?)\]");
+            var ConditionalStringsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (.*?)\]");
 
             var matchArgs = new List<(string key, Arg arg)>();
 
-            for (int i = 0; i < permutation.Length; i++)
+
+            string Replace(Match match, string insert = null) =>
+                $"{template.Substring(0, match.Index)}{insert}{template.Substring(match.Index + match.Length)}";
+
+            IEnumerable<Match> GetConditionalsForArg(string argName) =>
+                ConditionalStringsRegex.Matches(template).Cast<Match>()
+                .Where(m => m.Groups[1].Value == argName).OrderByDescending(m => m.Index);
+
+            void DoTheThing<T>(
+                string argType,
+                T[] permutation,
+                MatchCollection matches,
+                Func<string, T, string> valueToString,
+                Func<string, string, T> stringToValue
+            )
             {
-                var assumeArgIsYes = permutation[i];
-                var argMatch = conditionalArgMatches[i];
-
-                var argName = argMatch.Groups[2].Value;
-                var flags = argMatch.Groups[3].Value.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
-
-                var arg = new Arg
+                for (int i = 0; i < permutation.Length; i++)
                 {
-                    key = argMatch.Groups[2].Value,
-                    argType = "YesNo",
-                    flags = flags.Length > 0 ? flags : null,
-                    value = assumeArgIsYes ? "Yes" : "No",
-                };
+                    T assumeArgValue = permutation[i];
+                    var argMatch = matches[i];
 
-                //template = Replace(argMatch);
+                    var argName = argMatch.Groups[2].Value;
 
-                var conditionalsForArg = ConditionalStringsRegex.Matches(template).Cast<Match>()
-                                        .Where(m => m.Groups[1].Value == argName).OrderByDescending(m => m.Index);
+                    var flagIdx = argMatch.Groups.Count - 1;
+                    var flags = argMatch.Groups[flagIdx].Value.SplitFlags();
 
-
-                foreach (var conditional in conditionalsForArg)
-                {
-                    var isYes = conditional.Groups[2].Value == "Yes";
-
-                    if (assumeArgIsYes == isYes)
+                    var arg = new Arg
                     {
-                        // Replace Match with appropriate template string.
-                        template = Replace(conditional, conditional.Groups[3].Value);
-                    }
-                    else
+                        key = argName,
+                        argType = argType,
+                        flags = flags.Length > 0 ? flags : null,
+                        value = valueToString(argName, assumeArgValue),
+                    };
+
+                    var conditionalsForArg = GetConditionalsForArg(argName);
+
+                    foreach (var conditional in conditionalsForArg)
                     {
-                        // Excise Match
-                        template = Replace(conditional);
+                        T condition = stringToValue(argName, conditional.Groups[3].Value);
+                        
+                        var isEqualityCheck = conditional.Groups[2].Value == "=";
+
+                        if (condition.Equals(assumeArgValue) == isEqualityCheck)
+                        {
+                            // Replace Match with appropriate template string.
+                            template = Replace(conditional, conditional.Groups[4].Value);
+                        }
+                        else
+                        {
+                            // Excise Match
+                            template = Replace(conditional);
+                        }
                     }
+
+                    matchArgs.Add((argMatch.Groups[1].Value, arg));
                 }
-
-                matchArgs.Add((argMatch.Groups[1].Value, arg));
             }
 
+            DoTheThing("YesNo", yesNoPermutation, yesNoArgMatches,
+                (argName, value) => value ? "Yes" : "No",
+                (argName, str) => str == "Yes");
+            DoTheThing("Dropdown", ddPermutation, ddArgMatches,
+                (argName, value) => ddOptionsLookup[argName][value],
+                (argName, str) => ddOptionsLookup[argName].IndexOf(str));
+            
             return new TemplateConditionalPermutation
             {
                 Template = template,
@@ -146,7 +206,7 @@ namespace MonsterSoupSrdImport
 
 
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([a-zA-Z:]+?)}");
-        private static readonly Regex YesNoRegex = new Regex(@"{[a-zA-Z]+?:YesNo:?(.*?)}");
+        private static readonly Regex AnyConditionalArgRegex = new Regex(@"{[a-zA-Z]+?:(?=YesNo|Dropdown):?(.*?)}");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
         {
@@ -160,7 +220,7 @@ namespace MonsterSoupSrdImport
 
 
             // grab matches for non-conditional args
-            traitTemplate = YesNoRegex.Strip(traitTemplate);
+            traitTemplate = AnyConditionalArgRegex.Strip(traitTemplate);
 
             matches = SimpleArgsRegex.Matches(traitTemplate);
 
@@ -180,7 +240,7 @@ namespace MonsterSoupSrdImport
         private string GetCaptureString(string template)
         {
             var escapedTemplate = template.Escape('.', '(', ')', '*');
-            escapedTemplate = YesNoRegex.Strip(escapedTemplate);
+            escapedTemplate = AnyConditionalArgRegex.Strip(escapedTemplate);
             var captureString = SimpleArgsRegex.Replace(escapedTemplate, @"([\s\S]*?)");
 
             return $"^{captureString}$";
@@ -196,6 +256,7 @@ namespace MonsterSoupSrdImport
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
             { "Text", ArgParser.ParseTextArgValue },
             { "YesNo", ArgParser.ParseTextArgValue },
+            { "Dropdown", ArgParser.ParseDropdownValue },
         };
 
         public Dictionary<string, Arg> TransformComplexMonsterTraits(Dictionary<string, string> argsLookup)
@@ -258,7 +319,7 @@ namespace MonsterSoupSrdImport
                 };
             }
 
-            #endregion
+            #endregion Attack
 
             #region Damage
 
@@ -287,7 +348,7 @@ namespace MonsterSoupSrdImport
                 };
             }
 
-            #endregion
+            #endregion Damage
 
             #region DiceRoll
 
@@ -304,7 +365,7 @@ namespace MonsterSoupSrdImport
                 };
             }
 
-            #endregion
+            #endregion DiceRoll
 
             #region MultiOption
 
@@ -339,7 +400,14 @@ namespace MonsterSoupSrdImport
                 };
             }
 
-            #endregion
+            #endregion SavingThrow
+
+            #region Dropdown
+
+            public static object ParseDropdownValue(string values, string[] flags)
+                => values;
+
+            #endregion Dropdown
 
             public static object ParseTextArgValue(string values, string[] flags)
                 => values;

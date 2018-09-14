@@ -35,9 +35,23 @@ namespace MonsterSoupSrdImport
             return tokens[0].Trim();
         }
 
+        public static string[] SplitFlags(this string input) =>
+            input.Split(':').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+
         public static string Strip(this Regex regex, string input) => regex.Replace(input, string.Empty).Trim();
 
         public static int ToInt(this string input) => Convert.ToInt32(input);
+
+        public static int IndexOf<T>(this T[] array, T value)
+        {
+            int i;
+            for (i = array.Length - 1; i >= 0; i--)
+            {
+                if (array[i].Equals(value))
+                    return i;
+            }
+            return i;
+        }
     }
 
     public enum PopType

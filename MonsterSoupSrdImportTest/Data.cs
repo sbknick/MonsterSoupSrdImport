@@ -1700,9 +1700,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
                 DC = 11,
                 Attribute = "Dexterity",
             } } },
-            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
-            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "Yes" } },
-            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "saveType:Dropdown:[NoDamage,HalfDamage,Effect]", new Arg { key = "saveType", argType = "Dropdown", value = "HalfDamage" } },
             { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
                 diceCount = 2,
                 dieSize = 6,
@@ -1751,9 +1749,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
                 DC = 10,
                 Attribute = "Constitution",
             } } },
-            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
-            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "No" } },
-            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "Yes" } },
+            { "saveType:Dropdown:[NoDamage,HalfDamage,Effect]", new Arg { key = "saveType", argType = "Dropdown", value = "Effect" } },
             { "affected:Text", new Arg { key = "affected", argType = "Text", value = "blinded" } },
             { "ignitesObjects:YesNo", new Arg { key = "ignitesObjects", argType = "YesNo", value = "No" } },
         };
@@ -1777,9 +1773,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
                 DC = 10,
                 Attribute = "Dexterity",
             } } },
-            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "No" } },
-            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "Yes" } },
-            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "saveType:Dropdown:[NoDamage,HalfDamage,Effect]", new Arg { key = "saveType", argType = "Dropdown", value = "HalfDamage" } },
             { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
                 diceCount = 1,
                 dieSize = 8,
@@ -1823,9 +1817,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
                 DC = 10,
                 Attribute = "Dexterity",
             } } },
-            { "saveForNoDamage:YesNo", new Arg { key = "saveForNoDamage", argType = "YesNo", value = "Yes" } },
-            { "saveForHalfDamage:YesNo", new Arg { key = "saveForHalfDamage", argType = "YesNo", value = "No" } },
-            { "saveForEffect:YesNo", new Arg { key = "saveForEffect", argType = "YesNo", value = "No" } },
+            { "saveType:Dropdown:[NoDamage,HalfDamage,Effect]", new Arg { key = "saveType", argType = "Dropdown", value = "NoDamage" } },
             { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs {
                 diceCount = 1,
                 dieSize = 8,

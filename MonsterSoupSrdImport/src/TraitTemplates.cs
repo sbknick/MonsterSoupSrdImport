@@ -520,25 +520,19 @@ namespace MonsterSoupSrdImport
             {
                 Name = "Death Burst",
                 Template =
-                "When {shortName} dies, it explodes in {anEffect:Text}. Each creature within " +
-                "{radius:Number} feet of " +
-                "[saveForNoDamage=Yes {shortName}]" +
-                "[saveForNoDamage=No it]" +
-                " must " +
-                "[saveForHalfDamage=Yes make]" +
-                "[saveForNoDamage=Yes succeed on]" +
-                "[saveForEffect=Yes then succeed on]" +
-                " a {save:SavingThrow}" +
-                "{saveForNoDamage:YesNo}" +
-                "{saveForHalfDamage:YesNo}" +
-                "{saveForEffect:YesNo}" +
-                "[saveForNoDamage=Yes  or take {damage:Damage:Typed}.]" +
-                "[saveForHalfDamage=Yes , taking {damage:Damage:Typed} on a failed save, or " +
-                "half as much damage on a successful one.]" +
-                "[saveForEffect=Yes  or be {affected:Text} for 1 minute. A {affected:Text} creature " +
-                "can repeat the saving throw on each of its turns, ending the effect on itself on a success.]" +
-                "{ignitesObjects:YesNo}[ignitesObjects=Yes  Flammable objects that aren’t being worn or " +
-                "carried in that area are ignited.]"
+                "When {shortName} dies, it explodes in {anEffect:Text}. Each creature within {radius:Number} feet of " +
+                "[saveType=NoDamage {shortName}][saveType!=NoDamage it] must " +
+                "[saveType=HalfDamage make][saveType=NoDamage succeed on][saveType=Effect then succeed on] a " +
+                "{save:SavingThrow}" +
+                "{saveType:Dropdown:[NoDamage,HalfDamage,Effect]}" +
+                //"[saveType=NoDamage|HalfDamage {ignitesObjects:YesNo}]" + //TODO: Nested Conditional Args
+                "[saveType=NoDamage  or take {damage:Damage:Typed}.]" +
+                "[saveType=HalfDamage , taking {damage:Damage:Typed} on a failed save, or half as much damage on " +
+                "a successful one.]" +
+                "[saveType=Effect  or be {affected:Text} for 1 minute. A {affected:Text} creature can repeat the " +
+                "saving throw on each of its turns, ending the effect on itself on a success.]" +
+                "{ignitesObjects:YesNo}" +
+                "[ignitesObjects=Yes  Flammable objects that aren’t being worn or carried in that area are ignited.]"
             },
             new Trait
             {
