@@ -542,6 +542,14 @@ namespace MonsterSoupSrdImport
                 "While ablaze, {shortName} sheds bright light in a {radius:Number}-foot radius and " +
                 "dim light for an additional {radius:Number} feet."
             },
+
+            // from Manticore
+            new Trait
+            {
+                Name = "Tail Spike Regrowth",
+                Template =
+                "{ShortName} has {amount:Text} tail spikes. Used spikes regrow when {shortName} finishes a long rest."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

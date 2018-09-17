@@ -325,6 +325,11 @@ namespace MonsterSoupSrdImportTest
                 return new object[] { trait.TraitTemplate, trait.MonsterTraitString, trait.ExpectedArgsOutput };
             }
 
+            object[] TestTraitFromTemplate(string traitName, string monsterTraitString, TransformedArgs expectedArgsOutput)
+            {
+                return new object[] { TraitTemplates.StandardTraits[traitName].Template, monsterTraitString, expectedArgsOutput };
+            }
+
             yield return TestTraitFromMonster<Aboleth>("Mucous Cloud");
             yield return TestTraitFromMonster<Bugbear>("Surprise Attack");
             yield return TestTraitFromMonster<Bulette>("Standing Leap");
@@ -393,6 +398,16 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<IceMephit>("Death Burst");
             yield return TestTraitFromMonster<IceMephit>("False Appearance");
             yield return TestTraitFromMonster<SteamMephit>("Death Burst");
+
+            yield return TestTraitFromTemplate(
+                "Tail Spike Regrowth",
+                "The manticore has twenty-four tail spikes. Used spikes regrow when the manticore finishes a long rest.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The manticore" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the manticore" } },
+                    { "amount:Text", new Arg { key = "amount", argType = "Text", value = "twenty-four" } },
+                });
         }
     }
 }
