@@ -550,6 +550,28 @@ namespace MonsterSoupSrdImport
                 Template =
                 "{ShortName} has {amount:Text} tail spikes. Used spikes regrow when {shortName} finishes a long rest."
             },
+
+            // from Medusa
+            new Trait
+            {
+                Name = "Petrifying Gaze",
+                Template =
+                "When a creature that can see {shortName}’s eyes starts its turn within 30 feet of {shortName}, " +
+                "{shortName} can force it to make a {save:SavingThrow} if {shortName} isn’t incapacitated and can " +
+                "see the creature. If the saving throw fails by 5 or more, the creature is instantly petrified. " +
+                "Otherwise, a creature that fails the save begins to turn to stone and is restrained. The restrained " +
+                "creature must repeat the saving throw at the end of its next turn, becoming petrified on a failure " +
+                "or ending the effect on a success. The petrification lasts until the creature is freed by the " +
+                "*greater restoration* spell or other magic.\r\n" +
+
+                "Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. " +
+                "If the creature does so, it can’t see {shortName} until the start of its next turn, when it can " +
+                "avert its eyes again. If the creature looks at {shortName} in the meantime, it must immediately " +
+                "make the save.\r\n" +
+
+                "If {shortName} sees itself reflected on a polished surface within 30 feet of it and in an area of " +
+                "bright light, {shortName} is, due to its curse, affected by its own gaze."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
