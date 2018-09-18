@@ -93,10 +93,13 @@ namespace MonsterSoupSrdImport
             // from Cloaker
             new Trait
             {
-                Name = "Damage Transfer - Cloaker",
-                Template =
-                "While attached to a creature, {shortName} takes only half the damage dealt to it " +
-                "(rounded down), and that creature takes the other half."
+                Name = "Damage Transfer",
+                Template = 
+                "{template:Dropdown:[Cloaker,RugOfSmothering]}" +
+                "[template=Cloaker While attached to a creature, {shortName} takes only half the damage dealt to it " +
+                "(rounded down), and that creature takes the other half.]" +
+                "[template=RugOfSmothering While it is grappling a creature, {shortName} takes only half the damage " +
+                "dealt to it, and the creature grappled by {shortName} takes the other half.]"
             },
             new Trait
             {
@@ -121,13 +124,6 @@ namespace MonsterSoupSrdImport
                 "{ShortName} is incapacitated while in the area of an *antimagic field.* " +
                 "If targeted by *dispel magic*, {shortName} must succeed on a Constitution saving throw " +
                 "against the caster’s spell save DC or fall unconscious for 1 minute."
-            },
-            new Trait
-            {
-                Name = "Damage Transfer - Rug of Smothering",
-                Template =
-                "While it is grappling a creature, {shortName} takes only half the damage dealt to it, " +
-                "and the creature grappled by {shortName} takes the other half."
             },
 
             // from Couatl

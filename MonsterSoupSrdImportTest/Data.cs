@@ -61,7 +61,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Damage Transfer - Cloaker", new Cloaker_DamageTransfer() },
+            { "Damage Transfer", new Cloaker_DamageTransfer() },
             { "False Appearance", new Cloaker_FalseAppearance() },
             { "Light Sensitivity", new Cloaker_LightSensitivity() },
         };
@@ -310,7 +310,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Antimagic Susceptibility", new RugOfSmothering_AntimagicSusceptibility() },
-            { "Damage Transfer - Rug of Smothering", new RugOfSmothering_DamageTransfer() },
+            { "Damage Transfer", new RugOfSmothering_DamageTransfer() },
             { "False Appearance", new RugOfSmothering_FalseAppearance() },
         };
     }
@@ -627,7 +627,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Cloaker_DamageTransfer : TraitTestData
     {
-        public override string Trait => "Damage Transfer - Cloaker";
+        public override string Trait => "Damage Transfer";
 
         public override string MonsterTraitString =>
             "While attached to a creature, the cloaker takes only half the damage dealt to it " +
@@ -636,6 +636,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the cloaker" } },
+            { "template:Dropdown:[Cloaker,RugOfSmothering]", new Arg { key = "template", argType = "Dropdown", value = "Cloaker" } },
         };
     }
 
@@ -676,7 +677,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class RugOfSmothering_DamageTransfer : TraitTestData
     {
-        public override string Trait => "Damage Transfer - Rug of Smothering";
+        public override string Trait => "Damage Transfer";
 
         public override string MonsterTraitString =>
             "While it is grappling a creature, the rug takes only half the damage dealt to it, " +
@@ -685,6 +686,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rug" } },
+            { "template:Dropdown:[Cloaker,RugOfSmothering]", new Arg { key = "template", argType = "Dropdown", value = "RugOfSmothering" } },
         };
     }
 
