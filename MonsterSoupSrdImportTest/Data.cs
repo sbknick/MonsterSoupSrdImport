@@ -205,7 +205,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Telepathic Bond - Homunculus", new Homunculus_TelepathicBond() },
+            { "Telepathic Bond", new Homunculus_TelepathicBond() },
         };
     }
 
@@ -1520,7 +1520,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
     public sealed class Homunculus_TelepathicBond : TraitTestData
     {
-        public override string Trait => "Telepathic Bond - Homunculus";
+        public override string Trait => "Telepathic Bond";
 
         public override string MonsterTraitString =>
             "While the homunculus is on the same plane of existence as its master, " +
@@ -1529,6 +1529,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
+            { "template:Dropdown:[Homunculus,Succubus]", new Arg { key = "template", argType = "Dropdown", value = "Homunculus" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the homunculus" } },
         };
     }

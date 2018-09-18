@@ -5641,7 +5641,7 @@
         "**Senses** darkvision 60 ft., passive Perception 10",
         "**Languages** understands the languages of its creator but can’t speak",
         "**Challenge** 0 (10 XP)",
-        "***Telepathic Bond - Homunculus.*** While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically.",
+        "***Telepathic Bond.*** While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically.",
         "**Actions**",
         "***Bite.** Melee Weapon Attack:* +4 to hit, reach 5 ft., one creature. *Hit:* 1 piercing damage, and the target must succeed on a DC 10 Constitution saving throw or be poisoned for 1 minute. If the saving throw fails by 5 or more, the target is instead poisoned for 5 (1d10) minutes and unconscious while poisoned in this way."
       ]
@@ -8168,7 +8168,7 @@
         "**Senses** darkvision 60 ft., passive Perception 15",
         "**Languages** Abyssal, Common, Infernal, telepathy 60 ft.",
         "**Challenge** 4 (1,100 XP)",
-        "***Telepathic Bond - Succubus/Incubus.*** The fiend ignores the range restriction on its telepathy when communicating with a creature it has charmed. The two don’t even need to be on the same plane of existence.",
+        "***Telepathic Bond.*** The fiend ignores the range restriction on its telepathy when communicating with a creature it has charmed. The two don’t even need to be on the same plane of existence.",
         "***Shapechanger.*** The fiend can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
         "**Actions**",
         "***Claw (Fiend Form Only).** Melee Weapon Attack:* +5 to hit, reach 5 ft., one target. *Hit:* 6 (1d6 + 3) slashing damage.",

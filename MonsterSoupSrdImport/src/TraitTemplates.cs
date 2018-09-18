@@ -441,11 +441,16 @@ namespace MonsterSoupSrdImport
             // from Homunculus
             new Trait
             {
-                Name = "Telepathic Bond - Homunculus",
+                Name = "Telepathic Bond",
                 Template =
-                "While {shortName} is on the same plane of existence as its master, " +
+                "{template:Dropdown:[Homunculus,Succubus]}" +
+                
+                "[template=Homunculus While {shortName} is on the same plane of existence as its master, " +
                 "it can magically convey what it senses to its master, and the two can " +
-                "communicate telepathically."
+                "communicate telepathically.]" +
+
+                "[template=Succubus {ShortName} ignores the range restriction on its telepathy when communicating " +
+                "with a creature it has charmed. The two don’t even need to be on the same plane of existence.]"
             },
 
             // from Invisible Stalker

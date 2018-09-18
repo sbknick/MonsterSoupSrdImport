@@ -383,7 +383,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Hydra>("Multiple Heads");
             yield return TestTraitFromMonster<Hydra>("Reactive Heads");
             yield return TestTraitFromMonster<Hydra>("Wakeful");
-            yield return TestTraitFromMonster<Homunculus>("Telepathic Bond - Homunculus");
+            yield return TestTraitFromMonster<Homunculus>("Telepathic Bond");
             yield return TestTraitFromMonster<InvisibleStalker>("Invisibility");
             yield return TestTraitFromMonster<InvisibleStalker>("Faultless Tracker");
             yield return TestTraitFromMonster<Kraken>("Freedom of Movement");

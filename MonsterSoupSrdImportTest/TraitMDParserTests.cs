@@ -339,8 +339,8 @@ At the end of its turn, it grows two heads for each of its heads that died since
             // Homunculus
             yield return TestMonster(
                 new Homunculus(), @"
-                    ***Telepathic Bond - Homunculus.*** While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically.",
-                new[] { "Telepathic Bond - Homunculus" }
+                    ***Telepathic Bond.*** While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically.",
+                new[] { "Telepathic Bond" }
             );
 
             // Invisible Stalker
