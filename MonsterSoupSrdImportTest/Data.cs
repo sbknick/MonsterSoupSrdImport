@@ -120,7 +120,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Two Heads", new Ettin_TwoHeads() },
-            { "Wakeful - Ettin", new Ettin_Wakeful() },
+            { "Wakeful", new Ettin_Wakeful() },
         };
     }
 
@@ -216,7 +216,7 @@ namespace MonsterSoupSrdImportTest
             { "Hold Breath", new Hydra_HoldBreath() },
             { "Multiple Heads", new Hydra_MultipleHeads() },
             { "Reactive Heads", new Hydra_ReactiveHeads() },
-            { "Wakeful - Hydra", new Hydra_Wakeful() },
+            { "Wakeful", new Hydra_Wakeful() },
         };
     }
 
@@ -915,7 +915,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Ettin_Wakeful : TraitTestData
     {
-        public override string Trait => "Wakeful - Ettin";
+        public override string Trait => "Wakeful";
 
         public override string MonsterTraitString =>
             "When one of the ettin’s heads is asleep, its other head is awake.";
@@ -923,6 +923,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the ettin" } },
+            { "template:Dropdown:[Ettin,Hydra]", new Arg { key = "template", argType = "Dropdown", value = "Ettin" } },
         };
     }
 
@@ -1501,7 +1502,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
     public sealed class Hydra_Wakeful : TraitTestData
     {
-        public override string Trait => "Wakeful - Hydra";
+        public override string Trait => "Wakeful";
 
         public override string MonsterTraitString =>
             "While the hydra sleeps, at least one of its heads is awake.";
@@ -1509,6 +1510,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hydra" } },
+            { "template:Dropdown:[Ettin,Hydra]", new Arg { key = "template", argType = "Dropdown", value = "Hydra" } },
         };
     }
 

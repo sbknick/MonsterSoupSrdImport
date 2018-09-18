@@ -205,8 +205,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestMonster(
                 new Ettin(), @"
                     ***Two Heads.*** The ettin has advantage on Wisdom (Perception) checks and on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious.
-                    ***Wakeful - Ettin.*** When one of the ettin’s heads is asleep, its other head is awake.",
-                new[] { "Two Heads", "Wakeful - Ettin" }
+                    ***Wakeful.*** When one of the ettin’s heads is asleep, its other head is awake.",
+                new[] { "Two Heads", "Wakeful" }
             );
 
             // Ghost
@@ -332,8 +332,8 @@ If the target is prone, the triceratops can make one stomp attack against it as 
 Whenever the hydra takes 25 or more damage in a single turn, one of its heads dies. If all its heads die, the hydra dies.
 At the end of its turn, it grows two heads for each of its heads that died since its last turn, unless it has taken fire damage since its last turn. The hydra regains 10 hit points for each head regrown in this way.
 ***Reactive Heads.*** For each head the hydra has beyond one, it gets an extra reaction that can be used only for opportunity attacks.
-***Wakeful - Hydra.*** While the hydra sleeps, at least one of its heads is awake.",
-                new[] { "Hold Breath", "Multiple Heads", "Reactive Heads", "Wakeful - Hydra" }
+***Wakeful.*** While the hydra sleeps, at least one of its heads is awake.",
+                new[] { "Hold Breath", "Multiple Heads", "Reactive Heads", "Wakeful" }
             );
 
             // Homunculus

@@ -197,9 +197,11 @@ namespace MonsterSoupSrdImport
             },
             new Trait
             {
-                Name = "Wakeful - Ettin",
+                Name = "Wakeful",
                 Template =
-                "When one of {shortName}’s heads is asleep, its other head is awake."
+                "{template:Dropdown:[Ettin,Hydra]}" +
+                "[template=Ettin When one of {shortName}’s heads is asleep, its other head is awake.]" +
+                "[template=Hydra While {shortName} sleeps, at least one of its heads is awake.]"
             },
 
             // from Ghost
@@ -434,12 +436,6 @@ namespace MonsterSoupSrdImport
                 Template =
                 "For each head {shortName} has beyond one, it gets an extra reaction that " +
                 "can be used only for opportunity attacks."
-            },
-            new Trait
-            {
-                Name = "Wakeful - Hydra",
-                Template =
-                "While {shortName} sleeps, at least one of its heads is awake."
             },
 
             // from Homunculus
