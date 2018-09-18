@@ -243,7 +243,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Rejuvenation - Undead", new Lich_Rejuvenation() },
+            { "Rejuvenation", new Lich_Rejuvenation() },
             { "Turn Resistance", new Lich_TurnResistance() },
         };
     }
@@ -301,7 +301,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Magic Resistance", new MummyLord_MagicResistance() },
-            { "Rejuvenation - Undead", new MummyLord_Rejuvenation() },
+            { "Rejuvenation", new MummyLord_Rejuvenation() },
         };
     }
 
@@ -1616,7 +1616,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
     public sealed class Lich_Rejuvenation : TraitTestData
     {
-        public override string Trait => "Rejuvenation - Undead";
+        public override string Trait => "Rejuvenation";
 
         public override string MonsterTraitString =>
             "If it has a phylactery, a destroyed lich gains a new body in 1d10 days, " +
@@ -1625,10 +1625,9 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
-            { "usesPhylactery:YesNo", new Arg  { key = "usesPhylactery", argType = "YesNo", value = "Yes" } },
-            { "usesHeart:YesNo", new Arg { key = "usesHeart", argType = "YesNo", value = "No" } },
+            { "template:Dropdown:[Lich,MummyLord,Naga]", new Arg { key = "template", argType = "Dropdown", value = "Lich" } },
             { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "lich" } },
-            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "1d10 days" } },
+            { "diceRoll:DiceRoll", new Arg { key = "diceRoll", argType = "DiceRoll", value = new DiceRollArgs { diceCount = 1, dieSize = 10 } } },
         };
     }
 
@@ -1665,7 +1664,7 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
     public sealed class MummyLord_Rejuvenation : TraitTestData
     {
-        public override string Trait => "Rejuvenation - Undead";
+        public override string Trait => "Rejuvenation";
 
         public override string MonsterTraitString =>
             "A destroyed mummy lord gains a new body in 24 hours if its heart is intact, " +
@@ -1674,10 +1673,9 @@ At the end of its turn, it grows two heads for each of its heads that died since
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
-            { "usesPhylactery:YesNo", new Arg  { key = "usesPhylactery", argType = "YesNo", value = "No" } },
-            { "usesHeart:YesNo", new Arg { key = "usesHeart", argType = "YesNo", value = "Yes" } },
+            { "template:Dropdown:[Lich,MummyLord,Naga]", new Arg { key = "template", argType = "Dropdown", value = "MummyLord" } },
             { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "mummy lord" } },
-            { "timePeriod:Text", new Arg { key = "timePeriod", argType = "Text", value = "24 hours" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mummy lord" } },
         };
     }
 

@@ -484,13 +484,20 @@ namespace MonsterSoupSrdImport
             // from Lich
             new Trait
             {
-                Name = "Rejuvenation - Undead",
+                Name = "Rejuvenation",
                 Template =
-                "{usesPhylactery:YesNo}{usesHeart:YesNo}[usesPhylactery=Yes If it has a phylactery, a]" +
-                "[usesPhylactery=No A] destroyed {shortShortName} gains a new body " +
-                "in {timePeriod:Text}[usesHeart=Yes  if its heart is intact], " +
-                "regaining all its hit points and becoming active again. The new body appears " +
-                "within 5 feet of the [usesPhylactery=Yes phylactery][usesHeart=Yes {shortShortName}’s heart]."
+                "{template:Dropdown:[Lich,MummyLord,Naga]}" +
+
+                "[template=Lich If it has a phylactery, a destroyed {shortShortName} gains a new body in " +
+                "{diceRoll:DiceRoll} days, regaining all its hit points and becoming active again. The new body " +
+                "appears within 5 feet of the phylactery.]" +
+
+                "[template=MummyLord A destroyed {shortShortName} gains a new body in 24 hours if its heart is " +
+                "intact, regaining all its hit points and becoming active again. The new body appears within " +
+                "5 feet of {shortName}’s heart.]" +
+               
+                "[template=Naga If it dies, {shortName} returns to life in {diceRoll:DiceRoll} days and regains " +
+                "all its hit points. Only a *wish* spell can prevent this trait from functioning.]"
             },
             new Trait
             {

@@ -388,9 +388,9 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<InvisibleStalker>("Faultless Tracker");
             yield return TestTraitFromMonster<Kraken>("Freedom of Movement");
             yield return TestTraitFromMonster<Kraken>("Siege Monster");
-            yield return TestTraitFromMonster<Lich>("Rejuvenation - Undead");
+            yield return TestTraitFromMonster<Lich>("Rejuvenation");
             yield return TestTraitFromMonster<Lich>("Turn Resistance");
-            yield return TestTraitFromMonster<MummyLord>("Rejuvenation - Undead");
+            yield return TestTraitFromMonster<MummyLord>("Rejuvenation");
             yield return TestTraitFromMonster<MummyLord>("Magic Resistance");
             yield return TestTraitFromMonster<Magmin>("Ignited Illumination");
             yield return TestTraitFromMonster<Magmin>("Death Burst");
@@ -428,6 +428,16 @@ If the medusa sees itself reflected on a polished surface within 30 feet of it a
                             }
                         }
                     },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Rejuvenation",
+                "If it dies, the naga returns to life in 1d6 days and regains all its hit points. Only a *wish* spell can prevent this trait from functioning.",
+                new TransformedArgs
+                {
+                    { "template:Dropdown:[Lich,MummyLord,Naga]", new Arg { key = "template", argType = "Dropdown", value = "Naga" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the naga" } },
+                    { "diceRoll:DiceRoll", new Arg { key = "diceRoll", argType = "DiceRoll", value = new DiceRollArgs { diceCount = 1, dieSize = 6 } } },
                 });
         }
     }
