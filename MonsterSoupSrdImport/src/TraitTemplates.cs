@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterSoupSrdImport
@@ -581,6 +581,8 @@ namespace MonsterSoupSrdImport
             {
                 Name = "Shapechanger",
                 Template =
+                "{template:Dropdown:[Vampire]}" +
+
                 // mimic
                 "The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
 
@@ -602,7 +604,7 @@ namespace MonsterSoupSrdImport
                 "The fiend can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
 
                 // vampire
-                "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
+                "[template=Vampire If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
                 "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
 
                 "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
@@ -615,7 +617,7 @@ namespace MonsterSoupSrdImport
                 "and stop there. In addition, if air can pass through a space, the mist can do so without " +
                 "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
                 "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
-                "takes from sunlight."
+                "takes from sunlight.]"
             }
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
