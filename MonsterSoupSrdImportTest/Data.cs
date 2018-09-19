@@ -336,7 +336,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Shapechanger - Vampire", new Vampire_Shapechanger() },
+            { "Shapechanger", new Vampire_Shapechanger() },
             { "Misty Escape - Vampire", new Vampire_MistyEscape() },
             { "Regeneration", new Vampire_Regeneration() },
             { "Spider Climb", new Vampire_SpiderClimb() },
@@ -1294,7 +1294,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_Shapechanger : TraitTestData
     {
-        public override string Trait => "Shapechanger - Vampire";
+        public override string Trait => "Shapechanger";
 
         public override string MonsterTraitString =>
             "If the vampire isn’t in sunlight or running water, it can use its action to polymorph " +
@@ -1314,6 +1314,7 @@ namespace MonsterSoupSrdImportTest
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
+            { "template:Dropdown:[Doppelganger:Mimic:Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Vampire" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the vampire" } },
         };
     }

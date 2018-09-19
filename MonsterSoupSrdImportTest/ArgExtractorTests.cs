@@ -372,7 +372,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<HellHound>("Pack Tactics");
             yield return TestTraitFromMonster<Hobgoblin>("Martial Advantage");
 
-            yield return TestTraitFromMonster<Vampire>("Shapechanger - Vampire");
+            yield return TestTraitFromMonster<Vampire>("Shapechanger");
             yield return TestTraitFromMonster<Vampire>("Misty Escape - Vampire");
             yield return TestTraitFromMonster<Vampire>("Regeneration");
             yield return TestTraitFromMonster<Vampire>("Vampire Weaknesses");

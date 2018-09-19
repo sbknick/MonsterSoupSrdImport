@@ -330,33 +330,33 @@ namespace MonsterSoupSrdImport
 
             // THE SHAPECHANGER SECTION //
 
-            new Trait
-            {
-                Name = "Shapechanger - Mimic",
-                Template =
-                "{ShortName} can use its action to polymorph into an object or back into its true, amorphous form. " +
-                "Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t " +
-                "transformed. It reverts to its true form if it dies."
-            },
-            new Trait
-            {
-                Name = "Shapechanger - Vampire",
-                Template =
-                "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
-                "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
+            //new Trait
+            //{
+            //    Name = "Shapechanger - Mimic",
+            //    Template =
+            //    "{ShortName} can use its action to polymorph into an object or back into its true, amorphous form. " +
+            //    "Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t " +
+            //    "transformed. It reverts to its true form if it dies."
+            //},
+            //new Trait
+            //{
+            //    Name = "Shapechanger - Vampire",
+            //    Template =
+            //    "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
+            //    "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
 
-                "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
-                "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
-                "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
-                "to its true form if it dies.\r\n" +
+            //    "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
+            //    "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
+            //    "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
+            //    "to its true form if it dies.\r\n" +
 
-                "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
-                "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
-                "and stop there. In addition, if air can pass through a space, the mist can do so without " +
-                "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
-                "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
-                "takes from sunlight."
-            },
+            //    "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
+            //    "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
+            //    "and stop there. In addition, if air can pass through a space, the mist can do so without " +
+            //    "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
+            //    "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
+            //    "takes from sunlight."
+            //},
 
             // from Vampire
             new Trait
@@ -581,7 +581,7 @@ namespace MonsterSoupSrdImport
             {
                 Name = "Shapechanger",
                 Template =
-                "{template:Dropdown:[Vampire]}" +
+                "{template:Dropdown:[Doppelganger:Mimic:Vampire]}" +
 
                 // mimic
                 "[template=Mimic {ShortName} can use its action to polymorph into an object or back into its true, " +
@@ -604,13 +604,13 @@ namespace MonsterSoupSrdImport
 
                 //// succubus
                 //"The fiend     can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-
-                // ----------
-                //"{ShortName} can use its action to polymorph into " +
-                //"[template=Mimic an object or back into its true, amorphous form.]" +
-                //"[template=Doppelganger a Small or Medium humanoid it has seen, or back into its true form.]" +
-                //"[template=Fiend a beast form that resembles {shapes:BeastShapes}, or back into its true form.]" +
-                //"[template=" +
+                
+                "[template!=Vampire "+
+                    "{ShortName} can use its action to polymorph into " +
+                    "[template=Mimic an object or back into its true, amorphous form.]" +
+                    "[template=Doppelganger a Small or Medium humanoid it has seen, or back into its true form.]" +
+                    "[template=Fiend a beast form that resembles {shapes:BeastShapes}, or back into its true form.]" +
+                "]" +
 
                 // vampire
                 "[template=Vampire If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
