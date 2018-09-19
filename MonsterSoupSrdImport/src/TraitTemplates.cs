@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterSoupSrdImport
@@ -584,24 +584,33 @@ namespace MonsterSoupSrdImport
                 "{template:Dropdown:[Vampire]}" +
 
                 // mimic
-                "The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                "[template=Mimic {ShortName} can use its action to polymorph into an object or back into its true, " +
+                "amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying " +
+                "isn’t transformed. It reverts to its true form if it dies.]" +
 
                 // deppelganger
-                "The doppelganger can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                "[template=Doppelganger {ShortName} can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.]" +
 
-                // quasit, imp
-                "The quasit can use its action to polymorph into a beast form that resembles a bat (speed 10 ft. fly 40 ft.), a centipede (40 ft., climb 40 ft.), or a toad (40 ft., swim 40 ft.), or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                "The imp    can use its action to polymorph into a beast form that resembles a rat (speed 20 ft.), a raven (20 ft., fly 60 ft.), or a spider (20 ft., climb 20 ft.),               or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //// quasit, imp
+                //"The quasit can use its action to polymorph into a beast form that resembles a bat (speed 10 ft. fly 40 ft.), a centipede (40 ft., climb 40 ft.), or a toad (40 ft., swim 40 ft.), or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //"The imp    can use its action to polymorph into a beast form that resembles a rat (speed 20 ft.), a raven (20 ft., fly 60 ft.), or a spider (20 ft., climb 20 ft.),               or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
 
-                // lycanthropes: werebear, wereboar, wererat, weretiger, werewolf
-                "The werebear  can use its action to polymorph into a Large bear-humanoid hybrid or into a Large bear, or back into its true form, which is humanoid. Its statistics, other than its size and AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                "The wereboar  can use its action to polymorph into a boar      -humanoid hybrid or into a boar      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                "The wererat   can use its action to polymorph into a rat       -humanoid hybrid or into a giant rat , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                "The weretiger can use its action to polymorph into a tiger     -humanoid hybrid or into a tiger     , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                "The werewolf  can use its action to polymorph into a wolf      -humanoid hybrid or into a wolf      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //// lycanthropes: werebear, wereboar, wererat, weretiger, werewolf
+                //"The werebear  can use its action to polymorph into a Large bear-humanoid hybrid or into a Large bear, or back into its true form, which is humanoid. Its statistics, other than its size and AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //"The wereboar  can use its action to polymorph into a boar      -humanoid hybrid or into a boar      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //"The wererat   can use its action to polymorph into a rat       -humanoid hybrid or into a giant rat , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //"The weretiger can use its action to polymorph into a tiger     -humanoid hybrid or into a tiger     , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //"The werewolf  can use its action to polymorph into a wolf      -humanoid hybrid or into a wolf      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
 
-                // succubus
-                "The fiend can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                //// succubus
+                //"The fiend     can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+
+                // ----------
+                //"{ShortName} can use its action to polymorph into " +
+                //"[template=Mimic an object or back into its true, amorphous form.]" +
+                //"[template=Doppelganger a Small or Medium humanoid it has seen, or back into its true form.]" +
+                //"[template=Fiend a beast form that resembles {shapes:BeastShapes}, or back into its true form.]" +
+                //"[template=" +
 
                 // vampire
                 "[template=Vampire If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
