@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
+    using ConditionDefinition = ValueTuple<string, string, bool>;
+
     public interface IArgExtractor
     {
         Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString);
@@ -31,7 +33,8 @@ namespace MonsterSoupSrdImport
 
         private TemplateConditionalPermutation GetTemplateConditionalPermutation(string template, string monsterTraitString)
         {
-            var perms = GetConditionalPermutations(template);
+            //var perms = GetConditionalPermutations(template);
+            var perms = GetConditionalPermutationsNew(template);
 
             if (perms == null)
             {
@@ -53,6 +56,57 @@ namespace MonsterSoupSrdImport
 
             throw new Exception();
         }
+
+
+        private class PermutationNode
+        {
+            public (string key, string value, bool isEqual) Condition;
+            public string NonConditionalText;
+            public List<PermutationNode> Children = new List<PermutationNode>();
+        }
+
+        private IList<TemplateConditionalPermutation> GetConditionalPermutationsNew(string template)
+        {
+            var ToplevelConditionalsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (?:[^\[\]]|(?<counter>\[)|(?<-counter>\]))+(?(counter)(?!))\]");
+            var ConditionsRegex = new Regex(@"^\[([a-zA-Z]+?)(=|!=)(\S+?) ([\s\S]+)\]$");
+
+            PermutationNode buildNode((string key, string value, bool isEqual) condition, string templateSegment)
+            {
+                var conditionalMatches = ToplevelConditionalsRegex.Matches(templateSegment);
+                
+                var rootNode = new PermutationNode
+                {
+                    Condition = condition,
+                    NonConditionalText = ToplevelConditionalsRegex.Replace(templateSegment, string.Empty),
+                    Children = conditionalMatches.Cast<Match>().Select(m =>
+                    {
+
+                        var conditionDetailMatch = ConditionsRegex.Match(m.Groups[0].Value);
+
+                        if (conditionDetailMatch.Success)
+                        {
+                            return buildNode((
+                                conditionDetailMatch.Groups[1].Value, 
+                                conditionDetailMatch.Groups[3].Value,
+                                conditionDetailMatch.Groups[2].Value == "="),
+                                conditionDetailMatch.Groups[4].Value
+                            );
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).Where(n => n != null).ToList(),
+                };
+
+                return rootNode;
+            }
+
+            var permutationTree = buildNode(default((string, string, bool)), template);
+
+            return null;
+        }
+
 
         private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
         {
@@ -128,7 +182,10 @@ namespace MonsterSoupSrdImport
             string template
         )
         {
-            var ConditionalStringsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (.*?)\]");
+            var ConditionalStringsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (?:[^\[\]]|(?<counter>\[)|(?<-counter>\]))+(?(counter)(?!))\]");
+            // matches top-level [] braces, EG the outer of any nested sets and any have no parent or child []s
+
+            //var ConditionalStringsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (.*?)\]");
 
             var matchArgs = new List<(string key, Arg arg)>();
 

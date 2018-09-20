@@ -581,15 +581,15 @@ namespace MonsterSoupSrdImport
             {
                 Name = "Shapechanger",
                 Template =
-                "{template:Dropdown:[Doppelganger:Mimic:Vampire]}" +
+                "{template:Dropdown:[Doppelganger,Mimic,Vampire]}" +
 
-                // mimic
-                "[template=Mimic {ShortName} can use its action to polymorph into an object or back into its true, " +
-                "amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying " +
-                "isn’t transformed. It reverts to its true form if it dies.]" +
+                //// mimic
+                //"[template=Mimic {ShortName} can use its action to polymorph into an object or back into its true, " +
+                //"amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying " +
+                //"isn’t transformed. It reverts to its true form if it dies.]" +
 
-                // deppelganger
-                "[template=Doppelganger {ShortName} can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.]" +
+                //// deppelganger
+                //"[template=Doppelganger {ShortName} can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.]" +
 
                 //// quasit, imp
                 //"The quasit can use its action to polymorph into a beast form that resembles a bat (speed 10 ft. fly 40 ft.), a centipede (40 ft., climb 40 ft.), or a toad (40 ft., swim 40 ft.), or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
