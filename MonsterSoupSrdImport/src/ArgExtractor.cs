@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MonsterSoupSrdImport
 {
-    using ConditionDefinition = ValueTuple<string, string, bool>;
-
     public interface IArgExtractor
     {
         Dictionary<string, Arg> ExtractArgs(string traitTemplate, string monsterTraitString);
@@ -61,7 +60,7 @@ namespace MonsterSoupSrdImport
         private class PermutationNode
         {
             public (string key, string value, bool isEqual) Condition;
-            public string NonConditionalText;
+            public string[] NonConditionalText;
             public List<PermutationNode> Children = new List<PermutationNode>();
         }
 
@@ -73,14 +72,28 @@ namespace MonsterSoupSrdImport
             PermutationNode buildNode((string key, string value, bool isEqual) condition, string templateSegment)
             {
                 var conditionalMatches = ToplevelConditionalsRegex.Matches(templateSegment);
-                
+
+                IList<string> nonConditionalBits = new List<string>();
+
+                if (conditionalMatches.Count == 0)
+                    nonConditionalBits.Add(templateSegment);
+                else
+                {
+                    for (int i = conditionalMatches.Count - 1; i >= 0; i--)
+                    {
+                        var match = conditionalMatches[i];
+                        nonConditionalBits.Add(templateSegment.Substring(match.Index + match.Length));
+                        templateSegment = templateSegment.Substring(0, match.Index);
+                    }
+                    nonConditionalBits.Add(templateSegment);
+                }
+
                 var rootNode = new PermutationNode
                 {
                     Condition = condition,
-                    NonConditionalText = ToplevelConditionalsRegex.Replace(templateSegment, string.Empty),
+                    NonConditionalText = nonConditionalBits.Reverse().ToArray(),
                     Children = conditionalMatches.Cast<Match>().Select(m =>
                     {
-
                         var conditionDetailMatch = ConditionsRegex.Match(m.Groups[0].Value);
 
                         if (conditionDetailMatch.Success)
@@ -103,6 +116,151 @@ namespace MonsterSoupSrdImport
             }
 
             var permutationTree = buildNode(default((string, string, bool)), template);
+
+            var YesNoArgsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}");
+            var DropdownArgsRegex = new Regex(@"\{(([^\{]+?):Dropdown:\[(.*?)\]:?(.*?))\}");
+            var ConditionalArgsRegex = new Regex(@"\{(?<fullTag>(?<key>[^\{]+?):(?<argType>YesNo|Dropdown:\[(?<values>.*?)\]):?(?<flags>.*?))\}");
+
+            List<List<(string, string)>> permutations = new List<List<(string, string)>>();
+            Stack<(string, string)> tempPerm = new Stack<(string, string)>();
+
+            void buildPermutationOptions(PermutationNode permutationNode)
+            {
+                if (permutationNode.Children.Count == 0)
+                {
+
+                }
+
+                var conditionalArgMatches = permutationNode.NonConditionalText.SelectMany(t =>
+                    ConditionalArgsRegex.Matches(t).Cast<Match>()).ToList();
+
+                if (conditionalArgMatches.Count == 0)
+                {
+                    permutations.Add(new List<(string, string)>(tempPerm));
+                    return;
+                }
+
+
+
+                foreach (Match match in conditionalArgMatches)
+                {
+                    var argType = match.Groups["argType"].Value.Split(':')[0];
+
+                    
+                }
+
+                void addCondition(List<Match> conditionsLeft)
+                {
+
+                }
+            }
+
+            IEnumerable<List<(string key, string value)>> permutationOptions2(PermutationNode permutationNode)
+            {
+                var perms = new List<(string, string)>();
+
+                var yesNoArgMatches = permutationNode.NonConditionalText.SelectMany(t =>
+                    YesNoArgsRegex.Matches(t).Cast<Match>()).ToList();
+                var dropdownArgMatches = permutationNode.NonConditionalText.SelectMany(t =>
+                    DropdownArgsRegex.Matches(t).Cast<Match>()).ToList();
+
+                if (yesNoArgMatches.Count == 0 && dropdownArgMatches.Count == 0)
+                    return null;
+                
+                var ddOptionsLookup = new Dictionary<string, string[]>();
+
+                return buildPerms(yesNoArgMatches, dropdownArgMatches);
+
+                IEnumerable<List<(string, string)>> buildPerms(List<Match> yesNoMatches, List<Match> dropdownMatches)
+                {
+                    if (yesNoMatches.Count > 0)
+                    {
+                        var thisMatch = yesNoMatches[0];
+                        yesNoMatches = yesNoMatches.Skip(1).ToList();
+
+                        var argKey = thisMatch.Groups[2].Value;
+
+                        var permses = buildPerms(yesNoMatches, dropdownMatches);
+                        foreach (var p in permses)
+                        {
+                            var options = new[] { "Yes", "No" };
+                            foreach (var opt in options)
+                            {
+                                var list = new List<(string, string)> { (argKey, opt) };
+                                list.AddRange(p);
+                                yield return list;
+                            }
+                        }
+
+                        //list.AddRange(buildPerms(yesNoMatches, dropdownMatches));
+                        //yield return list;
+                    }
+                    else if (dropdownMatches.Count > 0)
+                    {
+                        var thisMatch = dropdownMatches[0];
+                        dropdownMatches = dropdownMatches.Skip(1).ToList();
+
+                        var argKey = thisMatch.Groups[2].Value;
+
+                        var permses = buildPerms(yesNoMatches, dropdownMatches);
+                        
+                        var options = thisMatch.Groups[3].Value.Split(',');
+                        foreach (var opt in options)
+                        {
+                            var thisOpt = (argKey, opt);
+                            if (permses.Any())
+                                foreach (var p in permses)
+                                {
+                                    var list = new List<(string, string)> { thisOpt };
+                                    list.AddRange(p);
+                                    yield return list;
+                                }
+                            else
+                                yield return new List<(string, string)> { thisOpt };
+                        }
+
+                        //list.AddRange(buildPerms(yesNoMatches, dropdownMatches));
+                        //yield return list;
+                    }
+                }
+
+                int CountDropDownOptionPermuations()
+                {
+                    var count = 1;
+                    foreach (Match match in dropdownArgMatches)
+                    {
+                        var options = match.Groups[3].Value.Split(',');
+                        count *= options.Length;
+                        ddOptionsLookup[match.Groups[2].Value] = options;
+                    }
+                    return count;
+                }
+            }
+            
+            var validPermutations = permutationOptions2(permutationTree);
+
+            string buildOutput(PermutationNode permutationNode)
+            {
+                var sb = new StringBuilder();
+
+                int i = 0;
+                for (; i < permutationNode.Children.Count; i++)
+                {
+                    var child = permutationNode.Children[i];
+                    sb.Append(permutationNode.NonConditionalText[i]);
+                    sb.Append(buildOutput(child));
+                }
+                sb.Append(permutationNode.NonConditionalText[i]);
+
+                return sb.ToString();
+            }
+
+            var str = buildOutput(permutationTree);
+
+            foreach (var permutation in validPermutations)
+            {
+
+            }
 
             return null;
         }

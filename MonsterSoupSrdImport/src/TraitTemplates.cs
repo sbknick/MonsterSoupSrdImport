@@ -626,7 +626,10 @@ namespace MonsterSoupSrdImport
                 "and stop there. In addition, if air can pass through a space, the mist can do so without " +
                 "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
                 "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
-                "takes from sunlight.]"
+                "takes from sunlight." +
+                "{testNested:YesNo}]" +
+                
+                "{shortName}"
             }
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
