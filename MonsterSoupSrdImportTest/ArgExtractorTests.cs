@@ -330,47 +330,47 @@ namespace MonsterSoupSrdImportTest
                 return new object[] { TraitTemplates.StandardTraits[traitName].Template, monsterTraitString, expectedArgsOutput };
             }
 
-            //yield return TestTraitFromMonster<Aboleth>("Mucous Cloud");
-            //yield return TestTraitFromMonster<Bugbear>("Surprise Attack");
-            //yield return TestTraitFromMonster<Bulette>("Standing Leap");
-            //yield return TestTraitFromMonster<Centaur>("Charge"); // Simple Charge
-            //yield return TestTraitFromMonster<Minotaur>("Charge"); // Complex Charge
-            //yield return TestTraitFromMonster<Chuul>("Sense Magic");
-            //yield return TestTraitFromMonster<Cloaker>("Damage Transfer");
-            //yield return TestTraitFromMonster<Cloaker>("False Appearance");
-            //yield return TestTraitFromMonster<Cloaker>("Light Sensitivity");
-            //yield return TestTraitFromMonster<RugOfSmothering>("Antimagic Susceptibility");
-            //yield return TestTraitFromMonster<RugOfSmothering>("Damage Transfer");
-            //yield return TestTraitFromMonster<RugOfSmothering>("False Appearance");
-            //yield return TestTraitFromMonster<Couatl>("Magic Weapons");
-            //yield return TestTraitFromMonster<Couatl>("Shielded Mind");
-            //yield return TestTraitFromMonster<Darkmantle>("Echolocation");
-            //yield return TestTraitFromMonster<Darkmantle>("False Appearance");
-            //yield return TestTraitFromMonster<Drider>("Fey Ancestry");
-            //yield return TestTraitFromMonster<Drider>("Spider Climb");
-            //yield return TestTraitFromMonster<Drider>("Sunlight Sensitivity");
-            //yield return TestTraitFromMonster<Drider>("Web Walker");
-            //yield return TestTraitFromMonster<Ettercap>("Spider Climb");
-            //yield return TestTraitFromMonster<Ettercap>("Web Sense");
-            //yield return TestTraitFromMonster<Ettercap>("Web Walker");
-            //yield return TestTraitFromMonster<Ettin>("Two Heads");
-            //yield return TestTraitFromMonster<Ettin>("Wakeful");
-            //yield return TestTraitFromMonster<Ghost>("Ethereal Sight");
-            //yield return TestTraitFromMonster<Ghost>("Incorporeal Movement");
-            //yield return TestTraitFromMonster<GibberingMouther>("Aberrant Ground");
-            //yield return TestTraitFromMonster<GibberingMouther>("Gibbering");
-            //yield return TestTraitFromMonster<Gnoll>("Rampage");
-            //yield return TestTraitFromMonster<DeepGnome>("Stone Camouflage");
-            //yield return TestTraitFromMonster<DeepGnome>("Gnome Cunning");
-            //yield return TestTraitFromMonster<Goblin>("Nimble Escape");
-            //yield return TestTraitFromMonster<Gorgon>("Trampling Charge");
-            //yield return TestTraitFromMonster<Triceratops>("Trampling Charge");
-            //yield return TestTraitFromMonster<Griffon>("Keen Sight");
-            //yield return TestTraitFromMonster<Grimlock>("Blind Senses");
-            //yield return TestTraitFromMonster<Grimlock>("Keen Hearing and Smell");
-            //yield return TestTraitFromMonster<Grimlock>("Stone Camouflage");
-            //yield return TestTraitFromMonster<HellHound>("Pack Tactics");
-            //yield return TestTraitFromMonster<Hobgoblin>("Martial Advantage");
+            yield return TestTraitFromMonster<Aboleth>("Mucous Cloud");
+            yield return TestTraitFromMonster<Bugbear>("Surprise Attack");
+            yield return TestTraitFromMonster<Bulette>("Standing Leap");
+            yield return TestTraitFromMonster<Centaur>("Charge"); // Simple Charge
+            yield return TestTraitFromMonster<Minotaur>("Charge"); // Complex Charge
+            yield return TestTraitFromMonster<Chuul>("Sense Magic");
+            yield return TestTraitFromMonster<Cloaker>("Damage Transfer");
+            yield return TestTraitFromMonster<Cloaker>("False Appearance");
+            yield return TestTraitFromMonster<Cloaker>("Light Sensitivity");
+            yield return TestTraitFromMonster<RugOfSmothering>("Antimagic Susceptibility");
+            yield return TestTraitFromMonster<RugOfSmothering>("Damage Transfer");
+            yield return TestTraitFromMonster<RugOfSmothering>("False Appearance");
+            yield return TestTraitFromMonster<Couatl>("Magic Weapons");
+            yield return TestTraitFromMonster<Couatl>("Shielded Mind");
+            yield return TestTraitFromMonster<Darkmantle>("Echolocation");
+            yield return TestTraitFromMonster<Darkmantle>("False Appearance");
+            yield return TestTraitFromMonster<Drider>("Fey Ancestry");
+            yield return TestTraitFromMonster<Drider>("Spider Climb");
+            yield return TestTraitFromMonster<Drider>("Sunlight Sensitivity");
+            yield return TestTraitFromMonster<Drider>("Web Walker");
+            yield return TestTraitFromMonster<Ettercap>("Spider Climb");
+            yield return TestTraitFromMonster<Ettercap>("Web Sense");
+            yield return TestTraitFromMonster<Ettercap>("Web Walker");
+            yield return TestTraitFromMonster<Ettin>("Two Heads");
+            yield return TestTraitFromMonster<Ettin>("Wakeful");
+            yield return TestTraitFromMonster<Ghost>("Ethereal Sight");
+            yield return TestTraitFromMonster<Ghost>("Incorporeal Movement");
+            yield return TestTraitFromMonster<GibberingMouther>("Aberrant Ground");
+            yield return TestTraitFromMonster<GibberingMouther>("Gibbering");
+            yield return TestTraitFromMonster<Gnoll>("Rampage");
+            yield return TestTraitFromMonster<DeepGnome>("Stone Camouflage");
+            yield return TestTraitFromMonster<DeepGnome>("Gnome Cunning");
+            yield return TestTraitFromMonster<Goblin>("Nimble Escape");
+            yield return TestTraitFromMonster<Gorgon>("Trampling Charge");
+            yield return TestTraitFromMonster<Triceratops>("Trampling Charge");
+            yield return TestTraitFromMonster<Griffon>("Keen Sight");
+            yield return TestTraitFromMonster<Grimlock>("Blind Senses");
+            yield return TestTraitFromMonster<Grimlock>("Keen Hearing and Smell");
+            yield return TestTraitFromMonster<Grimlock>("Stone Camouflage");
+            yield return TestTraitFromMonster<HellHound>("Pack Tactics");
+            yield return TestTraitFromMonster<Hobgoblin>("Martial Advantage");
 
             yield return TestTraitFromMonster<Vampire>("Shapechanger");
             yield return TestTraitFromMonster<Vampire>("Misty Escape - Vampire");

@@ -1314,7 +1314,7 @@ namespace MonsterSoupSrdImportTest
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
-            { "template:Dropdown:[Doppelganger:Mimic:Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Vampire" } },
+            { "template:Dropdown:[Doppelganger,Mimic,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Vampire" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the vampire" } },
         };
     }
