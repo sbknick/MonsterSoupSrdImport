@@ -399,6 +399,9 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<IceMephit>("False Appearance");
             yield return TestTraitFromMonster<SteamMephit>("Death Burst");
 
+            yield return TestTraitFromMonster<Mimic>("Shapechanger");
+            yield return TestTraitFromMonster<Werewolf>("Shapechanger");
+
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",
                 "The manticore has twenty-four tail spikes. Used spikes regrow when the manticore finishes a long rest.",

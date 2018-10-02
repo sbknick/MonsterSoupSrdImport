@@ -312,12 +312,14 @@ namespace MonsterSoupSrdImport
         private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
         {
             { "Attack", ArgParser.ParseAttackArgValues },
+            { "BeastShapes", ArgParser.ParseTextArgValue },
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
             { "Text", ArgParser.ParseTextArgValue },
+
             { "YesNo", ArgParser.ParseTextArgValue },
             { "Dropdown", ArgParser.ParseDropdownValue },
         };

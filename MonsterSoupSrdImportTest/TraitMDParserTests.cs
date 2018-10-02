@@ -296,12 +296,22 @@ If the target is prone, the triceratops can make one stomp attack against it as 
 
             // SHAPECHANGERS //
 
-//            // Mimic
-//            yield return TestMonster(
-//                new Mimic(), @"
-//",
-//                new[] { "" }
-//            );
+            // Mimic
+            yield return TestMonster(
+                new Mimic(), @"
+                    ***Shapechanger.*** The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
+                    //***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.
+                    //***False Appearance (Object Form Only).*** While the mimic remains motionless, it is indistinguishable from an ordinary object.
+                    //***Grappler.*** The mimic has advantage on attack rolls against any creature grappled by it.",
+                new[] { "Shapechanger" } //, "Adhesive (Object Form Only)", "False Appearance (Object Form Only)", "Grappler" }
+            );
+
+            // Lycanthrope
+            yield return TestMonster(
+                new Werewolf(), @"
+                    ***Shapechanger.*** The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
+                new[] { "Shapechanger" }
+            );
 
             // Vampire
             yield return TestMonster(
