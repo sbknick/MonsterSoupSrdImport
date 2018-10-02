@@ -619,6 +619,17 @@ namespace MonsterSoupSrdImport
                 "If {shortName} takes {amount:Number} damage or less that would reduce it to 0 hit points, " +
                 "it is reduced to 1 hit point instead."
             },
+
+            // from Weretiger
+            new Trait
+            {
+                Name = "Pounce",
+                Template =
+                "If {shortName} moves at least {distance:Number} feet straight " +
+                "toward a creature and then hits it with {anAttack:Attack} on the same turn, that target must " +
+                "succeed on a {save:SavingThrow} or be knocked prone.\r\n" +
+                "If the target is prone, {shortName} can make one {extraAttack:Attack} against it as a bonus action."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

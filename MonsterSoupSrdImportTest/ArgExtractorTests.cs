@@ -448,6 +448,34 @@ If the medusa sees itself reflected on a polished surface within 30 feet of it a
                     { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the naga" } },
                     { "diceRoll:DiceRoll", new Arg { key = "diceRoll", argType = "DiceRoll", value = new DiceRollArgs { diceCount = 1, dieSize = 6 } } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Pounce",
+@"If the weretiger moves at least 15 feet straight toward a creature and then hits it with a claw attack on the same turn, that target must succeed on a DC 14 Strength saving throw or be knocked prone.
+If the target is prone, the weretiger can make one bite attack against it as a bonus action.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the weretiger" } },
+                    { "distance:Number", new Arg { key = "distance", argType = "Number", value = 15 } },
+                    { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs
+                        {
+                            attack = "claw",
+                            article = "a",
+                            saysAttack = true,
+                        } } },
+                    { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs
+                        {
+                            DC = 14,
+                            Attribute = "Strength",
+                        } } },
+                    { "extraAttack:Attack", new Arg
+                        {
+                            key = "extraAttack",
+                            argType = "Attack",
+                            value = new AttackRefArgs { attack = "bite", article = string.Empty, saysAttack = true }
+                        } },
+                }
+            );
         }
     }
 }
