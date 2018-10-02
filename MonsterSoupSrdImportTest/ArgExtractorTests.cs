@@ -474,8 +474,25 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                             argType = "Attack",
                             value = new AttackRefArgs { attack = "bite", article = string.Empty, saysAttack = true }
                         } },
-                }
-            );
+                });
+
+            yield return TestTraitFromTemplate(
+                "Confer Fire Resistance",
+                "The nightmare can grant resistance to fire damage to anyone riding it.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The nightmare" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Illumination",
+                "The nightmare sheds bright light in a 10-foot radius and dim light for an additional 10 feet.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The nightmare" } },
+                    { "forIn:Dropdown:[for,in]", new Arg { key = "forIn", argType = "Dropdown", value = "for" } },
+                    { "radius:Number", new Arg { key = "radius", argType = "Number", value = 10 } },
+                });
         }
     }
 }

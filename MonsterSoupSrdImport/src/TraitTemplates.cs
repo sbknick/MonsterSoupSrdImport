@@ -630,6 +630,22 @@ namespace MonsterSoupSrdImport
                 "succeed on a {save:SavingThrow} or be knocked prone.\r\n" +
                 "If the target is prone, {shortName} can make one {extraAttack:Attack} against it as a bonus action."
             },
+
+            // from Nightmare
+            new Trait
+            {
+                Name = "Confer Fire Resistance",
+                Template =
+                "{ShortName} can grant resistance to fire damage to anyone riding it."
+            },
+            new Trait
+            {
+                Name = "Illumination",
+                Template =
+                "{ShortName} sheds bright light in a {radius:Number}-foot radius and dim light " +
+                "{forIn:Dropdown:[for,in]}[forIn=for for][forIn=in in] an " +
+                "additional {radius:Number} feet."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
