@@ -1422,6 +1422,8 @@ namespace MonsterSoupSrdImportTest
         {
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The vampire" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the vampire" } },
+            { "ifWhen:Dropdown:[if,when]", new Arg { key = "ifWhen", argType = "Dropdown", value = "if" } },
+            { "stakeEffect:Dropdown:[Destroys,Paralyzes]", new Arg { key = "stakeEffect", argType = "Dropdown", value = "Paralyzes" } },
         };
     }
 

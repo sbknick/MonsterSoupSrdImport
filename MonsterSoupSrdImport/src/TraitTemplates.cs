@@ -391,10 +391,13 @@ namespace MonsterSoupSrdImport
 
                 "*Forbiddance.* {ShortName} can’t enter a residence without an invitation from one of the occupants.\r\n" +
 
-                "*Harmed by Running Water.* {ShortName} takes 20 acid damage if it ends its turn in running water.\r\n" +
+                "*Harmed by Running Water.* {ShortName} takes 20 acid damage {ifWhen:Dropdown:[if,when]}[ifWhen=if if][ifWhen=when when] it ends its turn in running water.\r\n" +
 
-                "*Stake to the Heart.* If a piercing weapon made of wood is driven into {shortName}’s heart while " +
-                "{shortName} is incapacitated in its resting place, {shortName} is paralyzed until the stake is removed.\r\n" +
+                "*Stake to the Heart.* {stakeEffect:Dropdown:[Destroys,Paralyzes]}" +
+                    "[stakeEffect=Paralyzes If a piercing weapon made of wood is driven into {shortName}’s heart while " +
+                    "{shortName} is incapacitated in its resting place, {shortName} is paralyzed until the stake is removed.\r\n]" +
+                    "[stakeEffect=Destroys {ShortName} is destroyed if a piercing weapon made of wood is driven into its heart " +
+                    "while it is incapacitated in its resting place.\r\n]" +
 
                 "*Sunlight Hypersensitivity.* {ShortName} takes 20 radiant damage when it starts its turn in sunlight. " +
                 "While in sunlight, it has disadvantage on attack rolls and ability checks."
