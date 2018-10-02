@@ -646,6 +646,28 @@ namespace MonsterSoupSrdImport
                 "{forIn:Dropdown:[for,in]}[forIn=for for][forIn=in in] an " +
                 "additional {radius:Number} feet."
             },
+
+            // from Orc
+            new Trait
+            {
+                Name = "Aggressive",
+                Template =
+                "As a bonus action, {shortName} can move up to its speed toward a hostile creature " +
+                "that it can see."
+            },
+
+            new Trait
+            {
+                Name = "Keen Sight and Smell",
+                Template =
+                "{ShortName} has advantage on Wisdom (Perception) checks that rely on sight or smell."
+            },
+            new Trait
+            {
+                Name = "Keen Senses",
+                Template =
+                "{ShortName} has advantage on Wisdom (Perception) checks that rely on sight, hearing, or smell."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

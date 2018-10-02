@@ -493,6 +493,30 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                     { "forIn:Dropdown:[for,in]", new Arg { key = "forIn", argType = "Dropdown", value = "for" } },
                     { "radius:Number", new Arg { key = "radius", argType = "Number", value = 10 } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Aggressive",
+                "As a bonus action, the orc can move up to its speed toward a hostile creature that it can see.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the orc" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Keen Sight and Smell",
+                "The owlbear has advantage on Wisdom (Perception) checks that rely on sight or smell.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The owlbear" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Keen Senses",
+                "The pseudodragon has advantage on Wisdom (Perception) checks that rely on sight, hearing, or smell.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The pseudodragon" } },
+                });
         }
     }
 }
