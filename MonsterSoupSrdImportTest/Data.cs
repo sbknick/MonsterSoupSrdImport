@@ -301,6 +301,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
             { "Shapechanger", new Mimic_Shapechanger() },
+            { "Adhesive", new Mimic_Adhesive() },
         };
     }
 
@@ -369,6 +370,7 @@ namespace MonsterSoupSrdImportTest
         public string TraitTemplate => TraitTemplates.StandardTraits[Trait].Template;
 
         public abstract string Trait { get; }
+        public virtual string Requirements { get; } = null;
         public abstract string MonsterTraitString { get; }
         public abstract Dictionary<string, Arg> ExpectedArgsOutput { get; }
     }
@@ -1865,6 +1867,24 @@ At the end of its turn, it grows two heads for each of its heads that died since
         {
             { "template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Mimic" } },
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The mimic" } },
+        };
+    }
+
+    public sealed class Mimic_Adhesive : TraitTestData
+    {
+        public override string Trait => "Adhesive";
+        public override string Requirements => "Object Form Only";
+
+        public override string MonsterTraitString =>
+            "The mimic adheres to anything that touches it. A Huge or smaller creature adhered to " +
+            "the mimic is also grappled by it (escape DC 13). Ability checks made to escape this " +
+            "grapple have disadvantage.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The mimic" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mimic" } },
+            { "dc:Number", new Arg { key = "dc", argType = "Number", value = 13 } },
         };
     }
 

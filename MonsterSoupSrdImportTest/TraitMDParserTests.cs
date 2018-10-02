@@ -91,10 +91,13 @@ namespace MonsterSoupSrdImportTest
 
             MonsterTrait TraitForMonster(MonsterTestData monster, string traitName)
             {
+                var traitTestData = monster.Traits[traitName];
+
                 return new MonsterTrait
                 {
                     Name = traitName,
-                    Replaces = monster.Traits[traitName].ExpectedArgsOutput,
+                    Requirements = traitTestData.Requirements,
+                    Replaces = traitTestData.ExpectedArgsOutput,
                 };
             }
 
@@ -299,11 +302,11 @@ If the target is prone, the triceratops can make one stomp attack against it as 
             // Mimic
             yield return TestMonster(
                 new Mimic(), @"
-                    ***Shapechanger.*** The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
-                    //***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.
+                    ***Shapechanger.*** The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.
+                    ***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.",
                     //***False Appearance (Object Form Only).*** While the mimic remains motionless, it is indistinguishable from an ordinary object.
                     //***Grappler.*** The mimic has advantage on attack rolls against any creature grappled by it.",
-                new[] { "Shapechanger" } //, "Adhesive (Object Form Only)", "False Appearance (Object Form Only)", "Grappler" }
+                new[] { "Shapechanger", "Adhesive" } //, "Adhesive (Object Form Only)", "False Appearance (Object Form Only)", "Grappler" }
             );
 
             // Lycanthrope

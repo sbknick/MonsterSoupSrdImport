@@ -105,12 +105,14 @@ namespace MonsterSoupSrdImport
     public class Trait
     {
         public string Name { get; set; }
+        public string Requirements { get; set; }
         public string Template { get; set; }
     }
 
     public class MonsterTrait
     {
         public string Name { get; set; }
+        public string Requirements { get; set; }
         public Dictionary<string, Arg> Replaces { get; set; }
     }
 

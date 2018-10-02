@@ -593,7 +593,16 @@ namespace MonsterSoupSrdImport
                 "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
                 "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
                 "takes from sunlight.]"
-            }
+            },
+
+            // from Mimic
+            new Trait
+            {
+                Name = "Adhesive",
+                Template =
+                "{ShortName} adheres to anything that touches it. A Huge or smaller creature adhered to {shortName} is " +
+                "also grappled by it (escape DC {dc:Number}). Ability checks made to escape this grapple have disadvantage."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

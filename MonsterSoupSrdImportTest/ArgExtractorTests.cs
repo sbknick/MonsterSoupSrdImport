@@ -400,6 +400,7 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<SteamMephit>("Death Burst");
 
             yield return TestTraitFromMonster<Mimic>("Shapechanger");
+            yield return TestTraitFromMonster<Mimic>("Adhesive");
             yield return TestTraitFromMonster<Werewolf>("Shapechanger");
 
             yield return TestTraitFromTemplate(

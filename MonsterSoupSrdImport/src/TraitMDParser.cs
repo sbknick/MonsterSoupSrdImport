@@ -9,7 +9,7 @@ namespace MonsterSoupSrdImport
     {
         private readonly IArgExtractor argExtractor;
 
-        private static readonly Regex TraitsRegex = new Regex(@"\*{3}([\s\S]+?)\.\*{3} ([\s\S]+?)(?=$|\*{3})");
+        private static readonly Regex TraitsRegex = new Regex(@"\*{3}(?<traitName>[\s\S]+?)(?: \((?<traitRequires>.*?)\))?\.\*{3} (?<traitDescription>[\s\S]+?)(?=$|\*{3})");
         private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*{{3}})");
 
         public TraitMDParser(IArgExtractor argExtractor)
@@ -29,15 +29,17 @@ namespace MonsterSoupSrdImport
 
                 foreach (Match match in matches)
                 {
-                    string traitName = match.Groups[1].Value.Trim();
-                    string monsterTraitString = match.Groups[2].Value.Trim();
+                    string traitName = match.Groups["traitName"].Value.Trim();
+                    string monsterTraitString = match.Groups["traitDescription"].Value.Trim();
+                    string traitRequires = match.Groups["traitRequires"].Value.Trim();
+                    traitRequires = !string.IsNullOrWhiteSpace(traitRequires) ? traitRequires : null;
 
                     var allowedTraits = TraitTemplates.StandardTraits.Select(t => t.Key).ToList();
 
                     if (allowedTraits.Contains(traitName))
                     {
                         var traitTemplate = TraitTemplates.StandardTraits[traitName];
-                        var monsterTrait = new MonsterTrait { Name = traitName };
+                        var monsterTrait = new MonsterTrait { Name = traitName, Requirements = traitRequires };
 
                         monsterTrait.Replaces = argExtractor.ExtractArgs(traitTemplate.Template, monsterTraitString);
                         
