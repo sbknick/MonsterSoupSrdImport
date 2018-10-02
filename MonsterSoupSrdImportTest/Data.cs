@@ -296,6 +296,14 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Mimic : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Shapechanger", new Mimic_Shapechanger() },
+        };
+    }
+
     public sealed class MummyLord : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -336,7 +344,7 @@ namespace MonsterSoupSrdImportTest
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
         {
-            { "Shapechanger - Vampire", new Vampire_Shapechanger() },
+            { "Shapechanger", new Vampire_Shapechanger() },
             { "Misty Escape - Vampire", new Vampire_MistyEscape() },
             { "Regeneration", new Vampire_Regeneration() },
             { "Spider Climb", new Vampire_SpiderClimb() },
@@ -344,6 +352,13 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Werewolf : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Shapechanger", new Werewolf_Shapechanger() },
+        };
+    }
 
 
 
@@ -1294,7 +1309,7 @@ namespace MonsterSoupSrdImportTest
 
     public sealed class Vampire_Shapechanger : TraitTestData
     {
-        public override string Trait => "Shapechanger - Vampire";
+        public override string Trait => "Shapechanger";
 
         public override string MonsterTraitString =>
             "If the vampire isn’t in sunlight or running water, it can use its action to polymorph " +
@@ -1314,6 +1329,7 @@ namespace MonsterSoupSrdImportTest
 
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
+            { "template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Vampire" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the vampire" } },
         };
     }
@@ -1406,6 +1422,8 @@ namespace MonsterSoupSrdImportTest
         {
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The vampire" } },
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the vampire" } },
+            { "ifWhen:Dropdown:[if,when]", new Arg { key = "ifWhen", argType = "Dropdown", value = "if" } },
+            { "stakeEffect:Dropdown:[Destroys,Paralyzes]", new Arg { key = "stakeEffect", argType = "Dropdown", value = "Paralyzes" } },
         };
     }
 
@@ -1831,4 +1849,48 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion Mephits
+
+    #region Mimic
+
+    public sealed class Mimic_Shapechanger : TraitTestData
+    {
+        public override string Trait => "Shapechanger";
+
+        public override string MonsterTraitString =>
+            "The mimic can use its action to polymorph into an object or back into its true, " +
+            "amorphous form. Its statistics are the same in each form. Any equipment it is wearing " +
+            "or carrying isn’t transformed. It reverts to its true form if it dies.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Mimic" } },
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The mimic" } },
+        };
+    }
+
+    #endregion
+
+    #region Lycanthropes
+
+    public sealed class Werewolf_Shapechanger : TraitTestData
+    {
+        public override string Trait => "Shapechanger";
+
+        public override string MonsterTraitString =>
+            "The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, " +
+            "or back into its true form, which is humanoid. Its statistics, other than its AC, are the " +
+            "same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to " +
+            "its true form if it dies.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Lycanthrope" } },
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The werewolf" } },
+            { "hybridType:Text", new Arg { key = "hybridType", argType = "Text", value = "wolf" } },
+            { "animalType:Text", new Arg { key = "animalType", argType = "Text", value = "wolf" } },
+            { "statistics:MultiOption", new Arg { key = "statistics", argType = "MultiOption", value = new[] { "AC" } } },
+        };
+    }
+
+    #endregion
 }

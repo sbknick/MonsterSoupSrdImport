@@ -54,65 +54,211 @@ namespace MonsterSoupSrdImport
             throw new Exception();
         }
 
+
+        private class PermutationNode
+        {
+            public (string name, string value, bool isEqual) Condition;
+            public string[] NonConditionalText;
+            public List<PermutationNode> Children = new List<PermutationNode>();
+        }
+
         private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
         {
-            var ddOptionsLookup = new Dictionary<string, string[]>();
-            var YesNoArgsRegex = new Regex(@"\{(([^\{]+?):YesNo:?(.*?))\}");
-            var DropdownArgsRegex = new Regex(@"\{(([^\{]+?):Dropdown:\[(.*?)\]:?(.*?))\}");
+            var ToplevelConditionalsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (?:[^\[\]]|(?<counter>\[)|(?<-counter>\]))+(?(counter)(?!))\]");
+            var ConditionsRegex = new Regex(@"^\[([a-zA-Z]+?)(=|!=)(\S+?) ([\s\S]+)\]$");
+            var ConditionalArgsRegex = new Regex(@"\{(?<fullTag>(?<argName>[^\{]+?):(?<argType>YesNo|Dropdown:\[(?<values>.*?)\]):?(?<flags>.*?))\}");
 
-            var yesNoArgMatches = YesNoArgsRegex.Matches(template);
-            var dropdownArgMatches = DropdownArgsRegex.Matches(template);
+            var conditionalTree = BuildConditionalTree(default((string, string, bool)), template);
+            
+            var permutations = BuildPermutationOptions(conditionalTree);
 
-            if (yesNoArgMatches.Count == 0 && dropdownArgMatches.Count == 0)
-                return null;
+            var templates = BuildTemplatesFromPermutations(conditionalTree, permutations);
+            
+            return templates;
 
-            var permutationList = new List<(int specificity, TemplateConditionalPermutation tcp)>();
 
-            int yesNoCount = yesNoArgMatches.Count;
-            int ddCount = dropdownArgMatches.Count;
-
-            int yesNoPermCount = (int)Math.Pow(2, yesNoCount);
-            int ddPermCount = CountDropDownOptionPermuations();
-
-            var yesNoPermutation = new bool[yesNoCount];
-            var ddPermutation = new int[ddCount];
-
-            for (int i = yesNoPermCount - 1; i >= 0; i--)
+            PermutationNode BuildConditionalTree((string name, string value, bool isEqual) condition, string templateSegment)
             {
-                for (int j = 0; j < yesNoCount; j++)
-                    yesNoPermutation[j] = (i & (1 << j)) != 0;
-                
-                for (int k = 0; k < ddPermCount; k++)
+                var conditionalMatches = ToplevelConditionalsRegex.Matches(templateSegment);
+
+                IList<string> nonConditionalBits = new List<string>();
+
+                if (conditionalMatches.Count == 0)
+                    nonConditionalBits.Add(templateSegment);
+                else
                 {
-                    int m = k;
-                    for (int l = 0; l < ddCount; l++)
+                    for (int i = conditionalMatches.Count - 1; i >= 0; i--)
                     {
-                        var key = dropdownArgMatches[l].Groups[2].Value;
-                        var optCount = ddOptionsLookup[key].Length;
-                        ddPermutation[l] = m % optCount;
-                        m /= optCount;
+                        var match = conditionalMatches[i];
+                        nonConditionalBits.Add(templateSegment.Substring(match.Index + match.Length));
+                        templateSegment = templateSegment.Substring(0, match.Index);
+                    }
+                    nonConditionalBits.Add(templateSegment);
+                }
+
+                var rootNode = new PermutationNode
+                {
+                    Condition = condition,
+                    NonConditionalText = nonConditionalBits.Reverse().ToArray(),
+                    Children = conditionalMatches.Cast<Match>().Select(m =>
+                    {
+                        var conditionDetailMatch = ConditionsRegex.Match(m.Groups[0].Value);
+
+                        if (conditionDetailMatch.Success)
+                        {
+                            return BuildConditionalTree((
+                                conditionDetailMatch.Groups[1].Value, 
+                                conditionDetailMatch.Groups[3].Value,
+                                conditionDetailMatch.Groups[2].Value == "="),
+                                conditionDetailMatch.Groups[4].Value
+                            );
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }).Where(n => n != null).ToList(),
+                };
+
+                return rootNode;
+            }
+            
+            IList<IList<PermutationOption>> BuildPermutationOptions(PermutationNode permutationTreeRoot)
+            {
+                var conditions = GetConditionalOptions(permutationTreeRoot);
+                var permutationOptions = GetPermutations(permutationTreeRoot, conditions);
+
+                return permutationOptions;
+
+
+                IEnumerable<ConditionalOptions> GetConditionalOptions(PermutationNode permutationNode)
+                {
+                    var options = new List<ConditionalOptions>();
+
+                    for (int i = 0; ; i++)
+                    {
+                        var conditionalArgs = ConditionalArgsRegex.Matches(permutationNode.NonConditionalText[i]).Cast<Match>().ToList();
+
+                        foreach (var argMatch in conditionalArgs)
+                            options.Add(GetConditional(argMatch));
+
+                        if (i == permutationNode.Children.Count)
+                            break;
+
+                        var childConditionalArgs = GetConditionalOptions(permutationNode.Children[i]);
+                        options.AddRange(childConditionalArgs);
                     }
 
-                    permutationList.Add((
-                        yesNoPermutation.Count(p => p) + ddPermutation.Sum(p => p),
-                        BuildPermutation(yesNoPermutation, yesNoArgMatches, ddPermutation, dropdownArgMatches, ddOptionsLookup, template)
-                    ));
+                    return options;
+
+                    ConditionalOptions GetConditional(Match conditionalMatch)
+                    {
+                        var argKey = conditionalMatch.Groups["fullTag"].Value;
+                        var argName = conditionalMatch.Groups["argName"].Value;
+                        var argType = conditionalMatch.Groups["argType"].Value.Split(':')[0];
+                        var flags = conditionalMatch.Groups["flags"].Value.Split(':');
+
+                        string[] vals = argType == "YesNo" ? new[] { "Yes", "No" } :
+                                        argType == "Dropdown" ? conditionalMatch.Groups["values"].Value.Split(',').Select(v => v.Trim()).ToArray() :
+                                        null;
+
+                        return new ConditionalOptions(argKey, argName, argType, flags, vals);
+                    }
+                }
+
+                IList<IList<PermutationOption>> GetPermutations(PermutationNode permutationNode, IEnumerable<ConditionalOptions> conditionOptions)
+                {
+                    var results = new List<IList<PermutationOption>>();
+                    var stack = new Stack<PermutationOption>();
+
+                    DoRecursive(new Queue<ConditionalOptions>(conditionOptions));
+
+                    return results;
+
+
+                    void DoRecursive(Queue<ConditionalOptions> queue)
+                    {
+                        if (queue.Count == 0)
+                        {
+                            results.Add(stack.Reverse().ToList());
+                            return;
+                        }
+
+                        queue = new Queue<ConditionalOptions>(queue);
+
+                        var condition = queue.Dequeue();
+                        
+                        foreach (var opt in condition.Options)
+                        {
+                            stack.Push(new PermutationOption(condition, opt));
+                            DoRecursive(queue);
+                            stack.Pop();
+                        }
+                    }
                 }
             }
 
-            return permutationList.Select(p => p.tcp).ToList();
-
-
-            int CountDropDownOptionPermuations()
+            IList<TemplateConditionalPermutation> BuildTemplatesFromPermutations(PermutationNode permutationTreeRoot, IList<IList<PermutationOption>> permutationOptions)
             {
-                var count = 1;
-                foreach (Match match in dropdownArgMatches)
+                var results = new List<TemplateConditionalPermutation>();
+
+                var argSet = new Dictionary<string, (string, Arg)>();
+                var templateStack = new Stack<string>();
+
+                foreach (var perm in permutationOptions)
                 {
-                    var options = match.Groups[3].Value.Split(',');
-                    count *= options.Length;
-                    ddOptionsLookup[match.Groups[2].Value] = options;
+                    DoRecursive(permutationTreeRoot, perm);
+
+                    results.Add(new TemplateConditionalPermutation
+                    {
+                        Args = argSet.Select(a => a.Value).ToArray(),
+                        Template = string.Join(string.Empty, templateStack.Reverse()),
+                    });
+
+                    argSet.Clear();
+                    templateStack.Clear();
                 }
-                return count;
+
+                return results.Distinct().ToList();
+
+                void DoRecursive(PermutationNode permutationNode, IList<PermutationOption> permutatoes)
+                {
+                    // check if this node is valid given the current permutato
+                    if (permutationNode.Condition.name != null)
+                    {
+                        var perm = permutatoes.SingleOrDefault(p => p.ArgName == permutationNode.Condition.name);
+                        
+                        // be sure we keep track of (and build Args for) the permutation args 
+                        // that are actually hit in this permutation of the tree...
+                        if (perm != null && !argSet.ContainsKey(perm.ArgName))
+                        {
+                                argSet.Add(perm.ArgName, (perm.Key, new Arg
+                                {
+                                    key = perm.ArgName,
+                                    argType = perm.ArgType,
+                                    flags = perm.Flags,
+                                    value = perm.SelectedOption
+                                }));
+                        }
+
+                        if (permutationNode.Condition.isEqual != (perm.SelectedOption == permutationNode.Condition.value))
+                        {
+                            // don't add anything from this node if it's not in the allowed permutato list
+                            return;
+                        }
+                    }
+                    
+                    // Do the regular loop & recursing
+                    for (int i = 0; ; i++)
+                    {
+                        templateStack.Push(permutationNode.NonConditionalText[i]);
+
+                        if (i == permutationNode.Children.Count)
+                            break;
+
+                        DoRecursive(permutationNode.Children[i], permutatoes);
+                    }
+                }
             }
         }
 
@@ -121,89 +267,6 @@ namespace MonsterSoupSrdImport
             public string Template;
             public (string ArgKey, Arg Arg)[] Args;
         }
-
-        private TemplateConditionalPermutation BuildPermutation(
-            bool[] yesNoPermutation, MatchCollection yesNoArgMatches,
-            int[] ddPermutation, MatchCollection ddArgMatches, IDictionary<string, string[]> ddOptionsLookup,
-            string template
-        )
-        {
-            var ConditionalStringsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (.*?)\]");
-
-            var matchArgs = new List<(string key, Arg arg)>();
-
-
-            string Replace(Match match, string insert = null) =>
-                $"{template.Substring(0, match.Index)}{insert}{template.Substring(match.Index + match.Length)}";
-
-            IEnumerable<Match> GetConditionalsForArg(string argName) =>
-                ConditionalStringsRegex.Matches(template).Cast<Match>()
-                .Where(m => m.Groups[1].Value == argName).OrderByDescending(m => m.Index);
-
-            void DoTheThing<T>(
-                string argType,
-                T[] permutation,
-                MatchCollection matches,
-                Func<string, T, string> valueToString,
-                Func<string, string, T> stringToValue
-            )
-            {
-                for (int i = 0; i < permutation.Length; i++)
-                {
-                    T assumeArgValue = permutation[i];
-                    var argMatch = matches[i];
-
-                    var argName = argMatch.Groups[2].Value;
-
-                    var flagIdx = argMatch.Groups.Count - 1;
-                    var flags = argMatch.Groups[flagIdx].Value.SplitFlags();
-
-                    var arg = new Arg
-                    {
-                        key = argName,
-                        argType = argType,
-                        flags = flags.Length > 0 ? flags : null,
-                        value = valueToString(argName, assumeArgValue),
-                    };
-
-                    var conditionalsForArg = GetConditionalsForArg(argName);
-
-                    foreach (var conditional in conditionalsForArg)
-                    {
-                        T condition = stringToValue(argName, conditional.Groups[3].Value);
-                        
-                        var isEqualityCheck = conditional.Groups[2].Value == "=";
-
-                        if (condition.Equals(assumeArgValue) == isEqualityCheck)
-                        {
-                            // Replace Match with appropriate template string.
-                            template = Replace(conditional, conditional.Groups[4].Value);
-                        }
-                        else
-                        {
-                            // Excise Match
-                            template = Replace(conditional);
-                        }
-                    }
-
-                    matchArgs.Add((argMatch.Groups[1].Value, arg));
-                }
-            }
-
-            DoTheThing("YesNo", yesNoPermutation, yesNoArgMatches,
-                (argName, value) => value ? "Yes" : "No",
-                (argName, str) => str == "Yes");
-            DoTheThing("Dropdown", ddPermutation, ddArgMatches,
-                (argName, value) => ddOptionsLookup[argName][value],
-                (argName, str) => ddOptionsLookup[argName].IndexOf(str));
-            
-            return new TemplateConditionalPermutation
-            {
-                Template = template,
-                Args = matchArgs.ToArray(),
-            };
-        }
-
 
         private static readonly Regex SimpleArgsRegex = new Regex(@"{([a-zA-Z:]+?)}");
         private static readonly Regex AnyConditionalArgRegex = new Regex(@"{[a-zA-Z]+?:(?=YesNo|Dropdown):?(.*?)}");
@@ -249,12 +312,14 @@ namespace MonsterSoupSrdImport
         private static readonly Dictionary<string, Func<string, string[], object>> _typedArgParserLookup = new Dictionary<string, Func<string, string[], object>>
         {
             { "Attack", ArgParser.ParseAttackArgValues },
+            { "BeastShapes", ArgParser.ParseTextArgValue },
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
             { "Text", ArgParser.ParseTextArgValue },
+
             { "YesNo", ArgParser.ParseTextArgValue },
             { "Dropdown", ArgParser.ParseDropdownValue },
         };

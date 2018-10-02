@@ -334,7 +334,7 @@ namespace MonsterSoupSrdImport
 
             #region Private Extracts
 
-            private static string PropertyLine(string propertyName) => $@"\*\*{propertyName}\*\* (.*)";
+            private static string PropertyLine(string propertyName) => $@"\*\*\*?{propertyName}\*\*\*? (.*)";
 
             private static Regex actionSection_Regex = new Regex(@"\*+(.*?)\.\*+ (.*?)(?=[\r\n]+|$)");
 

@@ -327,37 +327,7 @@ namespace MonsterSoupSrdImport
                 "a weapon attack if that creature is within 5 feet of an ally of {shortName} that isn’t " +
                 "incapacitated."
             },
-
-            // THE SHAPECHANGER SECTION //
-
-            new Trait
-            {
-                Name = "Shapechanger - Mimic",
-                Template =
-                "{ShortName} can use its action to polymorph into an object or back into its true, amorphous form. " +
-                "Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t " +
-                "transformed. It reverts to its true form if it dies."
-            },
-            new Trait
-            {
-                Name = "Shapechanger - Vampire",
-                Template =
-                "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
-                "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
-
-                "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
-                "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
-                "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
-                "to its true form if it dies.\r\n" +
-
-                "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
-                "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
-                "and stop there. In addition, if air can pass through a space, the mist can do so without " +
-                "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
-                "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
-                "takes from sunlight."
-            },
-
+            
             // from Vampire
             new Trait
             {
@@ -391,10 +361,13 @@ namespace MonsterSoupSrdImport
 
                 "*Forbiddance.* {ShortName} can’t enter a residence without an invitation from one of the occupants.\r\n" +
 
-                "*Harmed by Running Water.* {ShortName} takes 20 acid damage if it ends its turn in running water.\r\n" +
+                "*Harmed by Running Water.* {ShortName} takes 20 acid damage {ifWhen:Dropdown:[if,when]}[ifWhen=if if][ifWhen=when when] it ends its turn in running water.\r\n" +
 
-                "*Stake to the Heart.* If a piercing weapon made of wood is driven into {shortName}’s heart while " +
-                "{shortName} is incapacitated in its resting place, {shortName} is paralyzed until the stake is removed.\r\n" +
+                "*Stake to the Heart.* {stakeEffect:Dropdown:[Destroys,Paralyzes]}" +
+                    "[stakeEffect=Paralyzes If a piercing weapon made of wood is driven into {shortName}’s heart while " +
+                    "{shortName} is incapacitated in its resting place, {shortName} is paralyzed until the stake is removed.\r\n]" +
+                    "[stakeEffect=Destroys {ShortName} is destroyed if a piercing weapon made of wood is driven into its heart " +
+                    "while it is incapacitated in its resting place.\r\n]" +
 
                 "*Sunlight Hypersensitivity.* {ShortName} takes 20 radiant damage when it starts its turn in sunlight. " +
                 "While in sunlight, it has disadvantage on attack rolls and ability checks."
@@ -576,6 +549,51 @@ namespace MonsterSoupSrdImport
                 "If {shortName} sees itself reflected on a polished surface within 30 feet of it and in an area of " +
                 "bright light, {shortName} is, due to its curse, affected by its own gaze."
             },
+
+            new Trait
+            {
+                Name = "Shapechanger",
+                Template =
+                "{template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]}" +
+                
+                "[template!=Vampire "+
+                    "{ShortName} can use its action to polymorph into " +
+
+                    "[template=Doppelganger a Small or Medium humanoid it has seen, or back into its true form. " +
+                    "Its statistics, other than its size, are the same in each form.]" +
+
+                    "[template=Fiend a beast form that resembles {shapes:BeastShapes}, or back into its true form. " +
+                    "Its statistics are the same in each form, except for the speed changes noted.]" +
+
+                    "[template=Lycanthrope a {hybridType:Text}-humanoid hybrid or into a {animalType:Text}, " +
+                    "or back into its true form, which is humanoid. Its statistics, other than its " +
+                    "{statistics:MultiOption}, are the same in each form.]" +
+
+                    "[template=Mimic an object or back into its true, amorphous form. " +
+                    "Its statistics are the same in each form.]" +
+
+                    "[template=Succubus a Small or Medium humanoid, or back into its true form. Without wings, " +
+                    "{shortName} loses its flying speed. Other than its size and speed, its statistics are the " +
+                    "same in each form.]" +
+                    
+                    " Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
+                "]" +
+
+                "[template=Vampire If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
+                "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
+
+                "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
+                "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
+                "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
+                "to its true form if it dies.\r\n" +
+
+                "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
+                "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
+                "and stop there. In addition, if air can pass through a space, the mist can do so without " +
+                "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
+                "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
+                "takes from sunlight.]"
+            }
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

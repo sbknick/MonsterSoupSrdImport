@@ -296,22 +296,32 @@ If the target is prone, the triceratops can make one stomp attack against it as 
 
             // SHAPECHANGERS //
 
-//            // Mimic
-//            yield return TestMonster(
-//                new Mimic(), @"
-//",
-//                new[] { "" }
-//            );
+            // Mimic
+            yield return TestMonster(
+                new Mimic(), @"
+                    ***Shapechanger.*** The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
+                    //***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.
+                    //***False Appearance (Object Form Only).*** While the mimic remains motionless, it is indistinguishable from an ordinary object.
+                    //***Grappler.*** The mimic has advantage on attack rolls against any creature grappled by it.",
+                new[] { "Shapechanger" } //, "Adhesive (Object Form Only)", "False Appearance (Object Form Only)", "Grappler" }
+            );
+
+            // Lycanthrope
+            yield return TestMonster(
+                new Werewolf(), @"
+                    ***Shapechanger.*** The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
+                new[] { "Shapechanger" }
+            );
 
             // Vampire
             yield return TestMonster(
                 new Vampire(), @"
-                    ***Shapechanger - Vampire.*** If the vampire isn’t in sunlight or running water, it can use its action to polymorph into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\nWhile in bat form, the vampire can’t speak, its walking speed is 5 feet, and it has a flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. Anything it is wearing transforms with it, but nothing it is carrying does. It reverts to its true form if it dies.\r\nWhile in mist form, the vampire can’t take any actions, speak, or manipulate objects. It is weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space and stop there. In addition, if air can pass through a space, the mist can do so without squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and Constitution saving throws, and it is immune to all nonmagical damage, except the damage it takes from sunlight.
+                    ***Shapechanger.*** If the vampire isn’t in sunlight or running water, it can use its action to polymorph into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\nWhile in bat form, the vampire can’t speak, its walking speed is 5 feet, and it has a flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. Anything it is wearing transforms with it, but nothing it is carrying does. It reverts to its true form if it dies.\r\nWhile in mist form, the vampire can’t take any actions, speak, or manipulate objects. It is weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space and stop there. In addition, if air can pass through a space, the mist can do so without squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and Constitution saving throws, and it is immune to all nonmagical damage, except the damage it takes from sunlight.
                     ***Misty Escape - Vampire.*** When it drops to 0 hit points outside its resting place, the vampire transforms into a cloud of mist (as in the Shapechanger trait) instead of falling unconscious, provided that it isn’t in sunlight or running water. If it can’t transform, it is destroyed.\r\nWhile it has 0 hit points in mist form, it can’t revert to its vampire form, and it must reach its resting place within 2 hours or be destroyed. Once in its resting place, it reverts to its vampire form. It is then paralyzed until it regains at least 1 hit point. After spending 1 hour in its resting place with 0 hit points, it regains 1 hit point.
                     ***Regeneration.*** The vampire regains 20 hit points at the start of its turn if it has at least 1 hit point and isn’t in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn’t function at the start of the vampire’s next turn.
                     ***Spider Climb.*** The vampire can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.
                     ***Vampire Weaknesses.*** The vampire has the following flaws:\r\n*Forbiddance.* The vampire can’t enter a residence without an invitation from one of the occupants.\r\n*Harmed by Running Water.* The vampire takes 20 acid damage if it ends its turn in running water.\r\n*Stake to the Heart.* If a piercing weapon made of wood is driven into the vampire’s heart while the vampire is incapacitated in its resting place, the vampire is paralyzed until the stake is removed.\r\n*Sunlight Hypersensitivity.* The vampire takes 20 radiant damage when it starts its turn in sunlight. While in sunlight, it has disadvantage on attack rolls and ability checks.",
-                new[] { "Shapechanger - Vampire", "Misty Escape - Vampire", "Regeneration", "Spider Climb", "Vampire Weaknesses" }
+                new[] { "Shapechanger", "Misty Escape - Vampire", "Regeneration", "Spider Climb", "Vampire Weaknesses" }
             );
 
             // //SHAPECHANGERS //

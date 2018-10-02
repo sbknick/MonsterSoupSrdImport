@@ -150,4 +150,42 @@ namespace MonsterSoupSrdImport
     {
         public string damageType;
     }
+
+    public class ConditionalOptions
+    {
+        public string Key { get; }
+        public string ArgName { get; }
+        public string ArgType { get; }
+        public string[] Flags { get; }
+        public string[] Options { get; }
+
+
+        public ConditionalOptions(string key, string argName, string argType, string[] flags, string[] options)
+        {
+            Key = key;
+            ArgName = argName;
+            ArgType = argType;
+            Options = options;
+        }
+
+        protected ConditionalOptions(ConditionalOptions condition)
+        {
+            Key = condition.Key;
+            ArgName = condition.ArgName;
+            ArgType = condition.ArgType;
+            Options = condition.Options;
+        }
+    }
+
+    public class PermutationOption : ConditionalOptions
+    {
+        public string SelectedOption { get; }
+
+
+        public PermutationOption(ConditionalOptions condition, string selectedOption)
+            : base(condition)
+        {
+            SelectedOption = selectedOption;
+        }
+    }
 }
