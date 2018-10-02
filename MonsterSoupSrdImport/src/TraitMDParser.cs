@@ -10,7 +10,7 @@ namespace MonsterSoupSrdImport
         private readonly IArgExtractor argExtractor;
 
         private static readonly Regex TraitsRegex = new Regex(@"\*{3}(?<traitName>[\s\S]+?)(?: \((?<traitRequires>.*?)\))?\.\*{3} (?<traitDescription>[\s\S]+?)(?=$|\*{3})");
-        private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}\.\*{{3}} ([\s\S]+?)(?=$|\*{{3}})");
+        private static readonly Func<string, Regex> IndividualTraitRegex = (traitName) => new Regex($@"\*{{3}}{traitName}( \(.*?\))?\.\*{{3}} ([\s\S]+?)(?=$|\*{{3}})");
 
         public TraitMDParser(IArgExtractor argExtractor)
         {

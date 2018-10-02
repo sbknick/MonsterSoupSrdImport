@@ -302,6 +302,8 @@ namespace MonsterSoupSrdImportTest
         {
             { "Shapechanger", new Mimic_Shapechanger() },
             { "Adhesive", new Mimic_Adhesive() },
+            { "False Appearance", new Mimic_FalseAppearance() },
+            { "Grappler", new Mimic_Grappler() },
         };
     }
 
@@ -350,6 +352,16 @@ namespace MonsterSoupSrdImportTest
             { "Regeneration", new Vampire_Regeneration() },
             { "Spider Climb", new Vampire_SpiderClimb() },
             { "Vampire Weaknesses", new Vampire_VampireWeaknesses() },
+        };
+    }
+
+    public sealed class Wereboar : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Shapechanger", new Wereboar_Shapechanger() },
+            { "Charge", new Wereboar_Charge() },
+            { "Relentless", new Wereboar_Relentless() },
         };
     }
 
@@ -511,7 +523,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the centaur" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 30 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "pike" } } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "pike", article = "a", saysAttack = true } } },
             { "damage:Damage:Typed", new Arg
                 {
                     key = "damage",
@@ -546,7 +558,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the minotaur" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 10 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "gore", article = "a", saysAttack = true } } },
             { "damage:Damage:Typed", new Arg
                 {
                     key = "damage",
@@ -1065,7 +1077,7 @@ namespace MonsterSoupSrdImportTest
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the gnoll" } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "bite" } } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "bite", article = "a", saysAttack = true } } },
         };
     }
 
@@ -1136,7 +1148,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the gorgon" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 20 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "gore", article = "a", saysAttack = true } } },
             { "save:SavingThrow", new Arg
                 {
                     key = "save",
@@ -1144,11 +1156,11 @@ namespace MonsterSoupSrdImportTest
                     value = new SavingThrowArgs { Attribute = "Strength", DC = 16 }
                 } },
             { "extraAttack:Attack", new Arg
-            {
-                key = "extraAttack",
-                argType = "Attack",
-                value = new AttackRefArgs { attack = "hooves", withIts = true }
-            } },
+                {
+                    key = "extraAttack",
+                    argType = "Attack",
+                    value = new AttackRefArgs { attack = "hooves", attackWith = true, article = "its", saysAttack = false }
+                } },
         };
     }
 
@@ -1172,7 +1184,7 @@ namespace MonsterSoupSrdImportTest
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the triceratops" } },
             { "distance:Number", new Arg { key = "distance", argType = "Number", value = 20 } },
-            { "attack:Attack", new Arg { key = "attack", argType = "Attack", value = new AttackRefArgs { attack = "gore" } } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "gore", article = "a", saysAttack = true } } },
             { "save:SavingThrow", new Arg
                 {
                     key = "save",
@@ -1183,7 +1195,7 @@ namespace MonsterSoupSrdImportTest
                 {
                     key = "extraAttack",
                     argType = "Attack",
-                    value = new AttackRefArgs { attack = "stomp" }
+                    value = new AttackRefArgs { attack = "stomp", article = string.Empty, saysAttack = true }
                 } },
         };
     }
@@ -1888,9 +1900,120 @@ At the end of its turn, it grows two heads for each of its heads that died since
         };
     }
 
+    public sealed class Mimic_FalseAppearance : TraitTestData
+    {
+        public override string Trait => "False Appearance";
+        public override string Requirements => "Object Form Only";
+
+        public override string MonsterTraitString =>
+            "While the mimic remains motionless, it is indistinguishable from an ordinary object.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the mimic" } },
+            { "more:YesNo", new Arg { key = "more", argType = "YesNo", value = "No" } },
+            { "description:Text", new Arg { key = "description", argType = "Text", value = "an ordinary object" } },
+        };
+    }
+
+    public sealed class Mimic_Grappler : TraitTestData
+    {
+        public override string Trait => "Grappler";
+
+        public override string MonsterTraitString =>
+            "The mimic has advantage on attack rolls against any creature grappled by it.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The mimic" } },
+        };
+    }
+
     #endregion
 
     #region Lycanthropes
+
+    public sealed class Wereboar_Shapechanger : TraitTestData
+    {
+        public override string Trait => "Shapechanger";
+
+        public override string MonsterTraitString =>
+            "The wereboar can use its action to polymorph into a boar-humanoid hybrid or into " +
+            "a boar, or back into its true form, which is humanoid. Its statistics, other than " +
+            "its AC, are the same in each form. Any equipment it is wearing or carrying isn’t " +
+            "transformed. It reverts to its true form if it dies.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]", new Arg { key = "template", argType = "Dropdown", value = "Lycanthrope" } },
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The wereboar" } },
+            { "hybridType:Text", new Arg { key = "hybridType", argType = "Text", value = "boar" } },
+            { "animalType:Text", new Arg { key = "animalType", argType = "Text", value = "boar" } },
+            { "statistics:MultiOption", new Arg { key = "statistics", argType = "MultiOption", value = new[] { "AC" } } },
+        };
+    }
+
+    public sealed class Wereboar_Charge : TraitTestData
+    {
+        public override string Trait => "Charge";
+        public override string Requirements => "Boar or Hybrid Form Only";
+
+        public override string MonsterTraitString =>
+            "If the wereboar moves at least 15 feet straight toward a target and then hits it with " +
+            "its tusks on the same turn, the target takes an extra 7 (2d6) slashing damage. If the " +
+            "target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the wereboar" } },
+            { "distance:Number", new Arg { key = "distance", argType = "Number", value = 15 } },
+            { "anAttack:Attack", new Arg { key = "anAttack", argType = "Attack", value = new AttackRefArgs { attack = "tusks", article = "its", saysAttack = false } } },
+            { "damage:Damage:Typed", new Arg
+                {
+                    key = "damage",
+                    argType = "Damage",
+                    flags = new[] { "Typed" },
+                    value = new TypedDamageArgs
+                    {
+                        diceCount = 2,
+                        dieSize = 6,
+                        damageType = "slashing",
+                    }
+                } },
+            { "hasSavingThrow:YesNo", new Arg { key = "hasSavingThrow", argType = "YesNo", value = "Yes" } },
+            { "save:SavingThrow", new Arg
+                {
+                    key = "save",
+                    argType = "SavingThrow",
+                    value = new SavingThrowArgs { DC = 13, Attribute = "Strength" }
+                } },
+            { "affected:MultiOption", new Arg
+                {
+                    key = "affected",
+                    argType = "MultiOption",
+                    value = new[]
+                    {
+                        "knocked prone",
+                    }
+                } },
+        };
+    }
+
+    public sealed class Wereboar_Relentless : TraitTestData
+    {
+        public override string Trait => "Relentless";
+        public override string Requirements => "Recharges after a Short or Long Rest";
+
+        public override string MonsterTraitString =>
+            "If the wereboar takes 14 damage or less that would reduce it to 0 hit points, " +
+            "it is reduced to 1 hit point instead.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the wereboar" } },
+            { "amount:Number", new Arg { key = "amount", argType = "Number", value = 14 } },
+        };
+    }
 
     public sealed class Werewolf_Shapechanger : TraitTestData
     {

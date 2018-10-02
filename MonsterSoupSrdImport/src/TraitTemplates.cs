@@ -62,9 +62,10 @@ namespace MonsterSoupSrdImport
                 Name = "Charge",
                 Template =
                 "If {shortName} moves at least {distance:Number} feet straight toward a target and " +
-                "then hits it with a {attack:Attack} on the same turn, the target takes " +
-                "an extra {damage:Damage:Typed}.{hasSavingThrow:YesNo}[hasSavingThrow=Yes  If the target is a creature, it must succeed on " +
-                "a {save:SavingThrow} or be {affected:MultiOption}.]"
+                "then hits it with {anAttack:Attack} " +
+                "on the same turn, the target takes an extra {damage:Damage:Typed}." +
+                "{hasSavingThrow:YesNo}[hasSavingThrow=Yes  If the target is a creature, it must " +
+                "succeed on a {save:SavingThrow} or be {affected:MultiOption}.]"
             },
             new Trait
             {
@@ -249,7 +250,7 @@ namespace MonsterSoupSrdImport
                 Name = "Rampage",
                 Template =
                 "When {shortName} reduces a creature to 0 hit points with a melee attack on its turn, " +
-                "{shortName} can take a bonus action to move up to half its speed and make a {attack:Attack}."
+                "{shortName} can take a bonus action to move up to half its speed and make {anAttack:Attack}."
             },
 
             // from Deep Gnome
@@ -280,7 +281,7 @@ namespace MonsterSoupSrdImport
                 Name = "Trampling Charge",
                 Template =
                 "If {shortName} moves at least {distance:Number} feet straight toward a creature and then " +
-                "hits it with a {attack:Attack} on the same turn, that target must succeed on a " +
+                "hits it with {anAttack:Attack} on the same turn, that target must succeed on a " +
                 "{save:SavingThrow} or be knocked prone.\r\n" +
 
                 "If the target is prone, {shortName} can make " +
@@ -602,6 +603,21 @@ namespace MonsterSoupSrdImport
                 Template =
                 "{ShortName} adheres to anything that touches it. A Huge or smaller creature adhered to {shortName} is " +
                 "also grappled by it (escape DC {dc:Number}). Ability checks made to escape this grapple have disadvantage."
+            },
+            new Trait
+            {
+                Name = "Grappler",
+                Template =
+                "{ShortName} has advantage on attack rolls against any creature grappled by it."
+            },
+
+            // from Wereboar
+            new Trait
+            {
+                Name = "Relentless",
+                Template =
+                "If {shortName} takes {amount:Number} damage or less that would reduce it to 0 hit points, " +
+                "it is reduced to 1 hit point instead."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

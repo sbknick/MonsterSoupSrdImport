@@ -362,8 +362,8 @@ namespace MonsterSoupSrdImport
         {
             #region Attack
 
-            private static readonly Regex AttackWithStringRegex = new Regex(@"attack with its (\S+)");
-            private static readonly Regex AttackStringRegex = new Regex(@"(\S+) attack");
+            private static readonly Regex AttackWithStringRegex = new Regex(@"attack with (?<article>an?|its) (?<attackName>\S+)");
+            private static readonly Regex AttackStringRegex = new Regex(@"(?<article>an?|its)? ?(?<attackName>\S+) ?(?<saysAttack>attack)?");
 
             public static object ParseAttackArgValues(string values, string[] flags)
             {
@@ -372,15 +372,18 @@ namespace MonsterSoupSrdImport
                 if (withMatch.Success)
                     return new AttackRefArgs
                     {
-                        attack = withMatch.Groups[1].Value,
-                        withIts = true,
+                        attack = withMatch.Groups["attackName"].Value,
+                        attackWith = true,
+                        article = withMatch.Groups["article"].Value,
                     };
 
                 var notWithMatch = AttackStringRegex.Match(values);
 
                 return new AttackRefArgs
                 {
-                    attack = notWithMatch.Groups[1].Value,
+                    attack = notWithMatch.Groups["attackName"].Value,
+                    article = notWithMatch.Groups["article"].Value,
+                    saysAttack = notWithMatch.Groups["saysAttack"].Value == "attack",
                 };
             }
 

@@ -303,10 +303,10 @@ If the target is prone, the triceratops can make one stomp attack against it as 
             yield return TestMonster(
                 new Mimic(), @"
                     ***Shapechanger.*** The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.
-                    ***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.",
-                    //***False Appearance (Object Form Only).*** While the mimic remains motionless, it is indistinguishable from an ordinary object.
-                    //***Grappler.*** The mimic has advantage on attack rolls against any creature grappled by it.",
-                new[] { "Shapechanger", "Adhesive" } //, "Adhesive (Object Form Only)", "False Appearance (Object Form Only)", "Grappler" }
+                    ***Adhesive (Object Form Only).*** The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage.
+                    ***False Appearance (Object Form Only).*** While the mimic remains motionless, it is indistinguishable from an ordinary object.
+                    ***Grappler.*** The mimic has advantage on attack rolls against any creature grappled by it.",
+                new[] { "Shapechanger", "Adhesive", "False Appearance", "Grappler" }
             );
 
             // Lycanthrope
@@ -314,6 +314,14 @@ If the target is prone, the triceratops can make one stomp attack against it as 
                 new Werewolf(), @"
                     ***Shapechanger.*** The werewolf can use its action to polymorph into a wolf-humanoid hybrid or into a wolf, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.",
                 new[] { "Shapechanger" }
+            );
+
+            yield return TestMonster(
+                new Wereboar(), @"
+                    ***Shapechanger.*** The wereboar can use its action to polymorph into a boar-humanoid hybrid or into a boar, or back into its true form, which is humanoid. Its statistics, other than its AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.
+                    ***Charge (Boar or Hybrid Form Only).*** If the wereboar moves at least 15 feet straight toward a target and then hits it with its tusks on the same turn, the target takes an extra 7 (2d6) slashing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone.
+                    ***Relentless (Recharges after a Short or Long Rest).*** If the wereboar takes 14 damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead.",
+                new[] { "Shapechanger", "Charge", "Relentless" }
             );
 
             // Vampire

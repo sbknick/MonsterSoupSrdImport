@@ -127,7 +127,9 @@ namespace MonsterSoupSrdImport
     public class AttackRefArgs
     {
         public string attack;
-        public bool withIts;
+        public bool attackWith;
+        public string article;
+        public bool saysAttack;
     }
 
     public class DiceRollArgs

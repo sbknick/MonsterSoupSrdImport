@@ -401,7 +401,12 @@ namespace MonsterSoupSrdImportTest
 
             yield return TestTraitFromMonster<Mimic>("Shapechanger");
             yield return TestTraitFromMonster<Mimic>("Adhesive");
+            yield return TestTraitFromMonster<Mimic>("False Appearance");
+            yield return TestTraitFromMonster<Mimic>("Grappler");
             yield return TestTraitFromMonster<Werewolf>("Shapechanger");
+            yield return TestTraitFromMonster<Wereboar>("Shapechanger");
+            yield return TestTraitFromMonster<Wereboar>("Charge");
+            yield return TestTraitFromMonster<Wereboar>("Relentless");
 
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",
