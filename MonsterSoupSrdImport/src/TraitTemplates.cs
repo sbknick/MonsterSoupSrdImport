@@ -327,37 +327,7 @@ namespace MonsterSoupSrdImport
                 "a weapon attack if that creature is within 5 feet of an ally of {shortName} that isn’t " +
                 "incapacitated."
             },
-
-            // THE SHAPECHANGER SECTION //
-
-            //new Trait
-            //{
-            //    Name = "Shapechanger - Mimic",
-            //    Template =
-            //    "{ShortName} can use its action to polymorph into an object or back into its true, amorphous form. " +
-            //    "Its statistics are the same in each form. Any equipment it is wearing or carrying isn’t " +
-            //    "transformed. It reverts to its true form if it dies."
-            //},
-            //new Trait
-            //{
-            //    Name = "Shapechanger - Vampire",
-            //    Template =
-            //    "If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
-            //    "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
-
-            //    "While in bat form, {shortName} can’t speak, its walking speed is 5 feet, and it has a " +
-            //    "flying speed of 30 feet. Its statistics, other than its size and speed, are unchanged. " +
-            //    "Anything it is wearing transforms with it, but nothing it is carrying does. It reverts " +
-            //    "to its true form if it dies.\r\n" +
-
-            //    "While in mist form, {shortName} can’t take any actions, speak, or manipulate objects. It is " +
-            //    "weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature’s space " +
-            //    "and stop there. In addition, if air can pass through a space, the mist can do so without " +
-            //    "squeezing, and it can’t pass through water. It has advantage on Strength, Dexterity, and " +
-            //    "Constitution saving throws, and it is immune to all nonmagical damage, except the damage it " +
-            //    "takes from sunlight."
-            //},
-
+            
             // from Vampire
             new Trait
             {
@@ -585,30 +555,6 @@ namespace MonsterSoupSrdImport
                 Name = "Shapechanger",
                 Template =
                 "{template:Dropdown:[Doppelganger,Fiend,Lycanthrope,Mimic,Succubus,Vampire]}" +
-
-                //// deppelganger
-                //"[template=Doppelganger {ShortName} can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies.]" +
-
-                //// quasit, imp
-                //"The quasit can use its action to polymorph into a beast form that resembles a bat (speed 10 ft. fly 40 ft.), a centipede (40 ft., climb 40 ft.), or a toad (40 ft., swim 40 ft.), 
-                // or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                //"The imp    can use its action to polymorph into a beast form that resembles a rat (speed 20 ft.), a raven (20 ft., fly 60 ft.), or a spider (20 ft., climb 20 ft.),               
-                // or back into its true form. Its statistics are the same in each form, except for the speed changes noted. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-
-                //// lycanthropes: werebear, wereboar, wererat, weretiger, werewolf
-                //"The werebear  can use its action to polymorph into a Large bear-humanoid hybrid or into a Large bear, or back into its true form, which is humanoid. Its statistics, other than its size and AC, are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                //"The wereboar  can use its action to polymorph into a boar      -humanoid hybrid or into a boar      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                //"The wererat   can use its action to polymorph into a rat       -humanoid hybrid or into a giant rat , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                //"The weretiger can use its action to polymorph into a tiger     -humanoid hybrid or into a tiger     , or back into its true form, which is humanoid. Its statistics, other than its size       , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                //"The werewolf  can use its action to polymorph into a wolf      -humanoid hybrid or into a wolf      , or back into its true form, which is humanoid. Its statistics, other than its AC         , are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
-                
-                //// mimic
-                //"[template=Mimic {ShortName} can use its action to polymorph into an object or back into its true, " +
-                //"amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying " +
-                //"isn’t transformed. It reverts to its true form if it dies.]" +
-
-                //// succubus
-                //"The fiend     can use its action to polymorph into a Small or Medium humanoid, or back into its true form. Without wings, the fiend loses its flying speed. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
                 
                 "[template!=Vampire "+
                     "{ShortName} can use its action to polymorph into " +
@@ -633,7 +579,6 @@ namespace MonsterSoupSrdImport
                     " Any equipment it is wearing or carrying isn’t transformed. It reverts to its true form if it dies." +
                 "]" +
 
-                // vampire
                 "[template=Vampire If {shortName} isn’t in sunlight or running water, it can use its action to polymorph " +
                 "into a Tiny bat or a Medium cloud of mist, or back into its true form.\r\n" +
 
