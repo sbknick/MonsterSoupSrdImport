@@ -668,6 +668,19 @@ namespace MonsterSoupSrdImport
                 Template =
                 "{ShortName} has advantage on Wisdom (Perception) checks that rely on sight, hearing, or smell."
             },
+
+            // from Otyugh & Pseudeodragon
+            new Trait
+            {
+                Name = "Limited Telepathy",
+                Template =
+                "{template:Dropdown:[Otyugh,Pseudodragon]}" +
+                "[template=Otyugh {ShortName} can magically transmit simple messages and images to any creature " +
+                "within {range:Number} feet of it that can understand a language. This form of telepathy doesn’t allow the " +
+                "receiving creature to telepathically respond.]" +
+                "[template=Pseudodragon {ShortName} can magically communicate simple ideas, emotions, and " +
+                "images telepathically with any creature within {range:Number} feet of it that can understand a language.]"
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

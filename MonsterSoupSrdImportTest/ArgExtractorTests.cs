@@ -517,6 +517,29 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The pseudodragon" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Limited Telepathy",
+                "The otyugh can magically transmit simple messages and images to any creature within 120 feet " +
+                "of it that can understand a language. This form of telepathy doesn’t allow the receiving " +
+                "creature to telepathically respond.",
+                new TransformedArgs
+                {
+                    { "template:Dropdown:[Otyugh,Pseudodragon]", new Arg { key = "template", argType = "Dropdown", value = "Otyugh" } },
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The otyugh" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 120 } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Limited Telepathy",
+                "The pseudodragon can magically communicate simple ideas, emotions, and images telepathically " +
+                "with any creature within 100 feet of it that can understand a language.",
+                new TransformedArgs
+                {
+                    { "template:Dropdown:[Otyugh,Pseudodragon]", new Arg { key = "template", argType = "Dropdown", value = "Pseudodragon" } },
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The pseudodragon" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 100 } },
+                });
         }
     }
 }
