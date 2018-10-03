@@ -540,6 +540,37 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The pseudodragon" } },
                     { "range:Number", new Arg { key = "range", argType = "Number", value = 100 } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Limited Magic Immunity",
+                "The rakshasa can’t be affected or detected by spells of 6th level or lower unless it wishes " +
+                "to be. It has advantage on saving throws against all other spells and magical effects.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The rakshasa" } },
+                    { "level:Text", new Arg { key = "level", argType = "Text", value = "6th" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Heated Body",
+                "A creature that touches the remorhaz or hits it with a melee attack while within 5 feet of " +
+                "it takes 10 (3d6) fire damage.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the remorhaz" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 3,
+                                dieSize = 6,
+                                damageType = "fire",
+                            }
+                        } },
+                });
         }
     }
 }

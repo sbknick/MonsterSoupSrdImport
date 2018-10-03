@@ -681,6 +681,24 @@ namespace MonsterSoupSrdImport
                 "[template=Pseudodragon {ShortName} can magically communicate simple ideas, emotions, and " +
                 "images telepathically with any creature within {range:Number} feet of it that can understand a language.]"
             },
+
+            // from Rakshasa
+            new Trait
+            {
+                Name = "Limited Magic Immunity",
+                Template =
+                "{ShortName} can’t be affected or detected by spells of {level:Text} level or lower unless " +
+                "it wishes to be. It has advantage on saving throws against all other spells and magical effects."
+            },
+
+            // from Remorhaz
+            new Trait
+            {
+                Name = "Heated Body",
+                Template =
+                "A creature that touches {shortName} or hits it with a melee attack while within 5 feet of " +
+                "it takes {damage:Damage:Typed}."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
