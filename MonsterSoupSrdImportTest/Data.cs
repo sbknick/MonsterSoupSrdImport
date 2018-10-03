@@ -408,7 +408,7 @@ namespace MonsterSoupSrdImportTest
 
     public abstract class TraitTestData
     {
-        public string TraitTemplate => TraitTemplates.StandardTraits[Trait].Template;
+        public string TraitTemplate => Traits.StandardTraits[Trait].Template;
 
         public abstract string Trait { get; }
         public virtual string Requirements { get; } = null;

@@ -28,7 +28,7 @@ namespace MonsterSoupSrdImport
             // Write output files //
 
             Write(monsterSet.OrderBy(m => m.Name).ToList(), "monster-list.json");
-            Write(TraitTemplates.StandardTraits.Values, "trait-list.json");
+            Write(Traits.StandardTraits.Values, "trait-list.json");
 
 
             // Dev Bookkeeping... NOT TO BE KEPT IN PRODUCTION //

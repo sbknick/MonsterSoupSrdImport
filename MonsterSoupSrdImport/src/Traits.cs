@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MonsterSoupSrdImport
 {
-    public class TraitTemplates
+    public class Traits
     {
         public static readonly Dictionary<string, Trait> StandardTraits = new Trait[]
         {

@@ -327,7 +327,7 @@ namespace MonsterSoupSrdImportTest
 
             object[] TestTraitFromTemplate(string traitName, string monsterTraitString, TransformedArgs expectedArgsOutput)
             {
-                return new object[] { TraitTemplates.StandardTraits[traitName].Template, monsterTraitString, expectedArgsOutput };
+                return new object[] { Traits.StandardTraits[traitName].Template, monsterTraitString, expectedArgsOutput };
             }
 
             yield return TestTraitFromMonster<Aboleth>("Mucous Cloud");

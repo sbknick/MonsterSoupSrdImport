@@ -34,11 +34,11 @@ namespace MonsterSoupSrdImport
                     string traitRequires = match.Groups["traitRequires"].Value.Trim();
                     traitRequires = !string.IsNullOrWhiteSpace(traitRequires) ? traitRequires : null;
 
-                    var allowedTraits = TraitTemplates.StandardTraits.Select(t => t.Key).ToList();
+                    var allowedTraits = Traits.StandardTraits.Select(t => t.Key).ToList();
 
                     if (allowedTraits.Contains(traitName))
                     {
-                        var traitTemplate = TraitTemplates.StandardTraits[traitName];
+                        var traitTemplate = Traits.StandardTraits[traitName];
                         var monsterTrait = new MonsterTrait { Name = traitName, Requirements = traitRequires };
 
                         monsterTrait.Replaces = argExtractor.ExtractArgs(traitTemplate.Template, monsterTraitString);
@@ -50,7 +50,7 @@ namespace MonsterSoupSrdImport
                     // Dev Bookkeeping //
 
                     // only process traits we've already defined in data
-                    if (!processedTraits.Contains(traitName) && TraitTemplates.StandardTraits.ContainsKey(traitName))
+                    if (!processedTraits.Contains(traitName) && Traits.StandardTraits.ContainsKey(traitName))
                         processedTraits.Add(traitName);
 
                     // only remove from WhatsLeft the traits that we've processed.
