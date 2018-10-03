@@ -371,12 +371,10 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Grimlock>("Stone Camouflage");
             yield return TestTraitFromMonster<HellHound>("Pack Tactics");
             yield return TestTraitFromMonster<Hobgoblin>("Martial Advantage");
-
             yield return TestTraitFromMonster<Vampire>("Shapechanger");
             yield return TestTraitFromMonster<Vampire>("Misty Escape - Vampire");
             yield return TestTraitFromMonster<Vampire>("Regeneration");
             yield return TestTraitFromMonster<Vampire>("Vampire Weaknesses");
-
             yield return TestTraitFromMonster<Troll>("Keen Smell");
             yield return TestTraitFromMonster<Troll>("Regeneration");
             yield return TestTraitFromMonster<Hydra>("Hold Breath");
@@ -398,7 +396,6 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<IceMephit>("Death Burst");
             yield return TestTraitFromMonster<IceMephit>("False Appearance");
             yield return TestTraitFromMonster<SteamMephit>("Death Burst");
-
             yield return TestTraitFromMonster<Mimic>("Shapechanger");
             yield return TestTraitFromMonster<Mimic>("Adhesive");
             yield return TestTraitFromMonster<Mimic>("False Appearance");
@@ -407,6 +404,11 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Wereboar>("Shapechanger");
             yield return TestTraitFromMonster<Wereboar>("Charge");
             yield return TestTraitFromMonster<Wereboar>("Relentless");
+            yield return TestTraitFromMonster<RustMonster>("Iron Scent");
+            yield return TestTraitFromMonster<RustMonster>("Rust Metal");
+            yield return TestTraitFromMonster<Sahuagin>("Blood Frenzy");
+            yield return TestTraitFromMonster<Sahuagin>("Limited Amphibiousness");
+            yield return TestTraitFromMonster<Sahuagin>("Shark Telepathy");
 
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",

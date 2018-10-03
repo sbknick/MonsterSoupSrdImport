@@ -422,6 +422,23 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Death Burst.*** When the mephit dies, it explodes in a cloud of steam. Each creature within 5 feet of the mephit must succeed on a DC 10 Dexterity saving throw or take 4 (1d8) fire damage.",
                 new[] { "Death Burst" }
             );
+
+            // Rust Monster
+            yield return TestMonster(
+                new RustMonster(), @"
+                    ***Iron Scent.*** The rust monster can pinpoint, by scent, the location of ferrous metal within 30 feet of it.
+                    ***Rust Metal.*** Any nonmagical weapon made of metal that hits the rust monster corrodes. After dealing damage, the weapon takes a permanent and cumulative −1 penalty to damage rolls. If its penalty drops to −5, the weapon is destroyed. Nonmagical ammunition made of metal that hits the rust monster is destroyed after dealing damage.",
+                new[] { "Iron Scent", "Rust Metal" }
+            );
+
+            // Sahaguin
+            yield return TestMonster(
+                new Sahuagin(), @"
+                    ***Blood Frenzy.*** The sahuagin has advantage on melee attack rolls against any creature that doesn’t have all its hit points.
+                    ***Limited Amphibiousness.*** The sahuagin can breathe air and water, but it needs to be submerged at least once every 4 hours to avoid suffocating.
+                    ***Shark Telepathy.*** The sahuagin can magically command any shark within 120 feet of it, using a limited telepathy.",
+                new[] { "Blood Frenzy", "Limited Amphibiousness", "Shark Telepathy" }
+            );
         }
     }
 }

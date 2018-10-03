@@ -711,6 +711,46 @@ namespace MonsterSoupSrdImport
                 "A tendril can also be broken if a creature takes an action and succeeds on " +
                 "a DC {dc:Number} Strength check against it."
             },
+
+            // from Rust Monster
+            new Trait
+            {
+                Name = "Iron Scent",
+                Template =
+                "{ShortName} can pinpoint, by scent, the location of ferrous metal within {range:Number} feet of it."
+            },
+            new Trait
+            {
+                Name = "Rust Metal",
+                Template =
+                "Any nonmagical weapon made of metal that hits {shortName} corrodes. After dealing damage, " +
+                "the weapon takes a permanent and cumulative −1 penalty to damage rolls. If its penalty drops " +
+                "to −5, the weapon is destroyed. Nonmagical ammunition made of metal that hits {shortName} " +
+                "is destroyed after dealing damage."
+            },
+
+            // from Sahuagin
+            new Trait
+            {
+                Name = "Blood Frenzy",
+                Template =
+                "{ShortName} has advantage on melee attack rolls against any creature that " +
+                "doesn’t have all its hit points."
+            },
+            new Trait
+            {
+                Name = "Limited Amphibiousness",
+                Template =
+                "{ShortName} can breathe air and water, but it needs to be submerged at least " +
+                "once every {hours:Number} hours to avoid suffocating."
+            },
+            new Trait
+            {
+                Name = "Shark Telepathy",
+                Template =
+                "{ShortName} can magically command any shark within {range:Number} feet of it, " +
+                "using a limited telepathy."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

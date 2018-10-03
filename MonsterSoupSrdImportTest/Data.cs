@@ -326,6 +326,25 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class RustMonster : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Iron Scent", new RustMonster_IronScent() },
+            { "Rust Metal", new RustMonster_RustMetal() },
+        };
+    }
+
+    public sealed class Sahuagin : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Blood Frenzy", new Sahuagin_BloodFrenzy() },
+            { "Limited Amphibiousness", new Sahuagin_LimitedAmphibiousness() },
+            { "Shark Telepathy", new Sahuagin_SharkTelepathy() },
+        };
+    }
+
     public sealed class Triceratops : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -2032,6 +2051,87 @@ At the end of its turn, it grows two heads for each of its heads that died since
             { "hybridType:Text", new Arg { key = "hybridType", argType = "Text", value = "wolf" } },
             { "animalType:Text", new Arg { key = "animalType", argType = "Text", value = "wolf" } },
             { "statistics:MultiOption", new Arg { key = "statistics", argType = "MultiOption", value = new[] { "AC" } } },
+        };
+    }
+
+    #endregion
+
+    #region Rust Monster
+
+    public sealed class RustMonster_IronScent : TraitTestData
+    {
+        public override string Trait => "Iron Scent";
+
+        public override string MonsterTraitString =>
+            "The rust monster can pinpoint, by scent, the location of ferrous metal within 30 feet of it.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The rust monster" } },
+            { "range:Number", new Arg { key = "range", argType = "Number", value = 30 } },
+        };
+    }
+
+    public sealed class RustMonster_RustMetal : TraitTestData
+    {
+        public override string Trait => "Rust Metal";
+
+        public override string MonsterTraitString =>
+            "Any nonmagical weapon made of metal that hits the rust monster corrodes. After dealing damage, " +
+            "the weapon takes a permanent and cumulative −1 penalty to damage rolls. If its penalty drops " +
+            "to −5, the weapon is destroyed. Nonmagical ammunition made of metal that hits the rust monster " +
+            "is destroyed after dealing damage.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the rust monster" } },
+        };
+    }
+
+    #endregion
+
+    #region Sahuagin
+
+    public sealed class Sahuagin_BloodFrenzy : TraitTestData
+    {
+        public override string Trait => "Blood Frenzy";
+
+        public override string MonsterTraitString =>
+            "The sahuagin has advantage on melee attack rolls against any creature that doesn’t " +
+            "have all its hit points.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The sahuagin" } },
+        };
+    }
+
+    public sealed class Sahuagin_LimitedAmphibiousness : TraitTestData
+    {
+        public override string Trait => "Limited Amphibiousness";
+
+        public override string MonsterTraitString =>
+            "The sahuagin can breathe air and water, but it needs to be submerged at least once " +
+            "every 4 hours to avoid suffocating.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The sahuagin" } },
+            { "hours:Number", new Arg { key = "hours", argType = "Number", value = 4 } },
+        };
+    }
+
+    public sealed class Sahuagin_SharkTelepathy : TraitTestData
+    {
+        public override string Trait => "Shark Telepathy";
+
+        public override string MonsterTraitString =>
+            "The sahuagin can magically command any shark within 120 feet of it, using a limited telepathy.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The sahuagin" } },
+            { "range:Number", new Arg { key = "range", argType = "Number", value = 120 } },
         };
     }
 
