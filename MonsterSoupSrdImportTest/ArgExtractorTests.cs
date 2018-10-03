@@ -660,6 +660,17 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                     { "shorterName:Text", new Arg { key = "shorterName", argType = "Text", value = "the guardian" } },
                     { "range:Number", new Arg { key = "range", argType = "Number", value = 60 } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Reflective Carapace",
+                "Any time the tarrasque is targeted by a *magic missile* spell, a line spell, or a spell that " +
+                "requires a ranged attack roll, roll a d6. On a 1 to 5, the tarrasque is unaffected. On a 6, " +
+                "the tarrasque is unaffected, and the effect is reflected back at the caster as though it " +
+                "originated from the tarrasque, turning the caster into the target.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the tarrasque" } },
+                });
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterSoupSrdImport
@@ -799,6 +799,17 @@ namespace MonsterSoupSrdImport
                 "to travel to it, and {shorterName:Text} knows the distance and direction to the amulet. If " +
                 "{shorterName:Text} is within {range:Number} feet of the amulet’s wearer, half of any damage the wearer takes " +
                 "(rounded up) is transferred to {shorterName:Text}."
+            },
+
+            // Tarrasque
+            new Trait
+            {
+                Name = "Reflective Carapace",
+                Template =
+                "Any time {shortName} is targeted by a *magic missile* spell, a line spell, or a spell that " +
+                "requires a ranged attack roll, roll a d6. On a 1 to 5, {shortName} is unaffected. On a 6, " +
+                "{shortName} is unaffected, and the effect is reflected back at the caster as though it " +
+                "originated from {shortName}, turning the caster into the target."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
