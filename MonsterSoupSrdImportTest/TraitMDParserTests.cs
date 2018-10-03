@@ -439,6 +439,15 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Shark Telepathy.*** The sahuagin can magically command any shark within 120 feet of it, using a limited telepathy.",
                 new[] { "Blood Frenzy", "Limited Amphibiousness", "Shark Telepathy" }
             );
+
+            // Shadow
+            yield return TestMonster(
+                new Shadow(), @"
+                    ***Amorphous.*** The shadow can move through a space as narrow as 1 inch wide without squeezing.
+                    ***Shadow Stealth.*** While in dim light or darkness, the shadow can take the Hide action as a bonus action.
+                    ***Sunlight Weakness.*** While in sunlight, the shadow has disadvantage on attack rolls, ability checks, and saving throws.",
+                new[] { "Amorphous", "Shadow Stealth", "Sunlight Weakness" }
+            );
         }
     }
 }

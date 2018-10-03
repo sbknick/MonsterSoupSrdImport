@@ -409,6 +409,9 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Sahuagin>("Blood Frenzy");
             yield return TestTraitFromMonster<Sahuagin>("Limited Amphibiousness");
             yield return TestTraitFromMonster<Sahuagin>("Shark Telepathy");
+            yield return TestTraitFromMonster<Shadow>("Amorphous");
+            yield return TestTraitFromMonster<Shadow>("Shadow Stealth");
+            yield return TestTraitFromMonster<Shadow>("Sunlight Weakness");
 
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",

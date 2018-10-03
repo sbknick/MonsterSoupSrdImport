@@ -768,6 +768,26 @@ namespace MonsterSoupSrdImport
                 "(included in the attack).",
                 AppliesEffects = new Dictionary<string, string> { { "toAttacks", "damage" } }
             },
+
+            // from Shadow
+            new Trait
+            {
+                Name = "Amorphous",
+                Template =
+                "{ShortName} can move through a space as narrow as 1 inch wide without squeezing."
+            },
+            new Trait
+            {
+                Name = "Shadow Stealth",
+                Template =
+                "While in dim light or darkness, {shortName} can take the Hide action as a bonus action."
+            },
+            new Trait
+            {
+                Name = "Sunlight Weakness",
+                Template =
+                "While in sunlight, {shortName} has disadvantage on attack rolls, ability checks, and saving throws."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

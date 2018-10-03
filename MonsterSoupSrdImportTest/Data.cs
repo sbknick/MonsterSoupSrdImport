@@ -345,6 +345,16 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class Shadow : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Amorphous", new Shadow_Amorphous() },
+            { "Shadow Stealth", new Shadow_ShadowStealth() },
+            { "Sunlight Weakness", new Shadow_SunlightWeakness() },
+        };
+    }
+
     public sealed class Triceratops : MonsterTestData
     {
         public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
@@ -2132,6 +2142,49 @@ At the end of its turn, it grows two heads for each of its heads that died since
         {
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The sahuagin" } },
             { "range:Number", new Arg { key = "range", argType = "Number", value = 120 } },
+        };
+    }
+
+    #endregion
+
+    #region Shadow
+
+    public sealed class Shadow_Amorphous : TraitTestData
+    {
+        public override string Trait => "Amorphous";
+
+        public override string MonsterTraitString =>
+            "The shadow can move through a space as narrow as 1 inch wide without squeezing.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The shadow" } },
+        };
+    }
+
+    public sealed class Shadow_ShadowStealth : TraitTestData
+    {
+        public override string Trait => "Shadow Stealth";
+
+        public override string MonsterTraitString =>
+            "While in dim light or darkness, the shadow can take the Hide action as a bonus action.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the shadow" } },
+        };
+    }
+
+    public sealed class Shadow_SunlightWeakness : TraitTestData
+    {
+        public override string Trait => "Sunlight Weakness";
+
+        public override string MonsterTraitString =>
+            "While in sunlight, the shadow has disadvantage on attack rolls, ability checks, and saving throws.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the shadow" } },
         };
     }
 
