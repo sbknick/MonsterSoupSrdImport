@@ -412,6 +412,10 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<Shadow>("Amorphous");
             yield return TestTraitFromMonster<Shadow>("Shadow Stealth");
             yield return TestTraitFromMonster<Shadow>("Sunlight Weakness");
+            yield return TestTraitFromMonster<WillOWisp>("Consume Life");
+            yield return TestTraitFromMonster<WillOWisp>("Ephemeral");
+            yield return TestTraitFromMonster<WillOWisp>("Incorporeal Movement");
+            yield return TestTraitFromMonster<WillOWisp>("Variable Illumination");
 
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",

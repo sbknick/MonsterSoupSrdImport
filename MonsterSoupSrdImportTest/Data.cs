@@ -402,6 +402,17 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
+    public sealed class WillOWisp : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Consume Life", new WillOWisp_ConsumeLife() },
+            { "Ephemeral", new WillOWisp_Ephemeral() },
+            { "Incorporeal Movement", new WillOWisp_IncorporealMovement() },
+            { "Variable Illumination", new WillOWisp_VariableIllumination() },
+        };
+    }
+
 
 
 
@@ -2185,6 +2196,86 @@ At the end of its turn, it grows two heads for each of its heads that died since
         public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
         {
             { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the shadow" } },
+        };
+    }
+
+    #endregion
+
+    #region Will-o'-Wisp
+
+    public sealed class WillOWisp_ConsumeLife : TraitTestData
+    {
+        public override string Trait => "Consume Life";
+
+        public override string MonsterTraitString => 
+            "As a bonus action, the will-o’-wisp can target one creature it can see within 5 feet of it " +
+            "that has 0 hit points and is still alive. The target must succeed on a DC 10 Constitution " +
+            "saving throw against this magic or die. If the target dies, the will-o’-wisp regains " +
+            "10 (3d6) hit points.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the will-o’-wisp" } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs
+                {
+                    DC = 10,
+                    Attribute = "Constitution",
+                } } },
+            { "amount:DiceRoll", new Arg { key = "amount", argType = "DiceRoll", value = new DiceRollArgs
+                {
+                    diceCount = 3,
+                    dieSize = 6,
+                } } },
+        };
+    }
+
+    public sealed class WillOWisp_Ephemeral : TraitTestData
+    {
+        public override string Trait => "Ephemeral";
+
+        public override string MonsterTraitString =>
+            "The will-o’-wisp can’t wear or carry anything.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The will-o’-wisp" } },
+        };
+    }
+
+    public sealed class WillOWisp_IncorporealMovement : TraitTestData
+    {
+        public override string Trait => "Incorporeal Movement";
+
+        public override string MonsterTraitString =>
+            "The will-o’-wisp can move through other creatures and objects as if they were difficult " +
+            "terrain. It takes 5 (1d10) force damage if it ends its turn inside an object.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The will-o’-wisp" } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs
+                {
+                    diceCount = 1,
+                    dieSize = 10,
+                    damageType = "force",
+                } } },
+        };
+    }
+
+    public sealed class WillOWisp_VariableIllumination : TraitTestData
+    {
+        public override string Trait => "Variable Illumination";
+
+        public override string MonsterTraitString =>
+            "The will-o’-wisp sheds bright light in a 5- to 20-foot radius and dim light for an " +
+            "additional number of feet equal to the chosen radius. The will-o’-wisp can alter the " +
+            "radius as a bonus action.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The will-o’-wisp" } },
+            { "min:Number", new Arg { key = "min", argType = "Number", value = 5 } },
+            { "max:Number", new Arg { key = "max", argType = "Number", value = 20 } },
         };
     }
 

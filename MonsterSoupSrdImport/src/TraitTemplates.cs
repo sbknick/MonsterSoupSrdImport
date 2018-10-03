@@ -811,6 +811,31 @@ namespace MonsterSoupSrdImport
                 "{shortName} is unaffected, and the effect is reflected back at the caster as though it " +
                 "originated from {shortName}, turning the caster into the target."
             },
+
+            // Will-o'-Wizsp
+            new Trait
+            {
+                Name = "Consume Life",
+                Template =
+                "As a bonus action, {shortName} can target one creature it can see within 5 feet of it " +
+                "that has 0 hit points and is still alive. The target must succeed on a {save:SavingThrow} " +
+                "against this magic or die. If the target dies, {shortName} regains " +
+                "{amount:DiceRoll} hit points."
+            },
+            new Trait
+            {
+                Name = "Ephemeral",
+                Template =
+                "{ShortName} can’t wear or carry anything."
+            },
+            new Trait
+            {
+                Name = "Variable Illumination",
+                Template =
+                "{ShortName} sheds bright light in a {min:Number}- to {max:Number}-foot radius and dim light for an " +
+                "additional number of feet equal to the chosen radius. {ShortName} can alter the " +
+                "radius as a bonus action."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
