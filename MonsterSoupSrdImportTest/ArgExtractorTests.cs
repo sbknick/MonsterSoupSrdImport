@@ -677,6 +677,36 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the tarrasque" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Angelic Weapons",
+                "The planetar’s weapon attacks are magical. When the planetar hits with any weapon, the weapon " +
+                "deals an extra 5d8 radiant damage (included in the attack).",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The planetar" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the planetar" } },
+                    { "damage:Damage:Typed:NoAverage", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed", "NoAverage" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 5,
+                                dieSize = 8,
+                                damageType = "radiant",
+                            },
+                        } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Divine Awareness",
+                "The planetar knows if it hears a lie.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The planetar" } },
+                });
         }
     }
 }

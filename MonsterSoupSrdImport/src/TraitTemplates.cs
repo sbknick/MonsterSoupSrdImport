@@ -852,6 +852,21 @@ namespace MonsterSoupSrdImport
                 "{ShortName} can pinpoint, by scent, the location of precious metals and stones, such as " +
                 "coins and gems, within {range:Number} feet of it."
             },
+
+            // Planetar
+            new Trait
+            {
+                Name = "Angelic Weapons",
+                Template =
+                "{ShortName}’s weapon attacks are magical. When {shortName} hits with any weapon, " +
+                "the weapon deals an extra {damage:Damage:Typed:NoAverage} (included in the attack)."
+            },
+            new Trait
+            {
+                Name = "Divine Awareness",
+                Template =
+                "{ShortName} knows if it hears a lie."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
