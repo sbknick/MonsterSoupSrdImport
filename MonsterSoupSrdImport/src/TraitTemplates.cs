@@ -751,6 +751,23 @@ namespace MonsterSoupSrdImport
                 "{ShortName} can magically command any shark within {range:Number} feet of it, " +
                 "using a limited telepathy."
             },
+
+            // from Salamander & Azer
+            new Trait
+            {
+                Name = "Heated Weapons",
+                Template =
+                "{variant:Dropdown:[Azer,Salamander]}" +
+                    "[variant=Azer When {shortName} hits with a]" +
+                    "[variant=Salamander Any]" +
+                " metal melee weapon" +
+                    "[variant=Azer , it]" +
+                    "[variant=Salamander  {shortName} wields]" +
+                " deals an extra {damage:Damage:Typed} " +
+                    "[variant=Salamander on a hit ]" +
+                "(included in the attack).",
+                AppliesEffects = new Dictionary<string, string> { { "toAttacks", "damage" } }
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

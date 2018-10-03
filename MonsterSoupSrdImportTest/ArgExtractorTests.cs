@@ -599,6 +599,50 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                         } },
                     { "dc:Number", new Arg { key = "dc", argType = "Number", value = 15 } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Heated Weapons",
+                "Any metal melee weapon the salamander wields deals an extra 3 (1d6) fire damage on a hit " +
+                "(included in the attack).",
+                new TransformedArgs
+                {
+                    { "variant:Dropdown:[Azer,Salamander]", new Arg { key = "variant", argType = "Dropdown", value = "Salamander" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the salamander" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 1,
+                                dieSize = 6,
+                                damageType = "fire",
+                            }
+                        } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Heated Weapons",
+                "When the azer hits with a metal melee weapon, it deals an extra 3 (1d6) fire damage " +
+                "(included in the attack).",
+                new TransformedArgs
+                {
+                    { "variant:Dropdown:[Azer,Salamander]", new Arg { key = "variant", argType = "Dropdown", value = "Azer" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the azer" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 1,
+                                dieSize = 6,
+                                damageType = "fire",
+                            }
+                        } },
+                });
         }
     }
 }

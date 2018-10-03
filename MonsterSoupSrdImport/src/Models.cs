@@ -107,6 +107,7 @@ namespace MonsterSoupSrdImport
         public string Name { get; set; }
         public string Requirements { get; set; }
         public string Template { get; set; }
+        public IDictionary<string, string> AppliesEffects { get; set; }
     }
 
     public class MonsterTrait
