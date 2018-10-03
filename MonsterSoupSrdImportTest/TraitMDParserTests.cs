@@ -458,6 +458,15 @@ At the end of its turn, it grows two heads for each of its heads that died since
                     ***Variable Illumination.*** The will-o’-wisp sheds bright light in a 5- to 20-foot radius and dim light for an additional number of feet equal to the chosen radius. The will-o’-wisp can alter the radius as a bonus action.",
                 new[] { "Consume Life", "Ephemeral", "Incorporeal Movement", "Variable Illumination" }
             );
+
+            // Xorn
+            yield return TestMonster(
+                new Xorn(), @"
+                    ***Earth Glide.*** The xorn can burrow through nonmagical, unworked earth and stone. While doing so, the xorn doesn’t disturb the material it moves through.
+                    ***Stone Camouflage.*** The xorn has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.
+                    ***Treasure Sense.*** The xorn can pinpoint, by scent, the location of precious metals and stones, such as coins and gems, within 60 feet of it.",
+                new[] { "Earth Glide", "Stone Camouflage", "Treasure Sense" }
+            );
         }
     }
 }

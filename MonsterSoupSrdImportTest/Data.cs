@@ -11,6 +11,19 @@ namespace MonsterSoupSrdImportTest
         public abstract Dictionary<string, TraitTestData> Traits { get; }
     }
 
+    /// <summary>
+    /// Test Traits
+    /// </summary>
+    public abstract class TraitTestData
+    {
+        public string TraitTemplate => TraitTemplates.StandardTraits[Trait].Template;
+
+        public abstract string Trait { get; }
+        public virtual string Requirements { get; } = null;
+        public abstract string MonsterTraitString { get; }
+        public abstract Dictionary<string, Arg> ExpectedArgsOutput { get; }
+    }
+
     // Monsters //
 
     public sealed class Aboleth : MonsterTestData
@@ -413,19 +426,19 @@ namespace MonsterSoupSrdImportTest
         };
     }
 
-
-
-
-
-    public abstract class TraitTestData
+    public sealed class Xorn : MonsterTestData
     {
-        public string TraitTemplate => TraitTemplates.StandardTraits[Trait].Template;
-
-        public abstract string Trait { get; }
-        public virtual string Requirements { get; } = null;
-        public abstract string MonsterTraitString { get; }
-        public abstract Dictionary<string, Arg> ExpectedArgsOutput { get; }
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Earth Glide", new Xorn_EarthGlide() },
+            { "Stone Camouflage", new Xorn_StoneCamouflage() },
+            { "Treasure Sense", new Xorn_TreasureSense() },
+        };
     }
+
+
+
+
 
     /// <summary>
     /// Concrete Test Monster Trait Data ///
@@ -2276,6 +2289,53 @@ At the end of its turn, it grows two heads for each of its heads that died since
             { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The will-o’-wisp" } },
             { "min:Number", new Arg { key = "min", argType = "Number", value = 5 } },
             { "max:Number", new Arg { key = "max", argType = "Number", value = 20 } },
+        };
+    }
+
+    #endregion
+
+    #region Xorn
+
+    public sealed class Xorn_EarthGlide : TraitTestData
+    {
+        public override string Trait => "Earth Glide";
+
+        public override string MonsterTraitString =>
+            "The xorn can burrow through nonmagical, unworked earth and stone. While doing so, the xorn " +
+            "doesn’t disturb the material it moves through.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The xorn" } },
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the xorn" } },
+        };
+    }
+
+    public sealed class Xorn_StoneCamouflage : TraitTestData
+    {
+        public override string Trait => "Stone Camouflage";
+
+        public override string MonsterTraitString =>
+            "The xorn has advantage on Dexterity (Stealth) checks made to hide in rocky terrain.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The xorn" } },
+        };
+    }
+
+    public sealed class Xorn_TreasureSense : TraitTestData
+    {
+        public override string Trait => "Treasure Sense";
+
+        public override string MonsterTraitString =>
+            "The xorn can pinpoint, by scent, the location of precious metals and stones, such as " +
+            "coins and gems, within 60 feet of it.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The xorn" } },
+            { "range:Number", new Arg { key = "range", argType = "Number", value = 60 } },
         };
     }
 

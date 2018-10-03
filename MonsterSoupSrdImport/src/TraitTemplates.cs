@@ -836,6 +836,22 @@ namespace MonsterSoupSrdImport
                 "additional number of feet equal to the chosen radius. {ShortName} can alter the " +
                 "radius as a bonus action."
             },
+
+            // Xorn
+            new Trait
+            {
+                Name = "Earth Glide",
+                Template =
+                "{ShortName} can burrow through nonmagical, unworked earth and stone. While doing so, " +
+                "{shortName} doesn’t disturb the material it moves through."
+            },
+            new Trait
+            {
+                Name = "Treasure Sense",
+                Template =
+                "{ShortName} can pinpoint, by scent, the location of precious metals and stones, such as " +
+                "coins and gems, within {range:Number} feet of it."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

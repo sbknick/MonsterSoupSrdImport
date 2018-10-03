@@ -416,6 +416,8 @@ namespace MonsterSoupSrdImportTest
             yield return TestTraitFromMonster<WillOWisp>("Ephemeral");
             yield return TestTraitFromMonster<WillOWisp>("Incorporeal Movement");
             yield return TestTraitFromMonster<WillOWisp>("Variable Illumination");
+            yield return TestTraitFromMonster<Xorn>("Earth Glide");
+            yield return TestTraitFromMonster<Xorn>("Treasure Sense");
 
             yield return TestTraitFromTemplate(
                 "Tail Spike Regrowth",
