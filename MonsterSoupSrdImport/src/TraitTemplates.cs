@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterSoupSrdImport
@@ -787,6 +787,18 @@ namespace MonsterSoupSrdImport
                 Name = "Sunlight Weakness",
                 Template =
                 "While in sunlight, {shortName} has disadvantage on attack rolls, ability checks, and saving throws."
+            },
+
+            // Shield Guardian
+            new Trait
+            {
+                Name = "Bound",
+                Template =
+                "{ShortName} is magically bound to an amulet. As long as {shorterName:Text} and its amulet " +
+                "are on the same plane of existence, the amulet’s wearer can telepathically call {shorterName:Text} " +
+                "to travel to it, and {shorterName:Text} knows the distance and direction to the amulet. If " +
+                "{shorterName:Text} is within {range:Number} feet of the amulet’s wearer, half of any damage the wearer takes " +
+                "(rounded up) is transferred to {shorterName:Text}."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

@@ -646,6 +646,20 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                             }
                         } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Bound",
+                "The shield guardian is magically bound to an amulet. As long as the guardian and its amulet " +
+                "are on the same plane of existence, the amulet’s wearer can telepathically call the guardian " +
+                "to travel to it, and the guardian knows the distance and direction to the amulet. If the " +
+                "guardian is within 60 feet of the amulet’s wearer, half of any damage the wearer takes " +
+                "(rounded up) is transferred to the guardian.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The shield guardian" } },
+                    { "shorterName:Text", new Arg { key = "shorterName", argType = "Text", value = "the guardian" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 60 } },
+                });
         }
     }
 }
