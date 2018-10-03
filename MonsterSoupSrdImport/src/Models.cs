@@ -110,6 +110,12 @@ namespace MonsterSoupSrdImport
         public IDictionary<string, string> AppliesEffects { get; set; }
     }
 
+    public class TraitTemplate
+    {
+        public string Name { get; set; }
+        public string[] Traits { get; set; }
+    }
+
     public class MonsterTrait
     {
         public string Name { get; set; }
