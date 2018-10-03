@@ -65,7 +65,7 @@ namespace MonsterSoupSrdImport
         private IList<TemplateConditionalPermutation> GetConditionalPermutations(string template)
         {
             var ToplevelConditionalsRegex = new Regex(@"\[([a-zA-Z]+?)(=|!=)(\S+?) (?:[^\[\]]|(?<counter>\[)|(?<-counter>\]))+(?(counter)(?!))\]");
-            var ConditionsRegex = new Regex(@"^\[([a-zA-Z]+?)(=|!=)(\S+?) ([\s\S]+)\]$");
+            var ConditionsRegex = new Regex(@"^\[(?<name>[a-zA-Z]+?)(?<equals>=|!=)(?<value>\S+?) (?<text>[\s\S]+)\]$");
             var ConditionalArgsRegex = new Regex(@"\{(?<fullTag>(?<argName>[^\{]+?):(?<argType>YesNo|Dropdown:\[(?<values>.*?)\]):?(?<flags>.*?))\}");
 
             var conditionalTree = BuildConditionalTree(default((string, string, bool)), template);
@@ -107,10 +107,10 @@ namespace MonsterSoupSrdImport
                         if (conditionDetailMatch.Success)
                         {
                             return BuildConditionalTree((
-                                conditionDetailMatch.Groups[1].Value, 
-                                conditionDetailMatch.Groups[3].Value,
-                                conditionDetailMatch.Groups[2].Value == "="),
-                                conditionDetailMatch.Groups[4].Value
+                                conditionDetailMatch.Groups["name"].Value, 
+                                conditionDetailMatch.Groups["value"].Value,
+                                conditionDetailMatch.Groups["equals"].Value == "="),
+                                conditionDetailMatch.Groups["text"].Value
                             );
                         }
                         else
@@ -268,7 +268,7 @@ namespace MonsterSoupSrdImport
             public (string ArgKey, Arg Arg)[] Args;
         }
 
-        private static readonly Regex SimpleArgsRegex = new Regex(@"{([a-zA-Z:]+?)}");
+        private static readonly Regex SimpleArgsRegex = new Regex(@"{(?<arg>[a-zA-Z:]+?)}");
         private static readonly Regex AnyConditionalArgRegex = new Regex(@"{[a-zA-Z]+?:(?=YesNo|Dropdown):?(.*?)}");
 
         public Dictionary<string, string> GetArgsFromTemplate(string traitTemplate, string monsterTraitString)
@@ -279,7 +279,7 @@ namespace MonsterSoupSrdImport
             var matches = SimpleArgsRegex.Matches(traitTemplate);
 
             foreach (Match match in matches)
-                argLookup[match.Groups[1].Value] = null;
+                argLookup[match.Groups["arg"].Value] = null;
 
 
             // grab matches for non-conditional args
@@ -292,7 +292,7 @@ namespace MonsterSoupSrdImport
 
             for (int i = 0; i < matches.Count; i++)
             {
-                var argKey = matches[i].Groups[1].Value;
+                var argKey = matches[i].Groups["arg"].Value;
                 var argValue = captures.Groups[i + 1].Value;
                 argLookup[argKey] = argValue;
             }
@@ -425,7 +425,7 @@ namespace MonsterSoupSrdImport
 
             #region DiceRoll
 
-            private static readonly Regex DiceRollRegex = new Regex(@"(\d+)d(\d+)");
+            private static readonly Regex DiceRollRegex = new Regex(@"(?<count>\d+)d(?<size>\d+)");
 
             public static object ParseDiceRollArgValues(string values, string[] flags)
             {
@@ -433,8 +433,8 @@ namespace MonsterSoupSrdImport
 
                 return new DiceRollArgs
                 {
-                    diceCount = matches.Groups[1].Value.ToInt(),
-                    dieSize = matches.Groups[2].Value.ToInt(),
+                    diceCount = matches.Groups["count"].Value.ToInt(),
+                    dieSize = matches.Groups["size"].Value.ToInt(),
                 };
             }
 
@@ -451,7 +451,7 @@ namespace MonsterSoupSrdImport
 
             #region SavingThrow
 
-            private static readonly Regex SavingThrowRegex = new Regex(@"DC (\d+) (\S+) saving throw");
+            private static readonly Regex SavingThrowRegex = new Regex(@"DC (?<dc>\d+) (?<attribute>\S+) saving throw");
 
             public static object ParseSavingThrowArgValues(string values, string[] flags)
             {
@@ -459,8 +459,8 @@ namespace MonsterSoupSrdImport
 
                 return new SavingThrowArgs
                 {
-                    DC = matches.Groups[1].Value.ToInt(),
-                    Attribute = matches.Groups[2].Value,
+                    DC = matches.Groups["dc"].Value.ToInt(),
+                    Attribute = matches.Groups["attribute"].Value,
                 };
             }
 
