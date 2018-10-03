@@ -571,6 +571,32 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                             }
                         } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Grasping Tendrils",
+                "The roper can have up to six tendrils at a time. Each tendril can be attacked " +
+                "(AC 20; 10 hit points; immunity to poison and psychic damage). Destroying a tendril deals " +
+                "no damage to the roper, which can extrude a replacement tendril on its next turn. A tendril " +
+                "can also be broken if a creature takes an action and succeeds on a DC 15 Strength check " +
+                "against it.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The roper" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the roper" } },
+                    { "count:Text", new Arg { key = "count", argType = "Text", value = "six" } },
+                    { "stats:ShortStats", new Arg
+                        {
+                            key = "stats",
+                            argType = "ShortStats",
+                            value = new ShortStatsArgs
+                            {
+                                AC = 20,
+                                HP = 10,
+                                Immunities = new[] { "poison", "psychic" }
+                            }
+                        } },
+                    { "dc:Number", new Arg { key = "dc", argType = "Number", value = 15 } },
+                });
         }
     }
 }

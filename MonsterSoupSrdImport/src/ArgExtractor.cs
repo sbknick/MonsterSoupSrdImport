@@ -318,6 +318,7 @@ namespace MonsterSoupSrdImport
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
+            { "ShortStats", ArgParser.ParseShortStatsArgValues },
             { "Text", ArgParser.ParseTextArgValue },
 
             { "YesNo", ArgParser.ParseTextArgValue },
@@ -360,6 +361,10 @@ namespace MonsterSoupSrdImport
         
         private static class ArgParser
         {
+            private static readonly Regex ListRegex = new Regex(@" ?(?<item>[\s\S]+?)(?:,|$|\s+and)");
+            private static string[] GetListItems(string values) =>
+                ListRegex.Matches(values).Cast<Match>().Select(m => m.Groups["item"].Value).ToArray();
+
             #region Attack
 
             private static readonly Regex AttackWithStringRegex = new Regex(@"attack with (?<article>an?|its) (?<attackName>\S+)");
@@ -436,19 +441,10 @@ namespace MonsterSoupSrdImport
             #endregion DiceRoll
 
             #region MultiOption
-
-            private static readonly Regex MultiOptionRegex = new Regex(@"(.*?)(?:$| and (.*))");
-
+            
             public static object ParseMultiOptionArgValues(string values, string[] flags)
             {
-                var matches = MultiOptionRegex.Match(values);
-
-                var options = new List<string> { matches.Groups[1].Value };
-
-                if (matches.Groups.Count > 2)
-                    options.Add(matches.Groups[2].Value);
-
-                return options;
+                return GetListItems(values);
             }
 
             #endregion MultiOption
@@ -469,6 +465,27 @@ namespace MonsterSoupSrdImport
             }
 
             #endregion SavingThrow
+
+            #region ShortStats
+
+            private static readonly Regex ShortStatsRegex =
+                new Regex(@"\(AC (?<ac>\d+); (?<hp>\d+) hit points;(?: immunity to (?<immunities>[\s\S]+ damage))?\)");
+
+            public static object ParseShortStatsArgValues(string values, string[] flags)
+            {
+                var matches = ShortStatsRegex.Match(values);
+                
+                var immunitiesMatches = GetListItems(matches.Groups["immunities"].Value);
+
+                return new ShortStatsArgs
+                {
+                    AC = matches.Groups["ac"].Value.ToInt(),
+                    HP = matches.Groups["hp"].Value.ToInt(),
+                    Immunities = immunitiesMatches.Length > 0 ? immunitiesMatches : null,
+                };
+            }
+
+            #endregion ShortStats
 
             #region Dropdown
 

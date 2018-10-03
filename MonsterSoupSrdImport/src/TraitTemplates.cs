@@ -699,6 +699,18 @@ namespace MonsterSoupSrdImport
                 "A creature that touches {shortName} or hits it with a melee attack while within 5 feet of " +
                 "it takes {damage:Damage:Typed}."
             },
+
+            // from Roper
+            new Trait
+            {
+                Name = "Grasping Tendrils",
+                Template =
+                "{ShortName} can have up to {count:Text} tendrils at a time. Each tendril can be attacked " +
+                "{stats:ShortStats}. Destroying a tendril deals " +
+                "no damage to {shortName}, which can extrude a replacement tendril on its next turn. " +
+                "A tendril can also be broken if a creature takes an action and succeeds on " +
+                "a DC {dc:Number} Strength check against it."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

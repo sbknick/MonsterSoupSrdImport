@@ -155,6 +155,14 @@ namespace MonsterSoupSrdImport
         public string damageType;
     }
 
+    public class ShortStatsArgs
+    {
+        public int AC { get; set; }
+        public int HP { get; set; }
+        public string[] Immunities { get; set; }
+    }
+
+
     public class ConditionalOptions
     {
         public string Key { get; }
