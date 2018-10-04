@@ -734,6 +734,27 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The marilith" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Barbed Hide",
+                "At the start of each of its turns, the barbed devil deals 5 (1d10) piercing damage " +
+                "to any creature grappling it.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the barbed devil" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 1,
+                                dieSize = 10,
+                                damageType = "piercing",
+                            },
+                        } },
+                });
         }
     }
 }

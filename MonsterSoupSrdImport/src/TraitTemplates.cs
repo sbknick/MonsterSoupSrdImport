@@ -905,7 +905,16 @@ namespace MonsterSoupSrdImport
                 Name = "Reactive",
                 Template =
                 "{ShortName} can take one reaction on every turn in a combat."
-            }
+            },
+
+            // Barbed Devil
+            new Trait
+            {
+                Name = "Barbed Hide",
+                Template =
+                "At the start of each of its turns, {shortName} deals {damage:Damage:Typed} to any " +
+                "creature grappling it."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
