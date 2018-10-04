@@ -898,6 +898,14 @@ namespace MonsterSoupSrdImport
                 "throw, the creature is immune to {shortName}’s {stench:Dropdown:[Stench,stench]}" +
                 "[stench=stench stench][stench=Stench Stench] for 24 hours.",
             },
+
+            // Marilith
+            new Trait
+            {
+                Name = "Reactive",
+                Template =
+                "{ShortName} can take one reaction on every turn in a combat."
+            }
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

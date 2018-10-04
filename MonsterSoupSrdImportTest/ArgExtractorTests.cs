@@ -726,6 +726,14 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                         } } },
                     { "stench:Dropdown:[Stench,stench]", new Arg { key = "stench", argType = "Dropdown", value = "stench" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Reactive",
+                "The marilith can take one reaction on every turn in a combat.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The marilith" } },
+                });
         }
     }
 }
