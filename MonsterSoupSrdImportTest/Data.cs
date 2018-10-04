@@ -2340,4 +2340,96 @@ At the end of its turn, it grows two heads for each of its heads that died since
     }
 
     #endregion
+
+    #region Balor
+
+    public sealed class Balor : MonsterTestData
+    {
+        public override Dictionary<string, TraitTestData> Traits => new Dictionary<string, TraitTestData>
+        {
+            { "Death Throes", new Balor_DeathThroes() },
+            { "Fire Aura", new Balor_FireAura() },
+            { "Magic Resistance", new Balor_MagicResistance() },
+            { "Magic Weapons", new Balor_MagicWeapons() },
+        };
+    }
+
+    public sealed class Balor_DeathThroes : TraitTestData
+    {
+        public override string Trait => "Death Throes";
+
+        public override string MonsterTraitString =>
+            "When the balor dies, it explodes, and each creature within 30 feet of it must make a " +
+            "DC 20 Dexterity saving throw, taking 70 (20d6) fire damage on a failed save, or half as much " +
+            "damage on a successful one. The explosion ignites flammable objects in that area that aren’t " +
+            "being worn or carried, and it destroys the balor’s weapons.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the balor" } },
+            { "range:Number", new Arg { key = "range", argType = "Number", value = 30 } },
+            { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs
+                {
+                    DC = 20,
+                    Attribute = "Dexterity",
+                } } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs
+                {
+                    diceCount = 20,
+                    dieSize = 6,
+                    damageType = "fire",
+                } } },
+        };
+    }
+
+    public sealed class Balor_FireAura : TraitTestData
+    {
+        public override string Trait => "Fire Aura";
+
+        public override string MonsterTraitString =>
+            "At the start of each of the balor’s turns, each creature within 5 feet of it takes " +
+            "10 (3d6) fire damage, and flammable objects in the aura that aren’t being worn or carried " +
+            "ignite. A creature that touches the balor or hits it with a melee attack while within 5 feet " +
+            "of it takes 10 (3d6) fire damage.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the balor" } },
+            { "range:Number", new Arg { key = "range", argType = "Number", value = 5 } },
+            { "damage:Damage:Typed", new Arg { key = "damage", argType = "Damage", flags = new[] { "Typed" }, value = new TypedDamageArgs
+                {
+                    diceCount = 3,
+                    dieSize = 6,
+                    damageType = "fire",
+                } } },
+        };
+    }
+
+    public sealed class Balor_MagicResistance : TraitTestData
+    {
+        public override string Trait => "Magic Resistance";
+
+        public override string MonsterTraitString =>
+            "The balor has advantage on saving throws against spells and other magical effects.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The balor" } },
+        };
+    }
+
+    public sealed class Balor_MagicWeapons : TraitTestData
+    {
+        public override string Trait => "Magic Weapons";
+
+        public override string MonsterTraitString =>
+            "The balor’s weapon attacks are magical.";
+
+        public override Dictionary<string, Arg> ExpectedArgsOutput => new Dictionary<string, Arg>
+        {
+            { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The balor" } },
+        };
+    }
+
+    #endregion
 }

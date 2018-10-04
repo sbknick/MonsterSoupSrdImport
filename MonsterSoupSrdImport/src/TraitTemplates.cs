@@ -867,6 +867,26 @@ namespace MonsterSoupSrdImport
                 Template =
                 "{ShortName} knows if it hears a lie."
             },
+
+            // Balor
+            new Trait
+            {
+                Name = "Death Throes",
+                Template =
+                "When {shortName} dies, it explodes, and each creature within {range:Number} feet of it must " +
+                "make a {save:SavingThrow}, taking {damage:Damage:Typed} on a failed save, or half as much " +
+                "damage on a successful one. The explosion ignites flammable objects in that area that aren’t " +
+                "being worn or carried, and it destroys {shortName}’s weapons."
+            },
+            new Trait
+            {
+                Name = "Fire Aura",
+                Template =
+                "At the start of each of {shortName}’s turns, each creature within {range:Number} feet of it " +
+                "takes {damage:Damage:Typed}, and flammable objects in the aura that aren’t being worn or " +
+                "carried ignite. A creature that touches {shortName} or hits it with a melee attack while " +
+                "within {range:Number} feet of it takes {damage:Damage:Typed}."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
