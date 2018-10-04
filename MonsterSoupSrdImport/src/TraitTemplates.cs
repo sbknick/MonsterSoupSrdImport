@@ -887,6 +887,17 @@ namespace MonsterSoupSrdImport
                 "carried ignite. A creature that touches {shortName} or hits it with a melee attack while " +
                 "within {range:Number} feet of it takes {damage:Damage:Typed}."
             },
+
+            // Hezrou
+            new Trait
+            {
+                Name = "Stench",
+                Template =
+                "Any creature that starts its turn within {range:Number} feet of {shortName} must succeed on a " +
+                "{save:SavingThrow} or be poisoned until the start of its next turn. On a successful saving " +
+                "throw, the creature is immune to {shortName}’s {stench:Dropdown:[Stench,stench]}" +
+                "[stench=stench stench][stench=Stench Stench] for 24 hours.",
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

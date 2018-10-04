@@ -709,6 +709,23 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The planetar" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Stench",
+                "Any creature that starts its turn within 10 feet of the hezrou must succeed on a " +
+                "DC 14 Constitution saving throw or be poisoned until the start of its next turn. On a " +
+                "successful saving throw, the creature is immune to the hezrou’s stench for 24 hours.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the hezrou" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 10 } },
+                    { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs
+                        {
+                            DC = 14,
+                            Attribute = "Constitution",
+                        } } },
+                    { "stench:Dropdown:[Stench,stench]", new Arg { key = "stench", argType = "Dropdown", value = "stench" } },
+                });
         }
     }
 }
