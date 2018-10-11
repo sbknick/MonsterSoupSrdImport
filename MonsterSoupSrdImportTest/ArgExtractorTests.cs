@@ -824,6 +824,44 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                         } } },
                     { "duration:Text", new Arg { key = "duration", argType = "Text", value = "24 hours" } },
                });
+
+            yield return TestTraitFromTemplate(
+                "Ambusher",
+                "The doppelganger has advantage on attack rolls against any creature it has surprised.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The doppelganger" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Speak with Beasts and Plants",
+                "The dryad can communicate with beasts and plants as if they shared a language.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The dryad" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Tree Stride",
+                "Once on her turn, the dryad can use 10 feet of her movement to step magically into one " +
+                "living tree within her reach and emerge from a second living tree within 60 feet of the " +
+                "first tree, appearing in an unoccupied space within 5 feet of the second tree. Both trees " +
+                "must be Large or bigger.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the dryad" } },
+                    { "herPronoun:Text", new Arg { key = "herPronoun", argType = "Text", value = "her" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 60 } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Duergar Resilience",
+                "The duergar has advantage on saving throws against poison, spells, and illusions, as well as " +
+                "to resist being charmed or paralyzed.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The duergar" } },
+                });
         }
     }
 }

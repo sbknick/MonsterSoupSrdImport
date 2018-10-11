@@ -958,6 +958,40 @@ namespace MonsterSoupSrdImport
                 "saving throw is successful, the creature is immune to {shortName}’s {traitName} for the " +
                 "next {duration:Text}."
             },
+
+            // Doppelganger
+            new Trait
+            {
+                Name = "Ambusher",
+                Template =
+                "{ShortName} has advantage on attack rolls against any creature it has surprised."
+            },
+
+            // Dryad
+            new Trait
+            {
+                Name = "Speak with Beasts and Plants",
+                Template =
+                "{ShortName} can communicate with beasts and plants as if they shared a language."
+            },
+            new Trait
+            {
+                Name = "Tree Stride",
+                Template =
+                "Once on her turn, {shortName} can use 10 feet of {herPronoun:Text} movement to step " +
+                "magically into one living tree within {herPronoun:Text} reach and emerge from a second " +
+                "living tree within {range:Number} feet of the first tree, appearing in an unoccupied space " +
+                "within 5 feet of the second tree. Both trees must be Large or bigger."
+            },
+
+            // Duergar
+            new Trait
+            {
+                Name = "Duergar Resilience",
+                Template =
+                "{ShortName} has advantage on saving throws against poison, spells, and illusions, " +
+                "as well as to resist being charmed or paralyzed."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
