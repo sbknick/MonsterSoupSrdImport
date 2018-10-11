@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterSoupSrdImport
@@ -37,7 +37,8 @@ namespace MonsterSoupSrdImport
                 Name = "Brute",
                 Template =
                 "A melee weapon deals one extra die of its damage when {shortName} hits with it " +
-                "(included in the attack)."
+                "(included in the attack).",
+                AppliesEffects = new Dictionary<string, string> { { "toAttacks", "damage" } }
             },
             new Trait
             {
@@ -859,7 +860,8 @@ namespace MonsterSoupSrdImport
                 Name = "Angelic Weapons",
                 Template =
                 "{ShortName}’s weapon attacks are magical. When {shortName} hits with any weapon, " +
-                "the weapon deals an extra {damage:Damage:Typed:NoAverage} (included in the attack)."
+                "the weapon deals an extra {damage:Damage:Typed:NoAverage} (included in the attack).",
+                AppliesEffects = new Dictionary<string, string> { { "toAttacks", "damage" } }
             },
             new Trait
             {
@@ -914,6 +916,47 @@ namespace MonsterSoupSrdImport
                 Template =
                 "At the start of each of its turns, {shortName} deals {damage:Damage:Typed} to any " +
                 "creature grappling it."
+            },
+
+            // Rando Devils
+            new Trait
+            {
+                Name = "Devil’s Sight",
+                Template =
+                "Magical darkness doesn’t impede {shortName}’s darkvision."
+            },
+            new Trait
+            {
+                Name = "Steadfast",
+                Template =
+                "{ShortName} can’t be frightened while it can see an allied creature within " +
+                "{range:Number} feet of it."
+            },
+            new Trait
+            {
+                Name = "Hellish Weapons",
+                Template =
+                "{ShortName}’s weapon attacks are magical and deal an extra {damage:Damage:Typed} " +
+                "on a hit (included in the attacks).",
+                AppliesEffects = new Dictionary<string, string> { { "toAttacks", "damage" } }
+            },
+            new Trait
+            {
+                Name = "Hellish Rejuvenation",
+                Template =
+                "A {shortShortName} that dies in {homePlane:Text} comes back to life with all its hit points " +
+                "in {number:DiceRoll} days unless it is killed by a good-aligned creature with a *bless* " +
+                "spell cast on that creature or its remains are sprinkled with holy water."
+            },
+            new Trait
+            {
+                Name = "Fear Aura",
+                Template =
+                "Any creature hostile to {shortName} that starts its turn within {range:Number} feet of " +
+                "{shortName} must make a {save:SavingThrow}, unless {shortName} is incapacitated. On a " +
+                "failed save, the creature is frightened until the start of its next turn. If a creature’s " +
+                "saving throw is successful, the creature is immune to {shortName}’s {traitName} for the " +
+                "next {duration:Text}."
             },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }

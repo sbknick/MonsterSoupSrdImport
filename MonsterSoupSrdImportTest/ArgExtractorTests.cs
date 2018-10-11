@@ -755,6 +755,75 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                             },
                         } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Devil’s Sight",
+                "Magical darkness doesn’t impede the devil’s darkvision.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the devil" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Steadfast",
+                "The devil can’t be frightened while it can see an allied creature within 30 feet of it.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The devil" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 30 } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Hellish Weapons",
+                "The erinyes’s weapon attacks are magical and deal an extra 13 (3d8) poison damage on a hit " +
+                "(included in the attacks).",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The erinyes" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 3,
+                                dieSize = 8,
+                                damageType = "poison",
+                            },
+                        } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Hellish Rejuvenation",
+                "A lemure that dies in the Nine Hells comes back to life with all its hit points in 1d10 days " +
+                "unless it is killed by a good-aligned creature with a *bless* spell cast on that creature or " +
+                "its remains are sprinkled with holy water.",
+                new TransformedArgs
+                {
+                    { "shortShortName", new Arg { key = "shortShortName", argType = "Inherent", value = "lemure" } },
+                    { "homePlane:Text", new Arg { key = "homePlane", argType = "Text", value = "the Nine Hells" } },
+                    { "number:DiceRoll", new Arg { key = "number", argType = "DiceRoll", value = new DiceRollArgs { diceCount = 1, dieSize = 10 } } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Fear Aura",
+                "Any creature hostile to the pit fiend that starts its turn within 20 feet of the pit fiend must " +
+                "make a DC 21 Wisdom saving throw, unless the pit fiend is incapacitated. On a failed save, the " +
+                "creature is frightened until the start of its next turn. If a creature’s saving throw is successful, " +
+                "the creature is immune to the pit fiend’s Fear Aura for the next 24 hours.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the pit fiend" } },
+                    { "traitName", new Arg { key = "traitName", argType = "Inherent", value = "Fear Aura" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 20 } },
+                    { "save:SavingThrow", new Arg { key = "save", argType = "SavingThrow", value = new SavingThrowArgs
+                    {
+                        DC = 21,
+                            Attribute = "Wisdom",
+                        } } },
+                    { "duration:Text", new Arg { key = "duration", argType = "Text", value = "24 hours" } },
+               });
         }
     }
 }
