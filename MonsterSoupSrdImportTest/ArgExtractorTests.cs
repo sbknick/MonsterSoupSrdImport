@@ -862,6 +862,15 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The duergar" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Air Form",
+                "The elemental can enter a hostile creature’s space and stop there. It can move through a space " +
+                "as narrow as 1 inch wide without squeezing.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The elemental" } },
+                });
         }
     }
 }
