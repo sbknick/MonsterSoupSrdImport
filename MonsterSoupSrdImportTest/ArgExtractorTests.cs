@@ -871,6 +871,71 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                 {
                     { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The elemental" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Fire Form",
+                "The elemental can move through a space as narrow as 1 inch wide without squeezing. A creature " +
+                "that touches the elemental or hits it with a melee attack while within 5 feet of it takes " +
+                "5 (1d10) fire damage. In addition, the elemental can enter a hostile creature’s space and stop " +
+                "there. The first time it enters a creature’s space on a turn, that creature takes " +
+                "5 (1d10) fire damage and catches fire; until someone takes an action to douse the fire, the " +
+                "creature takes 5 (1d10) fire damage at the start of each of its turns.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The elemental" } },
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the elemental" } },
+                    { "damage:Damage:Typed", new Arg
+                        {
+                            key = "damage",
+                            argType = "Damage",
+                            flags = new[] { "Typed" },
+                            value = new TypedDamageArgs
+                            {
+                                diceCount = 1,
+                                dieSize = 10,
+                                damageType = "fire",
+                            },
+                        } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Water Susceptibility",
+                "For every 5 feet the elemental moves in water, or for every gallon of water splashed on it, " +
+                "it takes 1 cold damage.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the elemental" } },
+                    { "amount:Number", new Arg { key = "amount", argType = "Number", value = 1 } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Water Form",
+                "The elemental can enter a hostile creature’s space and stop there. It can move through a space " +
+                "as narrow as 1 inch wide without squeezing.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The elemental" } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Freeze",
+                "If the elemental takes cold damage, it partially freezes; its speed is reduced by 20 feet until " +
+                "the end of its next turn.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the elemental" } },
+                    { "amount:Number", new Arg { key = "amount", argType = "Number", value = 20 } },
+                });
+
+            yield return TestTraitFromTemplate(
+                "Elemental Demise",
+                "If the djinni dies, its body disintegrates into a warm breeze, " +
+                "leaving behind only equipment the djinni was wearing or carrying.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the djinni" } },
+                    { "description:Text", new Arg { key = "description", argType = "Text", value = "into a warm breeze" } },
+                });
         }
     }
 }

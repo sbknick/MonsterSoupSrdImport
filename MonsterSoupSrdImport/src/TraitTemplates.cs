@@ -992,6 +992,54 @@ namespace MonsterSoupSrdImport
                 "{ShortName} has advantage on saving throws against poison, spells, and illusions, " +
                 "as well as to resist being charmed or paralyzed."
             },
+
+            // Elementalses
+            new Trait
+            {
+                Name = "Air Form",
+                Template =
+                "{ShortName} can enter a hostile creature’s space and stop there. It can move through a " +
+                "space as narrow as 1 inch wide without squeezing."
+            },
+            new Trait
+            {
+                Name = "Fire Form",
+                Template =
+                "{ShortName} can move through a space as narrow as 1 inch wide without squeezing. A creature " +
+                "that touches {shortName} or hits it with a melee attack while within 5 feet of it takes " +
+                "{damage:Damage:Typed}. In addition, {shortName} can enter a hostile creature’s space and " +
+                "stop there. The first time it enters a creature’s space on a turn, that creature takes " +
+                "{damage:Damage:Typed} and catches fire; until someone takes an action to douse the fire, " +
+                "the creature takes {damage:Damage:Typed} at the start of each of its turns."
+            },
+            new Trait
+            {
+                Name = "Water Susceptibility",
+                Template =
+                "For every 5 feet {shortName} moves in water, or for every gallon of water splashed on it, " +
+                "it takes {amount:Number} cold damage."
+            },
+            new Trait
+            {
+                Name = "Water Form",
+                Template =
+                "{ShortName} can enter a hostile creature’s space and stop there. It can move through a " +
+                "space as narrow as 1 inch wide without squeezing."
+            },
+            new Trait
+            {
+                Name = "Freeze",
+                Template =
+                "If {shortName} takes cold damage, it partially freezes; its speed is reduced by " +
+                "{amount:Number} feet until the end of its next turn."
+            },
+            new Trait
+            {
+                Name = "Elemental Demise",
+                Template =
+                "If {shortName} dies, its body disintegrates {description:Text}, leaving behind only " +
+                "equipment {shortName} was wearing or carrying."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
