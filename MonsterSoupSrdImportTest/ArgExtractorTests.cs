@@ -936,6 +936,18 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                     { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the djinni" } },
                     { "description:Text", new Arg { key = "description", argType = "Text", value = "into a warm breeze" } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Turning Defiance",
+                "The ghast and any ghouls within 30 feet of it have advantage on saving throws against effects " +
+                "that turn undead.",
+                new TransformedArgs
+                {
+                    { "ShortName", new Arg { key = "ShortName", argType = "Inherent", value = "The ghast" } },
+                    { "andOthers:YesNo", new Arg { key = "andOthers", argType = "YesNo", value = "Yes" } },
+                    { "others:Text", new Arg { key = "others", argType = "Text", value = "any ghouls" } },
+                    { "range:Number", new Arg { key = "range", argType = "Number", value = 30 } },
+                });
         }
     }
 }

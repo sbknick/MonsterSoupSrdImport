@@ -1040,6 +1040,15 @@ namespace MonsterSoupSrdImport
                 "If {shortName} dies, its body disintegrates {description:Text}, leaving behind only " +
                 "equipment {shortName} was wearing or carrying."
             },
+
+            // Ghast
+            new Trait
+            {
+                Name = "Turning Defiance",
+                Template =
+                "{ShortName}{andOthers:YesNo}[andOthers=Yes  and {others:Text}] within {range:Number} feet of it have advantage " +
+                "on saving throws against effects that turn undead."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }
