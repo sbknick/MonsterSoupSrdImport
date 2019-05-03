@@ -315,6 +315,7 @@ namespace MonsterSoupSrdImport
             { "BeastShapes", ArgParser.ParseTextArgValue },
             { "Damage", ArgParser.ParseDamageArgValues },
             { "DiceRoll", ArgParser.ParseDiceRollArgValues },
+            { "Die", ArgParser.ParceDieArgValues },
             { "MultiOption", ArgParser.ParseMultiOptionArgValues },
             { "Number", ArgParser.ParseNumberArgValue },
             { "SavingThrow", ArgParser.ParseSavingThrowArgValues },
@@ -440,8 +441,21 @@ namespace MonsterSoupSrdImport
 
             #endregion DiceRoll
 
+            #region Die
+
+            private static readonly Regex DieRegex = new Regex(@"d(?<number>\d+)");
+
+            public static object ParceDieArgValues(string values, string[] flags)
+            {
+                var match = DieRegex.Match(values);
+
+                return match.Groups["number"].Value.ToInt();
+            }
+
+            #endregion
+
             #region MultiOption
-            
+
             public static object ParseMultiOptionArgValues(string values, string[] flags)
             {
                 return GetListItems(values);

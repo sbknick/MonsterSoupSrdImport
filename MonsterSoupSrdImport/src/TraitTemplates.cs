@@ -1049,6 +1049,19 @@ namespace MonsterSoupSrdImport
                 "{ShortName}{andOthers:YesNo}[andOthers=Yes  and {others:Text}] within {range:Number} feet of it have advantage " +
                 "on saving throws against effects that turn undead."
             },
+
+            // Golems
+            new Trait
+            {
+                Name = "Berserk",
+                Template =
+                "Whenever {shortName} starts its turn with {threshold:Number} hit points or fewer, roll " +
+                "a {die:Die}. On a {result:Number}, {shortName} goes berserk. On each of its turns while " +
+                "berserk, {shortName} attacks the nearest creature it can see. If no creature is near enough " +
+                "to move to and attack, {shortName} attacks an object, with preference for an object smaller " +
+                "than itself. Once {shortName} goes berserk, it continues to do so until it is destroyed or " +
+                "regains all its hit points."
+            },
         }.OrderBy(kvp => kvp.Name).ToDictionary(kvp => kvp.Name);
     }
 }

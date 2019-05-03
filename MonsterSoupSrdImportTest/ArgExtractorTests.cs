@@ -948,6 +948,21 @@ If the target is prone, the weretiger can make one bite attack against it as a b
                     { "others:Text", new Arg { key = "others", argType = "Text", value = "any ghouls" } },
                     { "range:Number", new Arg { key = "range", argType = "Number", value = 30 } },
                 });
+
+            yield return TestTraitFromTemplate(
+                "Berserk",
+                "Whenever the golem starts its turn with 60 hit points or fewer, roll a d6. On a 6, the golem " +
+                "goes berserk. On each of its turns while berserk, the golem attacks the nearest creature it can " +
+                "see. If no creature is near enough to move to and attack, the golem attacks an object, with " +
+                "preference for an object smaller than itself. Once the golem goes berserk, it continues to do " +
+                "so until it is destroyed or regains all its hit points.",
+                new TransformedArgs
+                {
+                    { "shortName", new Arg { key = "shortName", argType = "Inherent", value = "the golem" } },
+                    { "threshold:Number", new Arg { key = "threshold", argType = "Number", value = 60 } },
+                    { "die:Die", new Arg { key = "die", argType = "Die", value = 6 } },
+                    { "dieResult:Number", new Arg { key = "dieResult", argType = "Number", value = 6 } },
+                });
         }
     }
 }
